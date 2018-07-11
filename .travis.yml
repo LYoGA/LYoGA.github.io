@@ -1,0 +1,24 @@
+sudo: required
+dist: trusty
+language: go
+
+install:
+- mkdir work
+- wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb -O $PWD/work/hugo.deb
+- sudo dpkg -i $PWD/work/hugo.deb
+script:
+  - hugo
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: ${GH_TOKEN}
+  on:
+    branch: blog
+  local_dir: public
+  repo: LYoGA/LYoGA.github.io
+  target_branch: master
+  email: ${email}
+  name: LYoGA 
+notifications:
+  email:
+    on_success: never
