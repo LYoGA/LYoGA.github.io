@@ -12,7 +12,7 @@ tags:
 - markdown
 categories:
 - 工具
-author: "imet"
+author: "lyoga"
 ---
 
 Thanks to Hugo, markdown and also the "Even" theme, these make the blog easy!
