@@ -2,7 +2,7 @@
 title: "Learn plan"
 date: 2018-08-09T16:46:27+08:00
 lastmod: 2018-08-09T16:46:27+08:00
-draft: true
+draft: false
 keywords:
 - Learn
 description: "成长之路"
@@ -16,6 +16,7 @@ author: "lyoga"
 
 <!--more-->
 ## 成长之路
+hello
 
 ### 基础篇
 
