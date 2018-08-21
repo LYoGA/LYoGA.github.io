@@ -16,7 +16,6 @@ author: "lyoga"
 
 <!--more-->
 ## 成长之路
-hello
 
 ### 基础篇
 
