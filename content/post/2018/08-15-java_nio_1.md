@@ -121,9 +121,9 @@ selectionKey.isWritable();
 ### **2.2 Selector** ###
 #### **Selector三个集合** ####
 
-- all-keys集合：当前所有向Selector注册的SelectionKey的集合，Selector的 **keys()** 方法返回该集合,并且可能是空的。这个已注册的键的集合不是可以直接修改的；试图这么做的话将引发java.lang.UnsupportedOperationException
-- selected-keys集合：相关事件已经被Selector捕获的SelectionKey的集合，Selector的 **selectedKeys()** 方法返回该集合，并且可能是空的。这个已注册的键的集合不是可以直接修改的；试图这么做的话将引发java.lang.UnsupportedOperationException
-- cancelled-keys集合： 已经被取消的SelectionKey的集合，Selector没有提供访问这种集合的方法
+- **all-keys集合：** 当前所有向Selector注册的SelectionKey的集合，Selector的 **keys()** 方法返回该集合,并且可能是空的。这个已注册的键的集合不是可以直接修改的；试图这么做的话将引发java.lang.UnsupportedOperationException
+- **selected-keys集合：** 相关事件已经被Selector捕获的SelectionKey的集合，Selector的 **selectedKeys()** 方法返回该集合，并且可能是空的。这个已注册的键的集合不是可以直接修改的；试图这么做的话将引发java.lang.UnsupportedOperationException
+- **cancelled-keys集合：** 已经被取消的SelectionKey的集合，Selector没有提供访问这种集合的方法
 
 #### **Selector选择通道** ####
 
@@ -134,6 +134,8 @@ selectionKey.isWritable();
 - int selectNow()：非阻塞，只要有通道就绪就立刻返回
 
 **select()方法返回的int值表示有多少通道已经就绪，是自上次调用select()方法后有多少通道变成就绪状态。之前在select()调用时进入就绪的通道不会在本次调用中被记入，而在前一次select()调用进入就绪但现在已经不在处于就绪的通道也不会被记入。**
+
+
 例如：首次调用select()方法，如果有一个通道变成就绪状态，返回了1，若再次调用select()方法，如果另一个通道就绪了，它会再次返回1。如果对第一个就绪的channel没有做任何操作，现在就有两个就绪的通道，但在每次select()方法调用之间，只有一个通道就绪了。
 
 #### **Selector.select()** ####
