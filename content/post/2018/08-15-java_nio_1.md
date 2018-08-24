@@ -25,7 +25,7 @@ Java NIO由以下几个核心部分组成：
 
 
 ## **一、概念** ##
-Selector（选择器）是Java NIO中能够检测一到多个NIO通道，并能够知晓通道是否为诸如读写事件做好准备的组件。这样，一个单独的线程可以管理多个channel，从而管理多个网络连接。
+Selector（选择器）是Java NIO中能够检测一到多个NIO通道，并能够知晓通道是否为比如读写事件做好准备的组件。这样一个单独的线程可以管理多个channel，从而管理多个网络连接。
 
 **通俗理解：** 在一个养鸡场，有这么一个人，每天的工作就是不停检查几个特殊的鸡笼，如果有鸡进来，有鸡出去，有鸡生蛋，有鸡生病等等，就把相应的情况记录下来，如果鸡场的负责人想知道情况，只需要询问那个人即可。
 在这里，这个人就相当Selector，每个鸡笼相当于一个SocketChannel，每个线程通过一个Selector可以管理多个SocketChannel。
@@ -47,7 +47,7 @@ Selector（选择器）是Java NIO中能够检测一到多个NIO通道，并能�
 
 - **SelectableChannel：** 可以与Selector进行配合的通道，例如Socket相关通道以及Pipe产生的通道都属于SelectableChannel。这类通道可以将自己感兴趣的操作（即上述监听事件）注册到一个Selector上，并在Selector的控制下进行IO相关操作。
 - **Selector：** 负责管理已注册的多个SelectableChannel，当这些通道的某些状态改变时，Selector会被唤醒（从select()方法的阻塞中），并对所有就绪的通道进行轮询操作。
-- **SelectionKey：** 用来记录SelectableChannel和Selector之间关系的对象，它由SelectableChannel的register()方法返回，并存储在Selector的多个集合中。它不仅记录了两个对象的引用，还包含了SelectableChannel感兴趣的操作（即上述监听事件）
+- **SelectionKey：** 用来记录SelectableChannel和Selector之间关系的对象，它由SelectableChannel的register()方法返回，并存储在Selector的多个集合中。它不仅记录了两个对象的引用，还包含了SelectableChannel感兴趣的操作
 
 ```
 // 创建一个ServerSocketChannel
@@ -125,16 +125,17 @@ selectionKey.isWritable();
 - **selected-keys集合：** 相关事件已经被Selector捕获的SelectionKey的集合，Selector的 **selectedKeys()** 方法返回该集合，并且可能是空的。这个已注册的键的集合不是可以直接修改的；试图这么做的话将引发java.lang.UnsupportedOperationException
 - **cancelled-keys集合：** 已经被取消的SelectionKey的集合，Selector没有提供访问这种集合的方法
 
-#### **Selector选择通道** ####
+#### **Selector通道选择** ####
 
-通过Selector的 **select()** 方法可以选择已经准备就绪的通道 （这些通道包含你感兴趣的的事件）。比如你对读就绪的通道感兴趣，那么 **select()** 方法就会返回读事件已经就绪的那些通道。下面是Selector几个重载的select()方法：
+通过Selector的 **select()** 方法可以选择已经准备就绪的通道(这些通道包含你感兴趣的的事件)
+
+下面是Selector几个重载的select()方法：
 
 - int select()：阻塞到至少有一个通道在你注册的事件上就绪了
 - int select(long timeout)：和select()一样，但最长阻塞时间为timeout毫秒
 - int selectNow()：非阻塞，只要有通道就绪就立刻返回
 
 **select()方法返回的int值表示有多少通道已经就绪，是自上次调用select()方法后有多少通道变成就绪状态。之前在select()调用时进入就绪的通道不会在本次调用中被记入，而在前一次select()调用进入就绪但现在已经不在处于就绪的通道也不会被记入。**
-
 
 例如：首次调用select()方法，如果有一个通道变成就绪状态，返回了1，若再次调用select()方法，如果另一个通道就绪了，它会再次返回1。如果对第一个就绪的channel没有做任何操作，现在就有两个就绪的通道，但在每次select()方法调用之间，只有一个通道就绪了。
 
