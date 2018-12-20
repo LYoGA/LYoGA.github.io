@@ -49,7 +49,7 @@ Selector（选择器）是Java NIO中能够检测一到多个NIO通道，并能�
 - **Selector：** 负责管理已注册的多个SelectableChannel，当这些通道的某些状态改变时，Selector会被唤醒（从select()方法的阻塞中），并对所有就绪的通道进行轮询操作
 - **SelectionKey：** 用来记录SelectableChannel和Selector之间关系的对象，它由SelectableChannel的register()方法返回，并存储在Selector的多个集合中。它不仅记录了两个对象的引用，还包含了SelectableChannel感兴趣的操作
 
-```Java
+```java
 // 创建一个ServerSocketChannel
 ServerSocketChannel serverChannel = ServerSocketChannel.open();
 // 通道定义为非阻塞
@@ -89,7 +89,7 @@ while(true){
 
 ### **2.1 SelectionKey** ###
 一个SelectionKey表示了一个特定的通道对象和一个特定的选择器对象之间的注册关系。
-```Java
+```java
 // 属性
 final SelChImpl channel;                            
 public final SelectorImpl selector;
@@ -99,7 +99,7 @@ private volatile Object attachment = null; // 附加对象，可以方便识别�
 ```
 
 **interestOps**
-```Java
+```java
 int interestSet = selectionKey.interestOps();
 boolean isInterestedInAccept  = (interestSet & SelectionKey.OP_ACCEPT) == SelectionKey.OP_ACCEPT；
 boolean isInterestedInConnect = (interestSet & SelectionKey.OP_CONNECT) == SelectionKey.OP_CONNECT;
@@ -109,7 +109,7 @@ boolean isInterestedInWrite   = (interestSet & SelectionKey.OP_WRITE) == Selecti
 可以看到，用“位与”操作interest 集合和给定的SelectionKey常量，可以确定某个确定的事件是否在interest 集合中。
 
 **readyOps**
-```Java
+```java
 int readySet = selectionKey.readyOps();
 //检查这些操作是否就绪的方法
 selectionKey.isAcceptable();
@@ -125,7 +125,7 @@ selectionKey.isWritable();
 
 ### **2.3 Selector.open()** ###
 SocketChannel、ServerSocketChannel和Selector的实例初始化都通过SelectorProvider类实现，其中Selector是整个NIO Socket的核心实现
-```Java
+```java
 public static Selector open() throws IOException {
     return SelectorProvider.provider().openSelector();
 }
@@ -155,7 +155,7 @@ public static SelectorProvider provider() {
 ```
 
 以下主要以windows的实现来梳理整个流程
-```Java
+```java
 // WindowsSelectorProvider.java  
 public AbstractSelector openSelector() throws IOException {  
     return new WindowsSelectorImpl(this);  
@@ -181,7 +181,7 @@ WindowsSelectorImpl(SelectorProvider sp) throws IOException {
 - 拿到wakeupSourceFd(从管道读数据)和wakeupSinkFd(往管道写数据)两个文件描述符
 - 把唤醒端的文件描述符（wakeupSourceFd）放到pollWrapper里
 
-```Java
+```java
 // PollArrayWrapper
 typedef struct pollfd {
   SOCKET fd;            // 4 bytes
@@ -211,7 +211,7 @@ class PollArrayWrapper {
 **pollWrapper用Unsafe类申请一块物理内存pollfd，存放socket句柄fdVal和events，其中pollfd共8位，0-3位保存socket句柄，4-7位保存events**
 
 pollWrapper提供了fdVal和event数据的相应操作，如添加操作通过Unsafe的putInt和putShort实现
-```Java
+```java
 void putDescriptor(int i, int fd) {
     pollArray.putInt(SIZE_POLLFD * i + FD_OFFSET, fd);
 }
@@ -230,7 +230,7 @@ void addWakeupSocket(int fdVal, int index) {
 
 ### **2.4 Channel.register()** ###
 我们来看看serverChannel.register(selector, SelectionKey.OP_ACCEPT)是如何实现的
-```Java
+```java
 public final SelectionKey register(Selector sel, int ops, Object att) throws ClosedChannelException {
         synchronized (regLock) {
             if (!isOpen())
@@ -260,7 +260,7 @@ public final SelectionKey register(Selector sel, int ops, Object att) throws Clo
 1. 如果该channel和selector已经注册过，则直接添加事件和附件
 2. 否则通过selector实现注册过程
 
-```Java
+```java
 protected final SelectionKey register(AbstractSelectableChannel ch,
       int ops,  Object attachment) {
     if (!(ch instanceof SelChImpl))
@@ -310,7 +310,7 @@ protected void implRegister(SelectionKeyImpl ski) {
 例如：首次调用select()方法，如果有一个通道变成就绪状态，返回了1，若再次调用select()方法，如果另一个通道就绪了，它会再次返回1。如果对第一个就绪的channel没有做任何操作，现在就有两个就绪的通道，但在每次select()方法调用之间，只有一个通道就绪了。
 
 现在我们来看看selector中的select是如何实现一次获取多个有事件发生的channel的，底层由selector实现类的doSelect方法实现，如下：
-```Java
+```java
 protected int doSelect(long timeout) throws IOException {
         if (channelArray == null)
             throw new ClosedSelectorException();
@@ -381,7 +381,7 @@ protected int doSelect(long timeout) throws IOException {
 1. 某个线程调用select()方法后阻塞了，即使没有通道已经就绪，只要让其它线程在第一个线程调用select()方法的那个对象上调用Selector.wakeup()方法即可，阻塞在select()方法上的线程会立马返回
 2. 如果有其它线程调用了wakeup()方法，但当前没有线程阻塞在select()方法上，下个调用select()方法的线程会立即“醒来（wake up）”
 
-```
+```  
 public Selector wakeup() {
     synchronized (interruptLock) {
         if (!interruptTriggered) {
@@ -399,8 +399,7 @@ private void setWakeupSocket() {
 
 private native void setWakeupSocket0(int wakeupSinkFd);
 JNIEXPORT void JNICALL  
-Java_sun_nio_ch_WindowsSelectorImpl_setWakeupSocket0(JNIEnv *env, jclass this,  
-                                                jint scoutFd)  
+java_sun_nio_ch_WindowsSelectorImpl_setWakeupSocket0(JNIEnv *env, jclass this, jint scoutFd)  
 {  
     /* Write one byte into the pipe */  
     const char byte = 1;  
