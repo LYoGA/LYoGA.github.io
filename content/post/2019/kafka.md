@@ -55,7 +55,7 @@ author: "lyoga"
 
 >
 - 主题是一个逻辑上的概念，它还可以细分为多个分区，一个分区只属于单个主题
-- 同一主题下的不同分区包含的消息是不同的，分区在存储层面可以看作一个可追加的日志(Log)文件，消息在被追加到分区日志、文件的时 候都会分配一个特定的偏移量(offset)
+- 同一主题下的不同分区包含的消息是不同的，分区在存储层面可以看作一个可追加的日志(Log)文件，消息在被追加到分区日志文件的时候都会分配一个特定的偏移量(offset)
 - offset是消息在分区中的唯一标识，Kafka通过它来保证消息在分区内的顺序性，不过offset并不跨越分区，也就是说，Kafka保证的是分区有序而不是主题有序
 
 ![](https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20190813202501.png)
@@ -83,12 +83,12 @@ Kafka消费端也具备一定的容灾能力：Consumer使用拉(Pull)模式从�
 >
 - AR(Assigned Replicas)：分区中的所有副本统称为AR
 - ISR(In-Sync Replicas)：所有与leader副本保持 一定程度 同步 的副本(包括leader副本在内)组成ISR
-- OSR(Out-of-Sync Replicas)：与leader副本同 步滞后过 多的副本(不包括leader副本)组成OSR
+- OSR(Out-of-Sync Replicas)：与leader副本同步滞后过多的副本(不包括leader副本)组成OSR
 > **AR = ISR + OSR**
 
-- leader副本负责维护和跟踪ISR集合中所有follower副本的滞后状态，当follower副本落后太多或失效时，leader副本会把它从ISR集合中剔除。
-- 如果OSR集合中有follower副本“追上”了leader副本，那么leader副本会把它从OSR集合转移至ISR集合。
-- 默认情况下，当leader副本发生故障时，只有在ISR集合中的副本才有资格被选举为新的leader，而在OSR集合中的副本则没有任何机会。
+- leader副本负责维护和跟踪ISR集合中所有follower副本的滞后状态，当follower副本落后太多或失效时，leader副本会把它从ISR集合中剔除
+- 如果OSR集合中有follower副本“追上”了leader副本，那么leader副本会把它从OSR集合转移至ISR集合
+- 默认情况下，当leader副本发生故障时，只有在ISR集合中的副本才有资格被选举为新的leader，而在OSR集合中的副本则没有任何机会
 
 &nbsp;
 
@@ -122,7 +122,8 @@ Kafka消费端也具备一定的容灾能力：Consumer使用拉(Pull)模式从�
 ## **4.2 日志格式的演变** ##
 **从0.8.x版本开始到现在的2.0.0版本，Kafka的消息格式也经历了3个版本: vO版本、v1版本和v2版本**
 
-### **4.2.1 v0版本(0.10.0之前)** ###
+### **4.2.1 v0版本** ###
+**(0.10.0之前)**
 
 ![](https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20190814112840.png)
 
@@ -130,27 +131,28 @@ Kafka消费端也具备一定的容灾能力：Consumer使用拉(Pull)模式从�
 - magic(1B):消息格式版本号，此版本的magic值为0
 - attributes(1B):消息的属性。总共占1个字节,低3位表示压缩类型: 0表示NONE、1表示GZIP、2表示SNAPPY、3表示LZ4(LZ4自Kafka0.9.x引入)，其余位保留
 - key length(4B) : 表示消息的key的长度。如果为-1，则表示没有设置key，即key = null
-- key:可选，如果没有key则无此宇段。
-- value length (4B) : 实际消息体的长度。如果为寸，则表示消息为空。
-- value:消息体。可以为空，比如墓碑(tombstone)消息。
+- key:可选，如果没有key则无此宇段
+- value length (4B) : 实际消息体的长度。如果为-1，则表示消息为空
+- value:消息体。可以为空，比如墓碑(tombstone)消息
 
 v0版本中一个消息的最小长度(RECORD_OVERHEAD_V0)为 crc32 + magic + attributes + key length + value length = 4B + 1B + 1B + 4B + 4B = 14B。
-也就是说，v0版本中一条消息的最小长度为 14B，如果小于这个值，那么这就是一条破损的消息而不被接收。
+也就是说，v0版本中一条消息的最小长度为14B，如果小于这个值，那么这就是一条破损的消息而不被接收。
 
 &nbsp;
 
-### **4.2.2 v1版本(0.10.0 - 0.11.0之前)** ###
+### **4.2.2 v1版本** ###
+**(0.10.0 - 0.11.0之前)**
 
 ![](https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20190814113839.png)
 
 - crc32(4B):crc32校验值。校验范围为magic至value之间
 - magic(1B):消息格式版本号，此版本的magic值为1
-- timestamp(8B):时间戳，timestamp 类型由 broker 端参 数 log.message.timestamp.type 来配置，默认值为CreateTime，即采用生产者创建消息时的时间戳
+- timestamp(8B):时间戳，timestamp类型由broker端参数 og.message.timestamp.type来配置，默认值为CreateTime，即采用生产者创建消息时的时间戳
 - attributes(1B):消息的属性。总共占1个字节,低3位表示压缩类型: 0表示NONE、1表示GZIP、2表示SNAPPY、3表示LZ4(LZ4自Kafka0.9.x引入)，第4个位(bit): 0表示timestamp类型为CreateTime, 而1表示timestamp类型为LogAppendTime
 - key length(4B) : 表示消息的key的长度。如果为-1，则表示没有设置key，即key = null
-- key:可选，如果没有key则无此宇段。
-- value length (4B) : 实际消息体的长度。如果为寸，则表示消息为空。
-- value:消息体。可以为空，比如墓碑(tombstone)消息。
+- key:可选，如果没有key则无此宇段
+- value length (4B) : 实际消息体的长度。如果为寸，则表示消息为空
+- value:消息体。可以为空，比如墓碑(tombstone)消息
 
 &nbsp;
 
@@ -167,10 +169,11 @@ v0版本中一个消息的最小长度(RECORD_OVERHEAD_V0)为 crc32 + magic + at
 
 &nbsp;
 
-### **4.2.4 v2版本(0.11.0)** ###
+### **4.2.4 v2版本** ###
+**(0.11.0以后)**
 
 #### **4.2.4.1 变长字段** ####
-Kafka从0.11.0版本开始所使用的消息格式版本为v2，这个版本的消息相比vO和v1的版本而言改动很大，同时还参考了Protocol Buffer而引入了变长整型(Varints)和ZigZag编码。
+Kafka从0.11.0版本开始所使用的消息格式版本为v2，这个版本的消息相比v0和v1的版本而言改动很大，同时还参考了Protocol Buffer而引入了变长整型(Varints)和ZigZag编码。
 
 &nbsp;
 
@@ -178,7 +181,7 @@ Kafka从0.11.0版本开始所使用的消息格式版本为v2，这个版本的�
 ![](https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20190814145833.png)
 
 >
-- 消息格式 Record 的关键字段，可以看到内部宇段大量采用了Varints，这样Kafka可以根据具体的值来确定需要几个字节来保存。
+- 消息格式 Record 的关键字段，可以看到内部字段大量采用了Varints，这样Kafka可以根据具体的值来确定需要几个字节来保存。
 - v2版本的消息格式去掉了crc字段(从Record转移到RecordBatch)，另外增加了length(消息总长度〉、timestamp delta(时间戳增量)、offset delta(位移增量)和headers信息，并且attributes字段被弃用了
 
 **Record**
@@ -186,24 +189,24 @@ Kafka从0.11.0版本开始所使用的消息格式版本为v2，这个版本的�
 >
 - length:消息总长度
 - attributes: 弃用，但还是在消息格式中占据1B的大小，以备未来的格式扩展
-- timestamp delta: 时间戳增量。通常一个timestamp需要占用8个字节，如果像 这里一样保存与 RecordBatch 的起始时间戳的差值，则可以进一步节省占用的字节数。
-- offset delta: 位移增量。保存与 RecordBatch 起始位移的差值，可以节省占用的字节数。
-- headers:这个字段用来支持应用级别的扩展，而不需要像vO和v1版本一样不得不将一些应用级别的属性值嵌入消息体。
+- timestamp delta: 时间戳增量。通常一个timestamp需要占用8个字节，如果像这里一样保存与RecordBatch的起始时间戳的差值，则可以进一步节省占用的字节数
+- offset delta: 位移增量。保存与RecordBatch起始位移的差值，可以节省占用的字节数
+- headers:这个字段用来支持应用级别的扩展，而不需要像v0和v1版本一样不得不将一些应用级别的属性值嵌入消息体
 
 **RecordBatch**
 
 >
-- first offset:表示当前 RecordBatch 的起始位移 。
-- length:计算从 partition leader epoeh 字段开始到末尾的长度。
-- partitio leader epoeh:分区 leader 纪元，可以看作分区 leader 的版本号或更 新次数，详细内容请参考 8.1.4 节 。
+- first offset:表示当前RecordBatch的起始位移
+- length:计算从 partition leader epoeh字段开始到末尾的长度
+- partitio leader epoeh:分区leader纪元，可以看作分区leader的版本号或更新次数
 - magic:消息格式的版本号，对v2版本而言， magie等于2。
-- attributes:消息属性，注 意这里占用了两个字节 。 低 3 位表示压缩格式，可以参 考 vO 和 vl;第 4 位表示时间戳类型;第 5 位表示此 RecordBatch 是否处于事务中，。 表示非事务， l 表示事务 。 第 6 位表示是否是控制消息 (ControlBatch)，。表示非控 制消息，而 l 表示是控制消息，控制消息用来支持事务功能，详细内容请参考 7.4 节。
-- lastoffsetdelta: RecordBatch中最后一个Record的offset与自rstoffset的差值。 主要被 broker 用 来确保 RecordBatch 中 Record 组装的正确性 。
-- first timestamp: RecordBatch 中第一条 Record 的时间戳。
-- max timestamp: RecordBatch 中最大的时间戳，一般情况下是指最后一个Record的时间戳，和last offset delta的作用一样，用来确保消息组装的正确性
+- attributes:消息属性，注意这里占用了两个字节。低3位表示压缩格式，可以参考v0和v1;第4位表示时间戳类型;第5位表示此RecordBatch是否处于事务中，0表示非事务，1表示事务;第6位表示是否是控制消息 (ControlBatch)，0表示非控制消息，而1表示是控制消息，控制消息用来支持事务功能
+- lastoffsetdelta: RecordBatch中最后一个Record的offset与first offset的差值。主要被broker用来确保RecordBatch中Record组装的正确性
+- first timestamp: RecordBatch中第一条Record的时间戳
+- max timestamp: RecordBatch中最大的时间戳，一般情况下是指最后一个Record的时间戳，和last offset delta的作用一样，用来确保消息组装的正确性
 - produeer id : PID，用来支持幂等和事务
-- produeer epoeh:和 producer id一样，用来支持幕等和事务
-- first sequenee:和 produeer id、 producer epoeh一样，用来支持幕等和事务
+- produeer epoeh:和 producer id一样，用来支持幂等和事务
+- first sequenee:和 produeer id、 producer epoeh一样，用来支持幂等和事务
 - records count: RecordBatch中Record的个数
 
 &nbsp;
