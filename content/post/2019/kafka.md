@@ -204,8 +204,8 @@ Kafka从0.11.0版本开始所使用的消息格式版本为v2，这个版本的�
 - lastoffsetdelta: RecordBatch中最后一个Record的offset与first offset的差值。主要被broker用来确保RecordBatch中Record组装的正确性
 - first timestamp: RecordBatch中第一条Record的时间戳
 - max timestamp: RecordBatch中最大的时间戳，一般情况下是指最后一个Record的时间戳，和last offset delta的作用一样，用来确保消息组装的正确性
-- produeer id : PID，用来支持幂等和事务
-- produeer epoeh:和 producer id一样，用来支持幂等和事务
+- producer id : PID，用来支持幂等和事务
+- producer epoeh:和 producer id一样，用来支持幂等和事务
 - first sequenee:和 produeer id、 producer epoeh一样，用来支持幂等和事务
 - records count: RecordBatch中Record的个数
 
