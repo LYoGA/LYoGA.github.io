@@ -2,7 +2,7 @@
 title: "Learn plan"
 date: 2018-08-09T16:46:27+08:00
 lastmod: 2018-08-09T16:46:27+08:00
-draft: false
+draft: true
 keywords:
 - Learn
 description: "成长之路"
