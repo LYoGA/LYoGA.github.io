@@ -1,5 +1,5 @@
 ---
-title: "Kafka Know"
+title: "Kafka总结"
 date: 2019-10-08T20:09:34+08:00
 lastmod: 2019-10-08T20:09:34+08:00
 draft: false
