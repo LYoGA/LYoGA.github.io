@@ -157,7 +157,7 @@ author: "lyoga"
 ### **3.3.1 运行周期**###
 
 - 初始标记：仅标记GC Roots能直接关联到的对象，需要STW
-  - 这里的GC root不包括yong gen，而只是stack、register、globals这些常规的，因为在并发标记阶段，CMS会顺着初始根集合把young gen中的h活对象都遍历
+  - 这里的GC root不包括yong gen，而只是stack、register、globals这些常规的，因为在并发标记阶段，CMS会顺着初始根集合把young gen中的活对象都遍历
   - 所以从初始标记+并发标记结合在一起的角度看，young gen仍然是根集合的一部分
 - 并发标记：进行GC Roots Tracing过程，标记可达对象，耗时长
   - 并发预清理：并发查找在做并发标记阶段时从年轻代晋升到老年代的对象或老年代新分配的对象(大对象直接进入老年代)或被用户线程更新的对象，为了减少重新标记阶段的工作量，会把所在的Card标记为Dirty
@@ -269,7 +269,7 @@ CMS主要关注低延迟，因而采用并发方式，清理垃圾时，应用�
 
 **Global Concurrent Marking 是基于 SATB 形式的并发标记，SATB（snapshot-at-the-beginning）是一种比CMS收集器更快的算法。Global Concurrent Marking 具体分为下面几个阶段：**
 
-1. 始标记（STW initial marking）：扫描根集合，标记所有从根集合可直接到达的对象并将它们的字段压入扫描栈。在分代式G1模式中，初始标记阶段借用 Young GC 的暂停，因而没有额外的、单独的暂停阶段
+1. 初始标记（STW initial marking）：扫描根集合，标记所有从根集合可直接到达的对象并将它们的字段压入扫描栈。在分代式G1模式中，初始标记阶段借用 Young GC 的暂停，因而没有额外的、单独的暂停阶段
 2. 并发标记（concrrent marking）：这个阶段可以并发执行，GC 线程 不断从扫描栈取出引用，进行递归标记，直到扫描栈清空
 3. 最终标记（STW final marking，在实现中也叫Remarking）：重新标记写入屏障（ Write Barrier）标记的对象，这个阶段也进行弱引用处理（reference processing）,G1的SATB设计在remark阶段则只需要扫描剩下的satb_mark_queue
 4. 清理（STW cleanup）：统计每个 Region 被标记为活的对象有多少，如果发现完全没有活对象的 Region 就会将其整体回收到可分配 Region 列表中
@@ -403,10 +403,10 @@ CMS为了维持对象图变化才引入了post-write barrier 记录新引用关�
 **3. 什么时间会出现 Full GC？**
 
 - 对于CMS垃圾回收器：
-  - Concurrent-mode-failure：当 CMS GC 正进行时，此时有新的对象要进行老年代，但是老年代空间不足造成的；
-  - Promotion-failed：当进行 Young GC 时，有部分新生代代对象仍然可用，但是S0或S1放不下，因此需要放到老年代，但此时老年代空间无法容纳这些对象。
+  - Concurrent-mode-failure：当 CMS GC 正进行时，此时有新的对象要进行老年代，但是老年代空间不足造成的
+  - Promotion-failed：当进行 Young GC 时，有部分新生代代对象仍然可用，但是S0或S1放不下，因此需要放到老年代，但此时老年代空间无法容纳这些对象
 - 对于G1垃圾回收器：
-  - 如果Mixed GC实在无法跟上程序分配内存的速度，导致老年代填满无法继续进行 GC，就会切换到 G1 之外的 Serial old GC 来收集整个 GC Heap（注意，回收区域包括 young、old、perm），所以对于正常工作的G1垃圾回收期是不能存在Full GC的，如果真出现了，估计就很悲剧了，毕竟单线程 + 大内存 + 整个堆，时间开销可想而知。
+  - 如果Mixed GC实在无法跟上程序分配内存的速度，导致老年代填满无法继续进行 GC，就会切换到 G1 之外的 Serial old GC 来收集整个 GC Heap（注意，回收区域包括 young、old、perm），所以对于正常工作的G1垃圾回收期是不能存在Full GC的，如果真出现了，估计就很悲剧了，毕竟单线程 + 大内存 + 整个堆，时间开销可想而知
 
 **4. Full GC、Magjor GC、Minor GC、Young GC 之间的关系？**
 
@@ -429,6 +429,8 @@ CMS为了维持对象图变化才引入了post-write barrier 记录新引用关�
 - 并发标记
 - 移动对象
 - 修正指针
+
+https://blog.csdn.net/weixin_33978044/article/details/93672629
 
 &nbsp;
 
@@ -464,8 +466,6 @@ CMS为了维持对象图变化才引入了post-write barrier 记录新引用关�
 **对于任意一个类，都需要由加载它的类加载器和这个类本身一同确立其在Java虚拟机中的唯一性，每一个类加载器，都拥有一个独立的类名称空间**
 
 
-
-
 # **五、引用类型**
 
 - 强引用：垃圾回收器绝不会回收它，如Object obj = new Object()
@@ -480,6 +480,7 @@ CMS为了维持对象图变化才引入了post-write barrier 记录新引用关�
 **背景：系统报出cpu load偏高，并且有业务反馈99先不稳**
 
 **步骤：**
+
 1. ps ux查看哪个进程导致CPU load值偏高，有可能是业务进程，也可能是其他系统进程（ps -ef | grep java）
 2. 查看cpu占用线程top -H -p <pid>（步骤1所得进程id），可以看到pid进程下各个线程占用cpu情况，找出占用cpu最大的线程id
 3. 转换线程id
@@ -488,5 +489,6 @@ CMS为了维持对象图变化才引入了post-write barrier 记录新引用关�
 5. 发现是JIT编译器的C1编译线程，相关的是JVM CodeCache
 
 **原因：**
+
 1. JIT的C1和C2编译器将编译后的native code存储到CodeCache，在下次执行时直接执行native code，这样会大大加快执行速度。但，当CodeCache存储区域满之后，JIT就会停止编译，并且此过程是不可逆的，因此后续的代码不会进行这类优化，就导致服务器性能有所降低，也就是前面所说的99线不稳。
-2. 另外一个方面，CodeCache这块的垃圾回收算法存在一些问题【相关资料6】，就导致CodeCache满之后，JIT的C1和C2线程占用大量CPU，导致机器load持续偏高，这也是Code Cache的一个BUG
+2. 另外一个方面，CodeCache这块的垃圾回收算法存在一些问题，就导致CodeCache满之后，JIT的C1和C2线程占用大量CPU，导致机器load持续偏高，这也是Code Cache的一个BUG
