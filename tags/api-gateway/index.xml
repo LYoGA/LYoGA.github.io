@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Api gateway on lyoga blog</title>
+    <link>http://LYoGA.github.io/tags/api-gateway/</link>
+    <description>Recent content in Api gateway on lyoga blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 03 Jul 2018 07:44:42 +0800</lastBuildDate>
+    
+	<atom:link href="http://LYoGA.github.io/tags/api-gateway/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>zuul 1.x 源码阅读之 ZuulServlet 及 Filer 加载</title>
+      <link>http://LYoGA.github.io/post/2018/07-03_zuul_1.x_source/</link>
+      <pubDate>Tue, 03 Jul 2018 07:44:42 +0800</pubDate>
+      
+      <guid>http://LYoGA.github.io/post/2018/07-03_zuul_1.x_source/</guid>
+      <description>&lt;p&gt;zuul 是什么，为什么需要 zuul，zuul 实现原理？
+&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

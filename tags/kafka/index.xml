@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kafka on lyoga blog</title>
+    <link>http://LYoGA.github.io/tags/kafka/</link>
+    <description>Recent content in Kafka on lyoga blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 08 Oct 2019 20:09:34 +0800</lastBuildDate>
+    
+	<atom:link href="http://LYoGA.github.io/tags/kafka/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Kafka总结</title>
+      <link>http://LYoGA.github.io/post/2019/kafka-know/</link>
+      <pubDate>Tue, 08 Oct 2019 20:09:34 +0800</pubDate>
+      
+      <guid>http://LYoGA.github.io/post/2019/kafka-know/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Kafka-初识</title>
+      <link>http://LYoGA.github.io/post/2019/kafka/</link>
+      <pubDate>Tue, 06 Aug 2019 14:53:44 +0800</pubDate>
+      
+      <guid>http://LYoGA.github.io/post/2019/kafka/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

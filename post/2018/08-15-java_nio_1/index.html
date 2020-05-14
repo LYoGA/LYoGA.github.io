@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Java NIO -- Selector - lyoga blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyoga" />
+  <meta name="description" content="
+" />
+<meta name="keywords" content="Java NIO" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.42.1" />
+
+
+<link rel="canonical" href="http://LYoGA.github.io/post/2018/08-15-java_nio_1/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.1.1" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+
+
+<meta property="og:title" content="Java NIO -- Selector" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://LYoGA.github.io/post/2018/08-15-java_nio_1/" />
+
+
+
+<meta property="article:published_time" content="2018-08-15T14:52:54&#43;08:00"/>
+
+<meta property="article:modified_time" content="2018-08-15T14:52:54&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Java NIO -- Selector">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-08-15T14:52:54&#43;08:00" />
+<meta itemprop="dateModified" content="2018-08-15T14:52:54&#43;08:00" />
+<meta itemprop="wordCount" content="5768">
+
+
+
+<meta itemprop="keywords" content="Java,Java NIO," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java NIO -- Selector"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">lyoga blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">lyoga blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Java NIO -- Selector</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-08-15 </span>
+        <div class="post-category">
+            
+              <a href="/categories/java-nio/"> Java NIO </a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#前言"><strong>前言</strong></a></li>
+<li><a href="#一-概念"><strong>一、概念</strong></a></li>
+<li><a href="#二-selector原理"><strong>二、Selector原理</strong></a>
+<ul>
+<li><a href="#2-1-selectionkey"><strong>2.1 SelectionKey</strong></a></li>
+<li><a href="#2-2-selector三个集合"><strong>2.2 Selector三个集合</strong></a></li>
+<li><a href="#2-3-selector-open"><strong>2.3 Selector.open()</strong></a></li>
+<li><a href="#2-4-channel-register"><strong>2.4 Channel.register()</strong></a></li>
+<li><a href="#2-5-selector-select"><strong>2.5 Selector.select()</strong></a></li>
+<li><a href="#2-6-selector-wakeup"><strong>2.6 Selector.wakeUp()</strong></a></li>
+<li><a href="#2-7-selector-close"><strong>2.7 Selector.close()</strong></a></li>
+</ul></li>
+<li><a href="#三-nio轶事"><strong>三、NIO轶事</strong></a></li>
+<li><a href="#参考"><strong>参考</strong></a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p></p>
+
+<h2 id="前言"><strong>前言</strong></h2>
+
+<p>Java NIO由以下几个核心部分组成：</p>
+
+<ol>
+<li>Buffer</li>
+<li>Channel</li>
+<li>Selector</li>
+</ol>
+
+<h2 id="一-概念"><strong>一、概念</strong></h2>
+
+<p>Selector（选择器）是Java NIO中能够检测一到多个NIO通道，并能够知晓通道是否为比如读写事件做好准备的组件。这样一个单独的线程可以管理多个channel，从而管理多个网络连接。</p>
+
+<p><strong>通俗理解：</strong> 在一个养鸡场，有这么一个人，每天的工作就是不停检查几个特殊的鸡笼，如果有鸡进来，有鸡出去，有鸡生蛋，有鸡生病等等，就把相应的情况记录下来，如果鸡场的负责人想知道情况，只需要询问那个人即可。
+在这里，这个人就相当Selector，每个鸡笼相当于一个SocketChannel，每个线程通过一个Selector可以管理多个SocketChannel。
+<img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20180823192237.png" alt="" /></p>
+
+<h2 id="二-selector原理"><strong>二、Selector原理</strong></h2>
+
+<p>为了实现Selector管理多个SocketChannel，必须将具体的SocketChannel对象注册到Selector，并声明需要监听的事件（这样Selector才知道需要记录什么数据）</p>
+
+<p><strong>监听事件：</strong></p>
+
+<ol>
+<li><strong>connect：</strong> 客户端连接服务端事件，对应值为 <strong>SelectionKey.OP_CONNECT(8)</strong></li>
+<li><strong>accept：</strong> 服务端接收客户端连接事件，对应值为 <strong>SelectionKey.OP_ACCEPT(16)</strong></li>
+<li><strong>read：</strong> 读事件，对应值为 <strong>SelectionKey.OP_READ(1)</strong></li>
+<li><strong>write：</strong> 写事件，对应值为 <strong>SelectionKey.OP_WRITE(4)</strong></li>
+</ol>
+
+<p>因此Selector需要其他两种对象配合使用，即SelectionKey和SelectableChannel，下图表明三者的关系：
+<img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20180823193724.png" alt="" /></p>
+
+<ul>
+<li><strong>SelectableChannel：</strong> 可以与Selector进行配合的通道，例如Socket相关通道以及Pipe产生的通道都属于SelectableChannel。这类通道可以将自己感兴趣的操作（即上述监听事件）注册到一个Selector上，并在Selector的控制下进行IO相关操作</li>
+<li><strong>Selector：</strong> 负责管理已注册的多个SelectableChannel，当这些通道的某些状态改变时，Selector会被唤醒（从select()方法的阻塞中），并对所有就绪的通道进行轮询操作</li>
+<li><strong>SelectionKey：</strong> 用来记录SelectableChannel和Selector之间关系的对象，它由SelectableChannel的register()方法返回，并存储在Selector的多个集合中。它不仅记录了两个对象的引用，还包含了SelectableChannel感兴趣的操作</li>
+</ul>
+
+<pre><code class="language-java">// 创建一个ServerSocketChannel
+ServerSocketChannel serverChannel = ServerSocketChannel.open();
+// 通道定义为非阻塞
+serverChannel.configureBlocking(false);
+// 绑定端口
+serverChannel.socket().bind(new InetSocketAddress(port));
+// 创建一个Selector
+Selector selector = Selector.open();
+// 将serverSocketChannel注册到selector，并指定事件OP_ACCEPT
+serverChannel.register(selector, SelectionKey.OP_ACCEPT);
+while(true){
+    int n = selector.select();
+    if (n == 0) continue;
+    Iterator ite = this.selector.selectedKeys().iterator();
+    while(ite.hasNext()){
+        SelectionKey key = (SelectionKey)ite.next();
+        //如果满足Acceptable条件，则必定是一个ServerSocketChannel
+        if (key.isAcceptable()){
+            //得到一个连接好的SocketChannel，并把它注册到Selector上，兴趣操作为READ，同时为该信道指定关联的附件
+            SocketChannel clntChan = ((ServerSocketChannel) key.channel()).accept();
+            clntChan.configureBlocking(false);
+            clntChan.register(key.selector(), SelectionKey.OP_READ, ByteBuffer.allocate(bufSize));
+        }
+        if (key.isReadable()){
+            handleRead(key);
+        }
+        if (key.isWritable() &amp;&amp; key.isValid()){
+            handleWrite(key);
+        }
+        if (key.isConnectable()){
+            System.out.println(&quot;isConnectable = true&quot;);
+        }
+      ite.remove();
+    }
+}
+</code></pre>
+
+<h3 id="2-1-selectionkey"><strong>2.1 SelectionKey</strong></h3>
+
+<p>一个SelectionKey表示了一个特定的通道对象和一个特定的选择器对象之间的注册关系。</p>
+
+<pre><code class="language-java">// 属性
+final SelChImpl channel;                            
+public final SelectorImpl selector;
+private volatile int interestOps; // interest集合代表监听事件集合
+private int readyOps; // 通道已经准备就绪的操作的集合
+private volatile Object attachment = null; // 附加对象，可以方便识别某个给定对象
+</code></pre>
+
+<p><strong>interestOps</strong></p>
+
+<pre><code class="language-java">int interestSet = selectionKey.interestOps();
+boolean isInterestedInAccept  = (interestSet &amp; SelectionKey.OP_ACCEPT) == SelectionKey.OP_ACCEPT；
+boolean isInterestedInConnect = (interestSet &amp; SelectionKey.OP_CONNECT) == SelectionKey.OP_CONNECT;
+boolean isInterestedInRead    = (interestSet &amp; SelectionKey.OP_READ) == SelectionKey.OP_READ;
+boolean isInterestedInWrite   = (interestSet &amp; SelectionKey.OP_WRITE) == SelectionKey.OP_WRITE;
+</code></pre>
+
+<p>可以看到，用“位与”操作interest 集合和给定的SelectionKey常量，可以确定某个确定的事件是否在interest 集合中。</p>
+
+<p><strong>readyOps</strong></p>
+
+<pre><code class="language-java">int readySet = selectionKey.readyOps();
+//检查这些操作是否就绪的方法
+selectionKey.isAcceptable();
+selectionKey.isConnectable();
+selectionKey.isReadable();
+selectionKey.isWritable();
+</code></pre>
+
+<h3 id="2-2-selector三个集合"><strong>2.2 Selector三个集合</strong></h3>
+
+<ul>
+<li><strong>all-keys集合：</strong> 当前所有向Selector注册的SelectionKey的集合，Selector的 <strong>keys()</strong> 方法返回该集合,并且可能是空的。这个已注册的键的集合不是可以直接修改的；试图这么做的话将引发java.lang.UnsupportedOperationException</li>
+<li><strong>selected-keys集合：</strong> 相关事件已经被Selector捕获的SelectionKey的集合，Selector的 <strong>selectedKeys()</strong> 方法返回该集合，并且可能是空的。这个已注册的键的集合不是可以直接修改的；试图这么做的话将引发java.lang.UnsupportedOperationException</li>
+<li><strong>cancelled-keys集合：</strong> 已经被取消的SelectionKey的集合，Selector没有提供访问这种集合的方法</li>
+</ul>
+
+<h3 id="2-3-selector-open"><strong>2.3 Selector.open()</strong></h3>
+
+<p>SocketChannel、ServerSocketChannel和Selector的实例初始化都通过SelectorProvider类实现，其中Selector是整个NIO Socket的核心实现</p>
+
+<pre><code class="language-java">public static Selector open() throws IOException {
+    return SelectorProvider.provider().openSelector();
+}
+
+//SelectorProvider在windows和linux下有不同的实现，provider方法会返回对应的实现
+public static SelectorProvider provider() {
+    synchronized (lock) {
+        if (provider != null)
+            return provider;
+        //在与当前线程相同访问控制权限的环境中，加载SelectorProvider实例    
+        return AccessController.doPrivileged(
+            new PrivilegedAction&lt;SelectorProvider&gt;() {
+                public SelectorProvider run() {
+                        //获取系统配置的SelectorProvider    
+                        if (loadProviderFromProperty())
+                            return provider;
+                        //获取类加载路径下的SelectorProvider    
+                        if (loadProviderAsService())
+                            return provider;
+                        //加载默认的SelectorProvider    
+                        provider = sun.nio.ch.DefaultSelectorProvider.create();
+                        return provider;
+                    }
+                });
+    }
+}
+</code></pre>
+
+<p>以下主要以windows的实现来梳理整个流程</p>
+
+<pre><code class="language-java">// WindowsSelectorProvider.java  
+public AbstractSelector openSelector() throws IOException {  
+    return new WindowsSelectorImpl(this);  
+}  
+
+// WindowsSelectorImpl.java  
+WindowsSelectorImpl(SelectorProvider sp) throws IOException {  
+    super(sp);  
+    pollWrapper = new PollArrayWrapper(INIT_CAP);  
+    wakeupPipe = Pipe.open();  
+    wakeupSourceFd = ((SelChImpl)wakeupPipe.source()).getFDVal();  
+
+    // Disable the Nagle algorithm so that the wakeup is more immediate  
+    SinkChannelImpl sink = (SinkChannelImpl)wakeupPipe.sink();  
+    (sink.sc).socket().setTcpNoDelay(true);  
+    wakeupSinkFd = ((SelChImpl)sink).getFDVal();  
+
+    pollWrapper.addWakeupSocket(wakeupSourceFd, 0);  
+}  
+</code></pre>
+
+<ul>
+<li>创建pollWrapper对象</li>
+<li>Pipe.open()打开一个管道</li>
+<li>拿到wakeupSourceFd(从管道读数据)和wakeupSinkFd(往管道写数据)两个文件描述符</li>
+<li>把唤醒端的文件描述符（wakeupSourceFd）放到pollWrapper里</li>
+</ul>
+
+<pre><code class="language-java">// PollArrayWrapper
+typedef struct pollfd {
+  SOCKET fd;            // 4 bytes
+  short events;         // 2 bytes
+} pollfd_t;
+
+class PollArrayWrapper {
+
+    private AllocatedNativeObject pollArray; // The fd array
+    long pollArrayAddress; // pollArrayAddress
+
+    @Native private static final short FD_OFFSET     = 0; // fd offset in pollfd
+    @Native private static final short EVENT_OFFSET  = 4; // events offset in pollfd
+
+    static short SIZE_POLLFD = 8; // sizeof pollfd struct
+
+    private int size; // Size of the pollArray
+
+    PollArrayWrapper(int newSize) {
+        int allocationSize = newSize * SIZE_POLLFD;
+        pollArray = new AllocatedNativeObject(allocationSize, true);
+        pollArrayAddress = pollArray.address();
+        this.size = newSize;
+    }
+}
+</code></pre>
+
+<p><strong>pollWrapper用Unsafe类申请一块物理内存pollfd，存放socket句柄fdVal和events，其中pollfd共8位，0-3位保存socket句柄，4-7位保存events</strong></p>
+
+<p>pollWrapper提供了fdVal和event数据的相应操作，如添加操作通过Unsafe的putInt和putShort实现</p>
+
+<pre><code class="language-java">void putDescriptor(int i, int fd) {
+    pollArray.putInt(SIZE_POLLFD * i + FD_OFFSET, fd);
+}
+
+void putEventOps(int i, int event) {
+    pollArray.putShort(SIZE_POLLFD * i + EVENT_OFFSET, (short)event);
+}
+
+// Adds Windows wakeup socket at a given index.
+//这里将source的POLLIN事件标识为感兴趣的，当sink端有数据写入时，source对应的文件描述符wakeupSourceFd就会处于就绪状态
+void addWakeupSocket(int fdVal, int index) {
+    putDescriptor(index, fdVal);
+    putEventOps(index, Net.POLLIN);
+}
+</code></pre>
+
+<h3 id="2-4-channel-register"><strong>2.4 Channel.register()</strong></h3>
+
+<p>我们来看看serverChannel.register(selector, SelectionKey.OP_ACCEPT)是如何实现的</p>
+
+<pre><code class="language-java">public final SelectionKey register(Selector sel, int ops, Object att) throws ClosedChannelException {
+        synchronized (regLock) {
+            if (!isOpen())
+                throw new ClosedChannelException();
+            if ((ops &amp; ~validOps()) != 0)
+                throw new IllegalArgumentException();
+            if (blocking)
+                throw new IllegalBlockingModeException();
+            SelectionKey k = findKey(sel);
+            if (k != null) {
+                k.interestOps(ops);
+                k.attach(att);
+            }
+            if (k == null) {
+                // New registration
+                synchronized (keyLock) {
+                    if (!isOpen())
+                        throw new ClosedChannelException();
+                    k = ((AbstractSelector)sel).register(this, ops, att);
+                    addKey(k);
+                }
+            }
+            return k;
+        }
+    }
+</code></pre>
+
+<ol>
+<li>如果该channel和selector已经注册过，则直接添加事件和附件</li>
+<li>否则通过selector实现注册过程</li>
+</ol>
+
+<pre><code class="language-java">protected final SelectionKey register(AbstractSelectableChannel ch,
+      int ops,  Object attachment) {
+    if (!(ch instanceof SelChImpl))
+        throw new IllegalSelectorException();
+    SelectionKeyImpl k = new SelectionKeyImpl((SelChImpl)ch, this);
+    k.attach(attachment);
+    synchronized (publicKeys) {
+        implRegister(k);
+    }
+    k.interestOps(ops);
+    return k;
+}
+
+protected void implRegister(SelectionKeyImpl ski) {
+    synchronized (closeLock) {
+        if (pollWrapper == null)
+            throw new ClosedSelectorException();
+        growIfNeeded();
+        channelArray[totalChannels] = ski;
+        ski.setIndex(totalChannels);
+        fdMap.put(ski);
+        keys.add(ski);
+        pollWrapper.addEntry(totalChannels, ski);
+        totalChannels++;
+    }
+}
+</code></pre>
+
+<ol>
+<li>以当前channel和selector为参数，初始化SelectionKeyImpl对象selectionKeyImpl，并添加附件attachment</li>
+<li>如果当前channel的数量totalChannels等于SelectionKeyImpl数组大小，对SelectionKeyImpl数组和pollWrapper进行扩容操作</li>
+<li>如果totalChannels % MAX_SELECTABLE_FDS == 0，则多开一个线程处理selector</li>
+<li>pollWrapper.addEntry将把selectionKeyImpl中的socket句柄添加到对应的pollfd</li>
+<li>k.interestOps(ops)方法最终也会把event添加到对应的pollfd</li>
+</ol>
+
+<p><strong>因此，无论是serverSocketChannel，还是socketChannel，在selector注册的事件，最终都保存在pollArray中</strong></p>
+
+<h3 id="2-5-selector-select"><strong>2.5 Selector.select()</strong></h3>
+
+<p>通过Selector的 <strong>select()</strong> 方法可以选择已经准备就绪的通道(这些通道包含你感兴趣的的事件)</p>
+
+<p>下面是Selector几个重载的select()方法：</p>
+
+<ul>
+<li>int select()：阻塞到至少有一个通道在你注册的事件上就绪了</li>
+<li>int select(long timeout)：和select()一样，但最长阻塞时间为timeout毫秒</li>
+<li>int selectNow()：非阻塞，只要有通道就绪就立刻返回</li>
+</ul>
+
+<p><strong>select()方法返回的int值表示有多少通道已经就绪，是自上次调用select()方法后有多少通道变成就绪状态。之前在select()调用时进入就绪的通道不会在本次调用中被记入，而在前一次select()调用进入就绪但现在已经不在处于就绪的通道也不会被记入。</strong></p>
+
+<p>例如：首次调用select()方法，如果有一个通道变成就绪状态，返回了1，若再次调用select()方法，如果另一个通道就绪了，它会再次返回1。如果对第一个就绪的channel没有做任何操作，现在就有两个就绪的通道，但在每次select()方法调用之间，只有一个通道就绪了。</p>
+
+<p>现在我们来看看selector中的select是如何实现一次获取多个有事件发生的channel的，底层由selector实现类的doSelect方法实现，如下：</p>
+
+<pre><code class="language-java">protected int doSelect(long timeout) throws IOException {
+        if (channelArray == null)
+            throw new ClosedSelectorException();
+        this.timeout = timeout; // set selector timeout
+        processDeregisterQueue();
+        if (interruptTriggered) {
+            resetWakeupSocket();
+            return 0;
+        }
+        // Calculate number of helper threads needed for poll. If necessary
+        // threads are created here and start waiting on startLock
+        adjustThreadsCount();
+        finishLock.reset(); // reset finishLock
+        // Wakeup helper threads, waiting on startLock, so they start polling.
+        // Redundant threads will exit here after wakeup.
+        startLock.startThreads();
+        // do polling in the main thread. Main thread is responsible for
+        // first MAX_SELECTABLE_FDS entries in pollArray.
+        try {
+            begin();
+            try {
+                subSelector.poll();
+            } catch (IOException e) {
+                finishLock.setException(e); // Save this exception
+            }
+            // Main thread is out of poll(). Wakeup others and wait for them
+            if (threads.size() &gt; 0)
+                finishLock.waitForHelperThreads();
+          } finally {
+              end();
+          }
+        // Done with poll(). Set wakeupSocket to nonsignaled  for the next run.
+        finishLock.checkForException();
+        processDeregisterQueue();
+        int updated = updateSelectedKeys();
+        // Done with poll(). Set wakeupSocket to nonsignaled  for the next run.
+        resetWakeupSocket();
+        return updated;
+    }
+
+    private final class SubSelector {
+       // These arrays will hold result of native select().
+       // The first element of each array is the number of selected sockets.
+       // Other elements are file descriptors of selected sockets.
+       private final int[] readFds = new int [MAX_SELECTABLE_FDS + 1];
+       private final int[] writeFds = new int [MAX_SELECTABLE_FDS + 1];
+       private final int[] exceptFds = new int [MAX_SELECTABLE_FDS + 1];
+
+       private int poll() throws IOException{ // poll for the main thread
+           return poll0(pollWrapper.pollArrayAddress,
+                        Math.min(totalChannels, MAX_SELECTABLE_FDS),
+                        readFds, writeFds, exceptFds, timeout);
+       }
+     }
+</code></pre>
+
+<ul>
+<li><strong>subSelector.poll()</strong> 是select的核心，由native函数poll0实现，readFds、writeFds 和exceptFds数组用来保存底层select的结果，数组的第一个位置都是存放发生事件的socket的总数，其余位置存放发生事件的socket句柄fd。</li>
+<li>执行 selector.select() ，poll0函数把指向socket句柄和事件的内存地址传给底层函数。
+
+<ol>
+<li>如果之前没有发生事件，程序就阻塞在select处，当然不会一直阻塞，因为epoll在timeout时间内如果没有事件，也会返回</li>
+<li>一旦有对应的事件发生，poll0方法就会返回</li>
+<li>processDeregisterQueue方法会清理那些已经cancelled的SelectionKey</li>
+<li>updateSelectedKeys方法统计有事件发生的SelectionKey数量，并把符合条件发生事件的SelectionKey添加到selectedKeys哈希表中，提供给后续使用</li>
+</ol></li>
+</ul>
+
+<p>在早期的JDK1.4和1.5 update10版本之前，Selector基于select/poll模型实现，是基于IO复用技术的非阻塞IO，不是异步IO;在JDK1.5 update10和linux core2.6以上版本，sun优化了Selctor的实现，底层使用epoll替换了select/poll。</p>
+
+<h3 id="2-6-selector-wakeup"><strong>2.6 Selector.wakeUp()</strong></h3>
+
+<ol>
+<li>某个线程调用select()方法后阻塞了，即使没有通道已经就绪，只要让其它线程在第一个线程调用select()方法的那个对象上调用Selector.wakeup()方法即可，阻塞在select()方法上的线程会立马返回</li>
+<li>如果有其它线程调用了wakeup()方法，但当前没有线程阻塞在select()方法上，下个调用select()方法的线程会立即“醒来（wake up）”</li>
+</ol>
+
+<pre><code>public Selector wakeup() {
+    synchronized (interruptLock) {
+        if (!interruptTriggered) {
+            setWakeupSocket();
+            interruptTriggered = true;
+        }
+    }
+    return this;
+}
+
+// Sets Windows wakeup socket to a signaled state.
+private void setWakeupSocket() {
+   setWakeupSocket0(wakeupSinkFd);
+}
+
+private native void setWakeupSocket0(int wakeupSinkFd);
+JNIEXPORT void JNICALL  
+java_sun_nio_ch_WindowsSelectorImpl_setWakeupSocket0(JNIEnv *env, jclass this, jint scoutFd)  
+{  
+    /* Write one byte into the pipe */  
+    const char byte = 1;  
+    send(scoutFd, &amp;byte, 1, 0);  
+}  
+</code></pre>
+
+<p>可见wakeup()是通过pipe的write端send(scoutFd, &amp;byte, 1, 0)，发送一个字节1，来唤醒poll(),所以在需要的时候就可以调用selector.wakeup()来唤醒selector</p>
+
+<h3 id="2-7-selector-close"><strong>2.7 Selector.close()</strong></h3>
+
+<p>该方法使得任何一个在选择操作中阻塞的线程都被唤醒（类似wakeup()），同时使得注册到该Selector的所有Channel被注销，所有的键将被取消，但是Channel本身并不会关闭。</p>
+
+<h2 id="三-nio轶事"><strong>三、NIO轶事</strong></h2>
+
+<p>Java selector.open() 的时候，会创建一个自己和自己的链接（windows上是tcp，linux上是通道pipe），这是为什么呢？
+这么做的原因可以从Apache Mina中窥探。</p>
+
+<p>在Mina中，有如下机制：</p>
+
+<ol>
+<li>Mina框架会创建一个Work对象的线程。</li>
+<li>Work对象的线程的run()方法会从一个队列中拿出一堆Channel，然后使用Selector.select()方法来侦听是否有数据可以读/写。</li>
+<li>最关键的是，在select的时候，如果队列有新的Channel加入，那么，Selector.select()会被唤醒，然后重新select最新的Channel集合。</li>
+<li>要唤醒select方法，只需要调用Selector的wakeup()方法。</li>
+</ol>
+
+<p>一个阻塞在select上的线程有以下三种方式可以被唤醒：</p>
+
+<ol>
+<li>有数据可读/写，或出现异常。</li>
+<li>阻塞时间到，即time out。</li>
+<li>收到一个non-block的信号。可由kill或pthread_kill发出。
+所以，Selector.wakeup()要唤醒阻塞的select，那么也只能通过这三种方法，其中：</li>
+</ol>
+
+<p>第二种方法可以排除，因为select一旦阻塞，应无法修改其time out时间；而第三种看来只能在Linux上实现，Windows上没有这种信号通知的机制。
+所以看来只有第一种方法了。</p>
+
+<p>因此Java NIO为什么要创建一个自己和自己的链接：如果想要唤醒select，只需要朝着自己的这个loopback连接发点数据过去，于是就可以唤醒阻塞在select上的线程了</p>
+
+<h2 id="参考"><strong>参考</strong></h2>
+
+<ul>
+<li><a href="https://www.jianshu.com/p/0d497fe5484a">https://www.jianshu.com/p/0d497fe5484a</a></li>
+<li><a href="http://ifeve.com/selectors/">http://ifeve.com/selectors/</a></li>
+<li><a href="https://www.cnblogs.com/snailclimb/p/9086334.html">https://www.cnblogs.com/snailclimb/p/9086334.html</a></li>
+<li><a href="http://goon.iteye.com/blog/1764057">http://goon.iteye.com/blog/1764057</a></li>
+<li><a href="http://zhhphappy.iteye.com/blog/2032893">http://zhhphappy.iteye.com/blog/2032893</a></li>
+</ul>
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">lyoga</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-08-15</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/java/">Java</a>
+          
+          <a href="/tags/java-nio/">Java NIO</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2018/08-27-java_nio_2/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Java NIO -- Buffer</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/2018/07-03_zuul_1.x_source/">
+            <span class="next-text nav-default">zuul 1.x 源码阅读之 ZuulServlet 及 Filer 加载</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/imet" class="iconfont icon-github" title="github"></a>
+  <a href="http://LYoGA.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2018 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LYoGA</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.1.1"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

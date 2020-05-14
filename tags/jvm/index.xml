@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JVM on lyoga blog</title>
+    <link>http://LYoGA.github.io/tags/jvm/</link>
+    <description>Recent content in JVM on lyoga blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 03 Dec 2018 15:03:03 +0800</lastBuildDate>
+    
+	<atom:link href="http://LYoGA.github.io/tags/jvm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>JAVA内存模型（JMM）</title>
+      <link>http://LYoGA.github.io/post/2018/12-03-jmm/</link>
+      <pubDate>Mon, 03 Dec 2018 15:03:03 +0800</pubDate>
+      
+      <guid>http://LYoGA.github.io/post/2018/12-03-jmm/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

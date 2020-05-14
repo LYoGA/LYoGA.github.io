@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Mysql整理 - lyoga blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyoga" />
+  <meta name="description" content="
+" />
+<meta name="keywords" content="" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.42.1" />
+
+
+<link rel="canonical" href="http://LYoGA.github.io/post/2019/02-21-mysql_1/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.1.1" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+
+
+<meta property="og:title" content="Mysql整理" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://LYoGA.github.io/post/2019/02-21-mysql_1/" />
+
+
+
+<meta property="article:published_time" content="2019-02-21T15:12:42&#43;08:00"/>
+
+<meta property="article:modified_time" content="2019-02-21T15:12:42&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Mysql整理">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-02-21T15:12:42&#43;08:00" />
+<meta itemprop="dateModified" content="2019-02-21T15:12:42&#43;08:00" />
+<meta itemprop="wordCount" content="15590">
+
+
+
+<meta itemprop="keywords" content="," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Mysql整理"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">lyoga blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">lyoga blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Mysql整理</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-02-21 </span>
+        <div class="post-category">
+            
+              <a href="/categories//">  </a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#一-事务"><strong>一、事务</strong></a>
+<ul>
+<li><a href="#1-1-acid"><strong>1.1 ACID:</strong></a></li>
+<li><a href="#1-2-事务隔离级别"><strong>1.2 事务隔离级别</strong></a></li>
+<li><a href="#1-3-不可重复读和幻读的区别"><strong>1.3 不可重复读和幻读的区别</strong></a></li>
+<li><a href="#1-4-什么是当前读"><strong>1.4 什么是当前读?</strong></a></li>
+<li><a href="#1-5-mvcc实现原理"><strong>1.5 MVCC实现原理</strong></a></li>
+<li><a href="#1-6-事务的可重复读能力是怎么实现的呢"><strong>1.6 事务的可重复读能力是怎么实现的呢？</strong></a></li>
+</ul></li>
+<li><a href="#二-索引"><strong>二、索引</strong></a>
+<ul>
+<li><a href="#2-1-b树与b-树的数据结构"><strong>2.1 B树与B+树的数据结构</strong></a></li>
+<li><a href="#2-2-为何使用b-树作为索引数据结构-而不使用b树-那红黑树呢"><strong>2.2 为何使用B+树作为索引数据结构，而不使用B树？那红黑树呢？</strong></a></li>
+<li><a href="#2-3-为什么mysql页文件默认16k"><strong>2.3 为什么mysql页文件默认16K？</strong></a></li>
+<li><a href="#2-4-为什么innodb表必须有主键-并且推荐使用整型的自增主键"><strong>2.4 为什么InnoDB表必须有主键，并且推荐使用整型的自增主键？</strong></a></li>
+<li><a href="#2-5-为什么非主键索引结构叶子节点存储的是主键值"><strong>2.5 为什么非主键索引结构叶子节点存储的是主键值？</strong></a></li>
+<li><a href="#2-4-聚簇索引"><strong>2.4 聚簇索引</strong></a></li>
+<li><a href="#2-5-辅助索引"><strong>2.5 辅助索引</strong></a></li>
+<li><a href="#2-6-联合索引"><strong>2.6 联合索引</strong></a></li>
+<li><a href="#2-7-建立索引原则"><strong>2.7 建立索引原则</strong></a></li>
+<li><a href="#2-8-索引失效"><strong>2.8 索引失效</strong></a></li>
+<li><a href="#2-9-count-语法"><strong>2.9 count()语法：</strong></a></li>
+<li><a href="#2-10-icp优化-index-conditon-pushdown"><strong>2.10 ICP优化（Index Conditon Pushdown）</strong></a></li>
+<li><a href="#2-11-mrr优化-multi-range-read"><strong>2.11 MRR优化（Multi-Range Read）</strong></a></li>
+<li><a href="#2-12-索引的常见优化以及注意事项"><strong>2.12 索引的常见优化以及注意事项</strong></a></li>
+</ul></li>
+<li><a href="#三-锁"><strong>三、锁</strong></a>
+<ul>
+<li><a href="#3-1-锁模式"><strong>3.1 锁模式</strong></a></li>
+<li><a href="#3-2-锁类型"><strong>3.2 锁类型</strong></a>
+<ul>
+<li><a href="#3-2-1-全局锁"><strong>3.2.1 全局锁</strong></a></li>
+<li><a href="#3-2-2-表级锁"><strong>3.2.2 表级锁</strong></a></li>
+<li><a href="#3-2-3-行锁"><strong>3.2.3 行锁</strong></a></li>
+</ul></li>
+</ul></li>
+<li><a href="#四-慢查询如何优化"><strong>四、慢查询如何优化</strong></a></li>
+<li><a href="#五-mysql怎么保证数据不丢"><strong>五、MySQL怎么保证数据不丢</strong></a>
+<ul>
+<li><a href="#5-1-binlog"><strong>5.1 binlog</strong></a>
+<ul>
+<li><a href="#5-1-1-格式"><strong>5.1.1 格式：</strong></a></li>
+<li><a href="#5-1-2-binlog写入逻辑"><strong>5.1.2 binlog写入逻辑：</strong></a></li>
+</ul></li>
+<li><a href="#5-2-redo-log"><strong>5.2 redo log</strong></a>
+<ul>
+<li><a href="#5-2-1-概念"><strong>5.2.1 概念</strong></a></li>
+<li><a href="#5-2-2-redo-log-何时刷入磁盘呢"><strong>5.2.2 redo log 何时刷入磁盘呢？</strong></a></li>
+</ul></li>
+<li><a href="#5-3-undo-log"><strong>5.3 undo log</strong></a>
+<ul>
+<li><a href="#5-3-1-概念"><strong>5.3.1 概念</strong></a></li>
+<li><a href="#5-3-2-redo-log和undo-log的区别"><strong>5.3.2 redo log和undo log的区别</strong></a></li>
+<li><a href="#5-3-3-事务写入过程"><strong>5.3.3 事务写入过程</strong></a></li>
+</ul></li>
+<li><a href="#5-4-lsn"><strong>5.4 LSN</strong></a>
+<ul>
+<li><a href="#5-4-1-概念"><strong>5.4.1 概念</strong></a></li>
+<li><a href="#5-4-2-innodb中lsn类型"><strong>5.4.2 innodb中LSN类型</strong></a></li>
+</ul></li>
+<li><a href="#5-5-binlog-和-redo-log-的一致性"><strong>5.5 binlog 和 redo log 的一致性</strong></a></li>
+<li><a href="#5-6-崩溃恢复判断规则"><strong>5.6 崩溃恢复判断规则：</strong></a></li>
+<li><a href="#5-7-组提交-group-commit"><strong>5.7 组提交（group commit）</strong></a>
+<ul>
+<li><a href="#5-7-1-概念"><strong>5.7.1 概念</strong></a></li>
+<li><a href="#5-7-2-组提交优化"><strong>5.7.2 组提交优化</strong></a></li>
+</ul></li>
+<li><a href="#5-8-mysql现在出现了性能瓶颈-而且瓶颈在io上-可以通过哪些方法来提升性能呢"><strong>5.8 MySQL现在出现了性能瓶颈，而且瓶颈在IO上，可以通过哪些方法来提升性能呢？</strong></a></li>
+<li><a href="#5-9-为什么-binlog-cache-是每个线程自己维护的-而-redo-log-buffer-是全局共用的"><strong>5.9 为什么 binlog cache 是每个线程自己维护的，而 redo log buffer 是全局共用的？</strong></a></li>
+<li><a href="#5-10-mysql-怎么知道-binlog-是完整的"><strong>5.10 MySQL 怎么知道 binlog 是完整的</strong></a></li>
+<li><a href="#5-11-redo-log-和-binlog-是怎么关联起来的"><strong>5.11 redo log 和 binlog 是怎么关联起来的</strong></a></li>
+<li><a href="#5-12-redo-log一般设置多大"><strong>5.12 redo log一般设置多大</strong></a></li>
+<li><a href="#5-13-正常运行中的实例-数据写入后的最终落盘-是从-redo-log-更新过来的还是从-buffer-pool-更新过来的呢"><strong>5.13 正常运行中的实例，数据写入后的最终落盘，是从 redo log 更新过来的还是从 buffer pool 更新过来的呢？</strong></a></li>
+<li><a href="#5-14-change-buffer"><strong>5.14 change buffer</strong></a>
+<ul>
+<li><a href="#5-14-1-相关"><strong>5.14.1 相关</strong></a></li>
+</ul></li>
+</ul></li>
+<li><a href="#六-主从同步"><strong>六、主从同步</strong></a></li>
+<li><a href="#七-主从延时问题解决"><strong>七、主从延时问题解决</strong></a></li>
+<li><a href="#八-主备切换-如何解决找同步点位问题"><strong>八、主备切换，如何解决找同步点位问题</strong></a></li>
+<li><a href="#九-分库分表"><strong>九、分库分表</strong></a></li>
+<li><a href="#参考文章"><strong>参考文章</strong></a></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p></p>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20190221153243.png" alt="" /></p>
+
+<p>&nbsp;</p>
+
+<h1 id="一-事务"><strong>一、事务</strong></h1>
+
+<h2 id="1-1-acid"><strong>1.1 ACID:</strong></h2>
+
+<ul>
+<li>原子性：不可再分割的工作单元，事务中的操作要么都发生，要么都不发生</li>
+<li>一致性：事务开始之前和事务结束以后，数据库的完整性约束没有被破坏</li>
+<li>隔离性：多个事务并发访问时，事务之间是隔离的，一个事务不应该影响其它事务运行效果</li>
+<li>持久性：意味着在事务完成以后，该事务所对数据库所作的更改便持久的保存在数据库之中，并不会被回滚</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="1-2-事务隔离级别"><strong>1.2 事务隔离级别</strong></h2>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191208195009.png" alt="" /></p>
+
+<ul>
+<li>读未提交：允许脏读，也就是可能读取到其他会话中未提交事务修改的数据</li>
+<li>读已提交：只能读取到已经提交的数据。Oracle等多数数据库默认都是该级别 (不重复读)</li>
+<li>可重复读：可重复读。在同一个事务内的查询都是事务开始时刻一致的，InnoDB默认级别。在SQL标准中，该隔离级别消除了不可重复读，但是还存在幻象读</li>
+<li>串行化：完全串行化的读，每次读都需要获得表级共享锁，读写相互都会阻塞</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="1-3-不可重复读和幻读的区别"><strong>1.3 不可重复读和幻读的区别</strong></h2>
+
+<p>很多人容易搞混不可重复读和幻读，确实这两者有些相似。但不可重复读重点在于update和delete，而幻读的重点在于insert。</p>
+
+<p><strong>MySQL通过MVCC（一致性快照读，解决读写并发问题）和间隙锁（next-key locks解决写写并发问题）来解决幻读</strong></p>
+
+<ul>
+<li>快照读的幻读：MVCC解决</li>
+<li>当前读的幻读：record lock + GAP lock解决</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="1-4-什么是当前读"><strong>1.4 什么是当前读?</strong></h2>
+
+<p>更新数据都是先读后写的，而这个读，只能读当前的值，也就是说读取的是记录数据的最新版本，并且当前读返回的记录都会加上锁，保证其他事务不会再并发的修改这条记录</p>
+
+<ul>
+<li>快照读：就是select（读取的是历史数据）
+
+<ul>
+<li>select * from table &hellip;.;</li>
+</ul></li>
+<li>当前读：特殊的读操作，插入/更新/删除操作，属于当前读，处理的都是当前的数据，需要加锁。
+
+<ul>
+<li>select * from table where ? lock in share mode;</li>
+<li>select * from table where ? for update;</li>
+<li>insert;</li>
+<li>update ;</li>
+<li>delete;</li>
+</ul></li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="1-5-mvcc实现原理"><strong>1.5 MVCC实现原理</strong></h2>
+
+<p><strong>InnoDB在实现MVCC时用到的一致性读视图，即 consistent read view，用于支持 RC（Read Committed，读提交）和 RR（Repeatable Read，可重复读）隔离级别的实现</strong></p>
+
+<ul>
+<li>每一行记录都有两个隐藏列：DATA_TRX_ID、DATA_ROLL_PTR（如果没有主键，则还会多一个隐藏的主键列）
+
+<ul>
+<li>DATA_TRX_ID：记录最近更新这条行记录的事务 ID，大小为6个字节</li>
+<li>DATA_ROLL_PTR：表示指向该行回滚段（undo log）的指针，大小为7个字节</li>
+<li>DB_ROW_ID：行标识（隐藏单调自增ID），大小为6字节，如果表没有主键，InnoDB会自动生成一个隐藏主键，因此会出现这个列；另外，每条记录的头信息（record header）里都有一个专门的bit（deleted_flag）来表示当前记录是否已经被删除</li>
+</ul></li>
+</ul>
+
+<p>&nbsp;</p>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191211210218.png" alt="" /></p>
+
+<p>&nbsp;</p>
+
+<ul>
+<li>RR的视图是在事务启动的第一个语句创建的，之后事务存续期间都不变；RC是在每个语句开始执行的时候，都创建一个视图，每个视图只管自己一个语句</li>
+<li>在实现上，InnoDB为每个事务构造了一个数组，用来保存这个事务启动瞬间，当前正在&rdquo;活跃&rdquo;的所有事务ID；&rdquo;活跃&rdquo;指的就是，启动了但还没提交</li>
+<li>数组里面事务ID的最小值记为低水位，当前系统里面已经创建过的事务ID的最大值加1记为高水位</li>
+<li>这个视图数组和高水位，就组成了当前事务的一致性视图（read-view），而数据版本的可见性规则，就是基于数据的row trx_id和这个一致性视图的对比结果得到的</li>
+<li>事务启动以前所有还没提交的事务，它都不可见，所以只存一个已经提交事务的最大值是不够的，因为存在一个问题，那些比最大值小的事务，之后也可能更新，所以事务启动的时候还要保存&rdquo;现在正在执行的所有事务列表&rdquo;，如果一个row trx_id在这列表中，也要不可见</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191210165155.png" alt="" /></p>
+
+<p>&nbsp;</p>
+
+<p><strong>一个数据版本，对于一个事务视图来说，除了自己的更新总是可见以外，有三种情况</strong></p>
+
+<ol>
+<li>版本未提交，不可见</li>
+<li>版本已提交，但是是在视图创建后提交的，不可见</li>
+<li>版本已提交，而且是在视图创建前提交的，可见</li>
+</ol>
+
+<p>&nbsp;</p>
+
+<h2 id="1-6-事务的可重复读能力是怎么实现的呢"><strong>1.6 事务的可重复读能力是怎么实现的呢？</strong></h2>
+
+<ul>
+<li>可重复读的核心就是一致性读（consistent read）</li>
+<li>而事务更新数据的时候，只能用当前读</li>
+<li>如果当前的记录的行锁被其他事务占用的话，就需要进入锁等待</li>
+</ul>
+
+<p><strong>当前读的幻读由next-key lock来解决</strong></p>
+
+<ul>
+<li>RC隔离级别下，对非索引字段更新，有个锁全表记录的过程，不符合条件的会及时释放行锁，不必等事务结束时释放；而直接用索引列更新，只会锁索引查找值和行</li>
+<li>RR隔离级别下，为保证binlog记录顺序，非索引更新会锁住全表记录，且事务结束前不会对不符合条件记录有逐步释放的过程</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h1 id="二-索引"><strong>二、索引</strong></h1>
+
+<h2 id="2-1-b树与b-树的数据结构"><strong>2.1 B树与B+树的数据结构</strong></h2>
+
+<p><strong>1. M阶B树：</strong>
+<img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191130160043.png" alt="" /></p>
+
+<ol>
+<li>树中的每个结点最多含有m个孩子，m-1个关键字</li>
+<li>除了根结点和叶子结点，其他结点至少有[ceil(m / 2)（代表是取上限的函数）]个孩子</li>
+<li>若根结点不是叶子结点时，则至少有两个孩子（除了没有孩子的根结点）</li>
+<li>所有的叶子结点都出现在同一层中，叶子结点不包含任何关键字信息</li>
+</ol>
+
+<p><strong>举个例子：比如这里有一个5阶的B树，根节点数量范围：1 &lt;= k &lt;= 4，非根节点数量范围：2 &lt;= k &lt;= 4</strong></p>
+
+<p><strong>插入原则：</strong></p>
+
+<ul>
+<li>判断当前结点key的个数是否小于等于m-1，如果满足，直接插入即可，如果不满足，将节点的中间的key将这个节点分为左右两部分，中间的节点放到父节点中即可</li>
+</ul>
+
+<p><strong>删除原则：</strong></p>
+
+<ul>
+<li>删除叶子节点的元素，如果删除之后，节点数还是大于m/2，这种情况只要直接删除即可</li>
+<li>对于非叶子节点的删除，我们需要用后继key（元素）覆盖要删除的key，然后在后继key所在的子支中删除该后继key</li>
+<li>删除叶子节点，如果删除元素后元素个数少于（m/2），并且它的兄弟节点的元素大于（m/2），将先将父节点的元素移到该节点，然后将兄弟节点的元素再移动到父节点</li>
+<li>删除叶子节点，删除后不满足要求，所以，我们需要考虑向兄弟节点借元素，但是，兄弟节点的元素不大于（m/2）；如果遇到这种情况，首先，还是将先将父节点的元素移到该节点，然后，将当前节点及它的兄弟节点中的key合并，形成一个新的节点</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<p><strong>2. M阶B+树：</strong>
+<img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191130160115.png" alt="" /></p>
+
+<p><strong>与B-Tree相比，B+Tree有以下不同点：</strong></p>
+
+<ul>
+<li>n棵子树的结点含有n个关键字，每个关键字都不会保存数据，只会用来索引，并且所有数据都会保存在叶子结点</li>
+<li>所有的叶子结点包含所有关键字信息以及指向关键字记录的指针，关键字自小到大顺序连接（双向链表连接）</li>
+</ul>
+
+<p><strong>插入原则：</strong></p>
+
+<ul>
+<li>当节点元素数量大于m-1的时候，按中间元素分裂成左右两部分，中间元素分裂到父节点当做索引存储，但是，本身中间元素还是分裂右边这一部分的</li>
+</ul>
+
+<p><strong>删除原则：</strong></p>
+
+<ul>
+<li>叶子节点有指针的存在，向兄弟节点借元素时，不需要通过父节点了，而是可以直接通过兄弟节移动即可（前提是兄弟节点的元素大于m/2），然后更新父节点的索引；如果兄弟节点的元素不大于m/2（兄弟节点也没有多余的元素），则将当前节点和兄弟节点合并，并且删除父节点中的key</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-2-为何使用b-树作为索引数据结构-而不使用b树-那红黑树呢"><strong>2.2 为何使用B+树作为索引数据结构，而不使用B树？那红黑树呢？</strong></h2>
+
+<ul>
+<li>B-/+Tree索引的性能优势：一般使用磁盘I/O次数评价索引优劣</li>
+<li>单次请求涉及的磁盘IO次数少（出度d大，且非叶子节点不包含表数据，树的高度小）</li>
+<li>查询效率稳定（任何关键字的查询必须走从根结点到叶子结点，查询路径长度相同）</li>
+<li>叶子节点双向链表，遍历效率高（从符合条件的某个叶子节点开始遍历即可）</li>
+<li>很适合磁盘存储，能够充分利用局部性原理，磁盘预读</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-3-为什么mysql页文件默认16k"><strong>2.3 为什么mysql页文件默认16K？</strong></h2>
+
+<p><strong>MySQL每个B+树节点最大存储容量：16KB（指针+数据+索引）</strong></p>
+
+<ul>
+<li>假设我们一行数据大小为1K，那么一页就能存16条数据，也就是一个叶子节点能存16条数据</li>
+<li>再看非叶子节点，假设主键ID为bigint类型，那么长度为8B，指针大小在Innodb源码中为6B，一共就是14B</li>
+<li>那么一页里就可以存储16K/14=1170个(主键+指针)那么一颗高度为2的B+树能存储的数据为：1170 * 16=18720条，一颗高度为3的B+树能存储的数据为：1170*1170*16 = 21902400（千万级条）</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-4-为什么innodb表必须有主键-并且推荐使用整型的自增主键"><strong>2.4 为什么InnoDB表必须有主键，并且推荐使用整型的自增主键？</strong></h2>
+
+<ul>
+<li>首先，为了满足MySQL的索引数据结构B+树的特性，必须要有索引作为主键，可以有效提高查询效率，因此InnoDB必须要有主键。如果不手动指定主键，InnoDB会从插入的数据中找出不重复的一列作为主键索引，如果没找到不重复的一列，InnoDB会在后台增加一列rowId做为主键索引</li>
+<li>其次，索引的数据类型是整型，一方面整型占有的磁盘空间或内存空间相比字符串更少，另一方面整型比较比字符串比较更快速，字符串比较是先转换为ASCII码，然后再比较的</li>
+<li>最后，B+树本质是多路多叉树，如果主键索引不是自增的，那么后续插入的索引就会引起B+树的其他节点的分裂和重新平衡，影响数据插入的效率，如果是自增主键，只用在尾节点做增加就可以</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-5-为什么非主键索引结构叶子节点存储的是主键值"><strong>2.5 为什么非主键索引结构叶子节点存储的是主键值？</strong></h2>
+
+<ul>
+<li>主键索引和非主键索引维护各自的B+树结构，当插入的数据的时候，由于数据只有一份，通过非主键索引获取到主键值，然后再去主键索引的B+树数据结构中找到对应的行数据，节省了内存空间</li>
+<li>如果非主键索引的叶子节点也存储一份数据，如果通过非主键索引插入数据，那么要向主键索引对应的行数据进行同步，那么会带来数据一致性问题。可以通过事务的方式解决，我们都知道使用事务后，就会对性能有所消耗</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-4-聚簇索引"><strong>2.4 聚簇索引</strong></h2>
+
+<ul>
+<li>InnoDB 的存储引擎表是索引组织表</li>
+<li>每张表只能有一个聚集索引</li>
+<li>聚集索引是有主键组织起来的，也即其非叶子节点是主键，叶子节点是行数据（所在的页）</li>
+<li>叶子节点之间有双向指针，便于范围查找</li>
+<li>高扇出性
+
+<ul>
+<li>扇入：是指直接调用该模块的上级模块的个数。扇入大表示模块的复用程度高</li>
+<li>扇出：是指该模块直接调用的下级模块的个数。扇出大表示模块的复杂度高</li>
+</ul></li>
+<li>扇出数取决于页的大小与索引 key 的比例（一个页存放多少 key 决定了扇出性如何）</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-5-辅助索引"><strong>2.5 辅助索引</strong></h2>
+
+<ul>
+<li>使用B+树组织数据</li>
+<li>叶子节点不存储数据，而是存储数据行的主键值</li>
+<li>查询是一般会有二次回表，除了出现覆盖索引</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-6-联合索引"><strong>2.6 联合索引</strong></h2>
+
+<ul>
+<li>对于联合索引的理解，可以认为创建了一个 (a,b,c) 的联合索引，那么实际等于建了 (a),(a,b),(a,b,c) 三个索引</li>
+<li>覆盖索引：如果查询条件使用的是普通索引（或是联合索引的最左原则字段），查询结果是联合索引的字段或是主键，不用回表操作，直接返回结果，减少IO磁盘读写读取正行数据</li>
+<li>最左前缀：联合索引的最左 N 个字段，也可以是字符串索引的最左 M 个字符</li>
+<li>联合索引：根据创建联合索引的顺序，以最左原则进行where检索，比如（age，name）以age=1 或 age= 1 and name=‘张三’可以使用索引，单以name=‘张三’ 不会使用索引，考虑到存储空间的问题，还请根据业务需求，将查找频繁的数据进行靠左创建索引。</li>
+<li>索引下推：like &lsquo;hello%’and age &gt;10 检索，MySQL5.6版本之前，会对匹配的数据进行回表查询。5.6版本后，会先过滤掉age&lt;10的数据，再进行回表查询，减少回表率，提升检索速度</li>
+<li>如果禁用ICP，引擎层会穿过索引在基表中寻找数据行，然后返回给MySQL Server层，再去为这些数据行进行WHERE后的条件的过滤。 ICP启用，如果部分WHERE条件能使用索引中的字段，MySQL Server 会把这部分下推到引擎层。存储引擎通过使用索引条目，然后推索引条件进行评估，使用这个索引把满足的行从表中读取出。ICP能减少引擎层访问基表的次数和MySQL Server 访问存储引擎的次数</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-7-建立索引原则"><strong>2.7 建立索引原则</strong></h2>
+
+<ol>
+<li>最左前缀匹配原则：mysql会一直向右匹配直到遇到范围查询(&gt;、&lt;、between、like)就停止匹配， 比如a = 1 and b = 2 and c &gt; 3 and d = 4 如果建立(a,b,c,d)顺序的索引，d是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d的顺序可以任意调整</li>
+<li>=和in可以乱序，比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式</li>
+<li>尽量选择区分度高的列作为索引，区分度的公式是count(distinct col)/count(* )，表示字段不重复的比例</li>
+<li>索引列不能参与计算，保持列“干净”，比如from_unixtime(create_time) = ’2014-05-29’ 换成 create_time = unix_timestamp(’2014-05-29’)</li>
+<li>尽量的扩展索引，不要新建索引。比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可</li>
+</ol>
+
+<p>&nbsp;</p>
+
+<h2 id="2-8-索引失效"><strong>2.8 索引失效</strong></h2>
+
+<ol>
+<li>没有查询条件，或者查询条件没有建立索引</li>
+<li>查询条件使用函数在索引列上</li>
+<li>like &ldquo;%&rdquo; 百分号在前</li>
+<li>!= 、not in、not exist、is not null（注is null可以用索引 参考：<a href="https://www.jianshu.com/p/3cae3e364946）">https://www.jianshu.com/p/3cae3e364946）</a></li>
+<li>范围条件后列上索引失效</li>
+<li>对小表查询，查询的数量是大表的大部分</li>
+</ol>
+
+<p>&nbsp;</p>
+
+<h2 id="2-9-count-语法"><strong>2.9 count()语法：</strong></h2>
+
+<p><strong>count(字段)&lt;count(主键 id)&lt;count(1)≈count(*)</strong></p>
+
+<ol>
+<li>count( * )：并不会把全部字段取出来，而是专门做了优化，不取值。count( * )肯定不是 null，按行累加</li>
+<li>count(1)：InnoDB 引擎遍历整张表，但不取值。server 层对于返回的每一行，放一个数字“1”进去，判断是不可能为空的，按行累加</li>
+<li>count(id)：InnoDB 引擎会遍历整张表，把每一行的 id 值都取出来，返回给 server 层。server 层拿到 id 后，判断是不可能为空的，就按行累加</li>
+<li>count(字段)：
+
+<ul>
+<li>如果这个“字段”是定义为not null的话，一行行地从记录里面读出这个字段，判断不能为null，按行累加</li>
+<li>如果这个“字段”定义允许为null，那么执行的时候，判断到有可能是null，还要把值取出来再判断一下，不是null才累加</li>
+</ul></li>
+</ol>
+
+<p>&nbsp;</p>
+
+<h2 id="2-10-icp优化-index-conditon-pushdown"><strong>2.10 ICP优化（Index Conditon Pushdown）</strong></h2>
+
+<ul>
+<li>索引查询时，mysql 一般会先根据索引查询出数据记录，在根据其他 where 条件进行过滤，这样的问题是，往往取出的数据过多</li>
+<li>Index Condition Pushdown 优化可以将 where 过滤放在存储引擎层，某些情况下，会大大减少上层 sql 层对数据记录的索取</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-11-mrr优化-multi-range-read"><strong>2.11 MRR优化（Multi-Range Read）</strong></h2>
+
+<p><strong>使用辅助索引时，可能会有较多的离散查询。如果不做任何处理，可能同一个页在前后离散”回表&rdquo;的过程中会被取出多次。MRR 有两种优化方式：</strong></p>
+
+<ul>
+<li>采取的方式是将离散的辅助索引 key 进行排序，再根据顺序进行读取。
+
+<ul>
+<li>这样的好处有两个，一是减少页的读取次数，二是避免缓冲池中的页被不断的顶替出去（考虑当缓冲池不大时，离散读产生恶果）</li>
+</ul></li>
+<li>将某些范围查询，拆分为键值对查询。例如在存在 index(key_1, key_2) 的情况下，执行如下 sql： select * from table where key_1 &gt;=1000 and key_1 &lt;= 1005 and key_2 = 3000
+
+<ul>
+<li>一般情况下会将 key_1在 [1000, 1005] 内的所有值都取出来，在根据 key_2 进行过滤。如果采用 MRR 优化，会将查询条件拆分成一下六个：(1000, 3000) (1001, 3000) (1002, 3000) (1003, 3000) (1004, 3000) (1005, 3000)</li>
+</ul></li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-12-索引的常见优化以及注意事项"><strong>2.12 索引的常见优化以及注意事项</strong></h2>
+
+<ul>
+<li>避免使用 sql 语句拼接，避免重复解析，加快传输过程，防止 sql 注入攻击，例如：
+
+<ul>
+<li>原始：String sql = “select * from user where username = ‘ “ + username + “ ‘ “ ;</li>
+<li>优化：String sql = “select * from user where username = :username”;</li>
+</ul></li>
+<li>利用索引覆盖，避免使用辅助索引后再次使用聚集索引回表带来的额外 IO，例如有 index(a, b, b) 情况下：
+
+<ul>
+<li>原始：String sql = “select * from table where a = ? and b = ? and c = ?”;</li>
+<li>优化：String sql = “select a, b, c from table where a = ? and b = ? and c = ?”;</li>
+</ul></li>
+<li>避免运算导致索引失效，例如：
+
+<ul>
+<li>原始：String sql = “select * from table where a + 1 = 5”;</li>
+<li>优化：String sql = “select * from table where a = 4”;</li>
+</ul></li>
+<li>避免函数计算导致索引失效，例如：
+
+<ul>
+<li>原始：String sql = “select * from table where year(date) = 2016”;</li>
+<li>优化：String sql = “select * from table where date between str_to_date(&lsquo;2016-01-01 00:00:00&rsquo;, &lsquo;%Y-%m-%d %H:%i:%s’) and str_to_date(&lsquo;2016-12-31 23:59:59&rsquo;, &lsquo;%Y-%m-%d %H:%i:%s&rsquo;)”;</li>
+</ul></li>
+<li>对于长字符串创建索引，如果常用于等值操作。使用 CRC32 等函数计算一列额外的值专门用于索引</li>
+<li>索引对于中型表有效，小型表建索引得不偿失，超大型表需要有其他辅助手段（例如分区）配合索引使用</li>
+<li>使用短索引
+
+<ul>
+<li>对串列进行索引，如果可能应该指定一个前缀长度。例如，如果有一个CHAR(255)的列，如果在前10个或20个字符内，多数值是惟一的，那么就不要对整个列进行索引。短索引不仅可以提高查询速度而且可以节省磁盘空间和I/O操作。</li>
+</ul></li>
+<li>索引列排序
+
+<ul>
+<li>MySQL查询只使用一个索引，因此如果where子句中已经使用了索引的话，那么order by中的列是不会使用索引的。因此数据库默认排序可以符合要求的情况下不要使用排序操作；尽量不要包含多个列的排序，如果需要最好给这些列创建复合索引。</li>
+</ul></li>
+<li>like语句操作
+
+<ul>
+<li>一般情况下不鼓励使用like操作，如果非使用不可，如何使用也是一个问题。like “%aaa%” 不会使用索引而like “aaa%”可以使用索引。</li>
+<li>对于百分号%在后的like操作，mysql会优化成【大于等于】和【小于】的 between 操作操作</li>
+</ul></li>
+<li>不使用NOT IN和 &lt;&gt; 操作</li>
+<li>支持多种等值过滤条件，避免多个范围过滤条件（&lt;&gt; 和 not in也属于范围过滤条件）</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h1 id="三-锁"><strong>三、锁</strong></h1>
+
+<h2 id="3-1-锁模式"><strong>3.1 锁模式</strong></h2>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191214172522.png" alt="" /></p>
+
+<p><strong>意向锁的意义在哪里？ 意向锁之间不会互斥</strong></p>
+
+<ul>
+<li>IX，IS是表级锁，不会和行级的X，S锁发生冲突。只会和表级的X，S发生冲突</li>
+<li>意向锁是在添加行锁之前添加</li>
+<li>如果没有意向锁，当向一个表添加表级X锁时，就需要遍历整张表来判断是否存行锁，以免发生冲突</li>
+<li>如果有了意向锁，只需要判断该意向锁与表级锁是否兼容即可</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="3-2-锁类型"><strong>3.2 锁类型</strong></h2>
+
+<h3 id="3-2-1-全局锁"><strong>3.2.1 全局锁</strong></h3>
+
+<p><strong>全局锁就是对整个数据库实例加锁</strong></p>
+
+<p>&nbsp;</p>
+
+<h3 id="3-2-2-表级锁"><strong>3.2.2 表级锁</strong></h3>
+
+<p><strong>MySQL里面表级锁有两种，一种是表锁，一种是元数据锁(meta data lock,MDL)</strong></p>
+
+<ul>
+<li>表锁的语法是:lock tables &hellip; read/write
+
+<ul>
+<li>可以用unlock tables主动释放锁，也可以在客户端断开的时候自动释放。lock tables语法除了会限制别的线程的读写外，也限定了本线程接下来的操作对象。</li>
+<li>对于InnoDB这种支持行锁的引擎，一般不使用lock tables命令来控制并发，毕竟锁住整个表的影响面还是太大。</li>
+</ul></li>
+
+<li><p>MDL：不需要显式使用，在访问一个表的时候会被自动加上。</p>
+
+<ul>
+<li>MDL的作用：防止DDL(数据定义语言，比如alter)和DML(数据操纵语言，比如insert)并发的冲突，保证读写的正确性。</li>
+</ul></li>
+
+<li><p>在对一个表做增删改查操作的时候，加MDL读锁</p></li>
+
+<li><p>当要对表做结构变更操作的时候，加MDL写锁</p></li>
+
+<li><p>读锁之间不互斥</p></li>
+
+<li><p>读写锁之间，写锁之间是互斥的，用来保证变更表结构操作的安全性。</p></li>
+
+<li><p>MDL会直到事务提交才会释放，在做表结构变更的时候，一定要小心不要导致锁住线上查询和更新</p></li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="3-2-3-行锁"><strong>3.2.3 行锁</strong></h3>
+
+<p><strong>在InnoDB事务中，行锁是在需要的时候才加上的，但并不是不需要了就立刻释放，而是要等到事务结束时才释放。这个就是两阶段锁协议</strong></p>
+
+<ul>
+<li>record lock</li>
+<li>gap lock</li>
+<li>next-key lock</li>
+<li>Insert Intention Locks（插入意向锁）：insert才有会，插入意向锁只会和间隙锁或 Next-key 锁冲突</li>
+</ul>
+
+<p><strong>想要去掉gap lock，可以考虑改用RC隔离级别 + binlog_format = row</strong></p>
+
+<ul>
+<li>间隙锁（Gap lock）:两个值之间的锁，间隙锁为开区间</li>
+<li>间隙锁和行锁合称next-key lock，每个next-key lock是前开后闭区间，(1, 5]</li>
+<li>间隙锁引入问题：可能会导致同样的语句锁住更大的范围，这其实是影响了并发度的</li>
+<li>间隙锁在RR级别下才有效；RC级别下一般无间隙锁，例外情况：insert出现主键冲突</li>
+<li>不使用间隙锁方法：使用读提交隔离级别 + binlog_format = row组合</li>
+</ul>
+
+<p><strong>总结的加锁规则里面，包含了两个“原则”、两个“优化”和一个“bug”</strong></p>
+
+<ul>
+<li>原则 1：加锁的基本单位是next-key lock；next-key lock是前开后闭区间</li>
+<li>原则 2：查找过程中访问到的对象才会加锁</li>
+<li>优化 1：索引上的等值查询，给唯一索引加锁的时候，next-key lock退化为行锁</li>
+<li>优化 2：索引上的等值查询，向右遍历时且最后一个值不满足等值条件的时候，next-key lock退化为间隙锁</li>
+<li>一个 bug：唯一索引上的范围查询会访问到不满足条件的第一个值为止</li>
+</ul>
+
+<p>举例：</p>
+
+<pre><code>CREATE TABLE `t` (
+  `id` int(11) NOT NULL,
+  `c` int(11) DEFAULT NULL,
+  `d` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `c` (`c`)
+) ENGINE=InnoDB;
+
+insert into t values(0,0,0),(5,5,5),
+(10,10,10),(15,15,15),(20,20,20),(25,25,25);
+</code></pre>
+
+<p><strong>select * from t where id &gt; 9 and id &lt; 12 order by id desc for update;</strong>
+加锁范围：主键索引上的 (0,5]、(5,10] 和 (10, 15)</p>
+
+<ul>
+<li>首先这个查询语句的语义是order by id desc，要拿到满足条件的所有行，优化器必须先找到“第一个 id&lt;12 的值”</li>
+<li>这个过程是通过索引树的搜索过程得到的，在引擎内部，其实是要找到 id=12 的这个值，只是最终没找到，但找到了 (10,15) 这个间隙</li>
+<li>然后向左遍历，在遍历过程中，就不是等值查询了，会扫描到 id=5 这一行，所以会加一个 next-key lock (0,5]</li>
+</ul>
+
+<p><strong>select id from t where c in(5,20,10) lock in share mode;</strong></p>
+
+<ul>
+<li>查找c = 5的时候，先锁住了(0,5]。但是因为c不是唯一索引，为了确认还有没有别的记录c = 5，就要向右遍历，找到c = 10才确认没有了，这个过程满足优化2，所以加了间隙锁(5,10)</li>
+<li>同样的，执行c = 10这个逻辑的时候，加锁的范围是(5,10]和(10,15)</li>
+<li>执行c = 20这个逻辑的时候，加锁的范围是(15,20]和(20,25)</li>
+<li>通过这个分析，我们可以知道，这条语句在索引c上加的三个记录锁的顺序是：先加 c=5 的记录锁，再加 c=10 的记录锁，最后加 c=20 的记录锁</li>
+</ul>
+
+<p><strong>select * from t where c&gt;=15 and c&lt;=20 order by c desc lock in share mode</strong></p>
+
+<ul>
+<li>先定位索引c上最右边c=20的行，所以第一个等值查询会扫描到c=25，然后通过优化2，next-key lock退化为间隙锁，则会加上间隙锁（20，25）</li>
+<li>紧接着再向左遍历，会加 next-key lock (15, 20], (10, 15], 因为要扫描到c=10才停下来，所以也会加next-key lock (5,10]</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h1 id="四-慢查询如何优化"><strong>四、慢查询如何优化</strong></h1>
+
+<p>在MySQL中，会引发性能问题的慢查询，大体有以下三种可能：</p>
+
+<ul>
+<li>索引没有设计好；</li>
+<li>SQL 语句没写好；</li>
+<li>MySQL 选错了索引</li>
+</ul>
+
+<p>索引优化原则：</p>
+
+<ol>
+<li>最左匹配原则</li>
+<li>=、in可以乱序，优化器会优化</li>
+<li>尽量选择区分度高的列作为索引</li>
+<li>索引列不要参与计算</li>
+<li>尽量扩展索引，不要新建</li>
+</ol>
+
+<p>&nbsp;</p>
+
+<h1 id="五-mysql怎么保证数据不丢"><strong>五、MySQL怎么保证数据不丢</strong></h1>
+
+<ul>
+<li>binlog</li>
+<li>redo log</li>
+<li>undo log</li>
+</ul>
+
+<h2 id="5-1-binlog"><strong>5.1 binlog</strong></h2>
+
+<p><strong>binlog 中记录了对 MySQL 数据库执行更改的所有操作</strong></p>
+
+<h3 id="5-1-1-格式"><strong>5.1.1 格式：</strong></h3>
+
+<ul>
+<li>STATEMENT：记录的是每一条会修改数据的 SQL 语句；优点是体积小，缺点是无法记录特定函数，比如 UUID()、USER() 等</li>
+<li>ROW：记录的是每一条被修改的记录行的修改情况；优点是不会再有无法记录特定函数的问题，缺点是体积大（5.7 默认用row）</li>
+<li>MIXED：此格式下默认采用 STATEMENT 格式进行记录，在特殊情况（比如涉及到无法记录的特定函数时）下，会采用 ROW 的格式记录</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="5-1-2-binlog写入逻辑"><strong>5.1.2 binlog写入逻辑：</strong></h3>
+
+<ul>
+<li>事务执行过程中，先把日志写到 binlog cache，事务提交的时候，再把 binlog cache 写到 binlog 文件中</li>
+<li>一个事务的 binlog 是不能被拆开的，因此不论这个事务多大，也要确保一次性写入</li>
+<li>系统给 binlog cache 分配了一片内存，每个线程一个，参数 binlog_cache_size 用于控制单个线程内 binlog cache 所占内存的大小。如果超过了这个参数规定的大小，就要暂存到磁盘</li>
+<li>事务提交的时候，执行器把 binlog cache 里的完整事务写入到 binlog 中，并清空 binlog cache</li>
+</ul>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191216195333.png" alt="" /></p>
+
+<ul>
+<li>可以看到，每个线程有自己 binlog cache，但是共用同一份 binlog 文件</li>
+<li>图中的 write，指的就是指把日志写入到文件系统的 page cache，并没有把数据持久化到磁盘，所以速度比较快</li>
+<li>图中的 fsync，才是将数据持久化到磁盘的操作。一般情况下，我们认为 fsync 才占磁盘的 IOPS</li>
+</ul>
+
+<p><strong>write 和 fsync 的时机，是由参数 sync_binlog 控制的：</strong></p>
+
+<ul>
+<li>sync_binlog=0 的时候，表示每次提交事务都只 write，不 fsync</li>
+<li>sync_binlog=1 的时候，表示每次提交事务都会执行 fsync</li>
+<li>sync_binlog=N(N&gt;1) 的时候，表示每次提交事务都 write，但累积 N 个事务后才 fsync</li>
+</ul>
+
+<ol>
+<li>因此，在出现 IO 瓶颈的场景里，将 sync_binlog 设置成一个比较大的值，可以提升性能</li>
+<li>在实际的业务场景中，考虑到丢失日志量的可控性，一般不建议将这个参数设成 0，比较常见的是将其设置为 100~1000 中的某个数值</li>
+<li>但是，将 sync_binlog 设置为 N，对应的风险是：如果主机发生异常重启，会丢失最近 N 个事务的 binlog 日志</li>
+</ol>
+
+<p>&nbsp;</p>
+
+<h2 id="5-2-redo-log"><strong>5.2 redo log</strong></h2>
+
+<h3 id="5-2-1-概念"><strong>5.2.1 概念</strong></h3>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191217200429.png" alt="" /></p>
+
+<ul>
+<li>一是内存中的重做缓存日志（redo log buffer），其是易失的；二是重做日志文件（redo log file），其是持久的</li>
+<li>redo log 通过 Write Ahead Log 和 Force Log at Commit 机制来实现事务的持久性，即当修改内存中的数据页时，先修改内存中的日志；当事务提交时，必须先将该事务的所有 redo log 持久化</li>
+<li>在这两个机制之下，当系统发生宕机时，redo log 保证了：如果一个事务的 redo log 已经全部刷入磁盘，那么该事务一定可以恢复（是否回滚还取决于binlog）；如果一个事务的 redo log 没有全部刷入磁盘，那么就通过 undo log 将这个事务恢复到执行之前，提供了crash-safe能力</li>
+</ul>
+
+<ol>
+<li><strong>redo log 中记录的是每一次修改的物理日志，记录的是在哪个数据页偏移量多少的地方写入什么值，即数据库中每个页的修改，同时这种记录也是幂等的，这个页既包括聚簇索引，也包括二级索引</strong></li>
+<li><strong>InnoDB存储引擎采用WAL(Write Ahead Logging)保证MySQL系统的高并发和持久化，因此事务日志是否快速（性能）完整（安全）地写入磁盘对整个MySQL至关重要</strong></li>
+<li><strong>redo log 主要节省的是随机写磁盘的 IO 消耗（转成顺序写），而 change buffer 主要节省的则是随机读磁盘的 IO 消耗</strong></li>
+</ol>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191216201330.png" alt="" />
+<strong>这三种状态分别是：</strong></p>
+
+<ul>
+<li>存在 redo log buffer 中，物理上是在 MySQL 进程内存中，就是图中的红色部分</li>
+<li>写到磁盘 (write)，但是没有持久化（fsync)，物理上是在文件系统的 page cache 里面，也就是图中的黄色部分</li>
+<li>持久化到磁盘，对应的是 hard disk，也就是图中的绿色部分</li>
+</ul>
+
+<p><strong>日志写到 redo log buffer 是很快的，wirte 到 page cache 也差不多，但是持久化到磁盘的速度就慢多了。</strong>
+<strong>为了控制 redo log 的写入策略，InnoDB 提供了 innodb_flush_log_at_trx_commit 参数，它有三种可能取值：</strong></p>
+
+<ol>
+<li>设置为 0 的时候，表示每次事务提交时都只是把 redo log 留在 redo log buffer 中</li>
+<li>设置为 1 的时候，表示每次事务提交时都将 redo log 直接持久化到磁盘</li>
+<li>设置为 2 的时候，表示每次事务提交时都只是把 redo log 写到 page cache</li>
+</ol>
+
+<p>&nbsp;</p>
+
+<h3 id="5-2-2-redo-log-何时刷入磁盘呢"><strong>5.2.2 redo log 何时刷入磁盘呢？</strong></h3>
+
+<ol>
+<li>InnoDB 有一个后台线程，每隔 1 秒，就会把 redo log buffer 中的日志，调用 write 写到文件系统的 page cache，然后调用 fsync 持久化到磁盘</li>
+<li>redo log buffer 占用的空间即将达到 innodb_log_buffer_size 一半的时候，后台线程会主动写盘（事务还未提交，写盘动作只是write，而没有调用fsync，也只是留在文件系统的page cache）</li>
+<li>另一种是，并行的事务提交的时候，顺带将这个事务的 redo log buffer 持久化到磁盘</li>
+</ol>
+
+<p><strong>注意，事务执行中间过程的 redo log 也是直接写在 redo log buffer 中的，这些 redo log 也会被后台线程一起持久化到磁盘。也就是说，一个没有提交的事务的 redo log，也是可能已经持久化到磁盘的</strong></p>
+
+<p>&nbsp;</p>
+
+<h2 id="5-3-undo-log"><strong>5.3 undo log</strong></h2>
+
+<h3 id="5-3-1-概念"><strong>5.3.1 概念</strong></h3>
+
+<ul>
+<li>undo log 的设计目的在于回滚，在 innodb 中还顺带实现了 MVCC 的功能，属于逻辑日志</li>
+<li>undo log 位于共享表空间中，事务需要在 undo log segment 中申请相应的页，页的头部会记录事务相关的信息（事务类型，事务状态等）</li>
+<li>将 undo log 写入共享表空间的过程同样需要写入 redo log</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="5-3-2-redo-log和undo-log的区别"><strong>5.3.2 redo log和undo log的区别</strong></h3>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191216203546.png" alt="" /></p>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191216204418.png" alt="" />
+T0、T1、T2 表示创建 undo log 的事务。undo log 中保存的是每一行数据在每一个事务版本下的逻辑数据</p>
+
+<p><strong>事务为 undo log 分配的页不会一直存在，当事务提交时，undo log 就没有了回滚的价值。但仍不能立马删除 undo log 的所在页，因为可能还有其它事务通过 MVCC 访问之前的版本。故事务提交时将 undo log 放入一个链表中，是否可以最终删除 undo log 及 undo log 所在页由 purge 线程判断</strong></p>
+
+<p>&nbsp;</p>
+
+<h3 id="5-3-3-事务写入过程"><strong>5.3.3 事务写入过程</strong></h3>
+
+<ol>
+<li>事务开启</li>
+<li>undo log’s redo log 写入</li>
+<li>undo log 写入</li>
+<li>redo log 写入</li>
+<li>数据页写入(可能change buffer)</li>
+<li>redo log 刷盘</li>
+<li>2-6 重复若干</li>
+<li>事务提交</li>
+<li>某个时间脏页刷盘</li>
+</ol>
+
+<p>&nbsp;</p>
+
+<h2 id="5-4-lsn"><strong>5.4 LSN</strong></h2>
+
+<h3 id="5-4-1-概念"><strong>5.4.1 概念</strong></h3>
+
+<p><strong>数据库宕机后可以根据 redo log 恢复，但并不是所有数据都需要恢复。在宕机之前就已经刷入到磁盘的数据可以不用恢复。这个判断是由 LSN 来完成的。LSN 表示的是日志序列号，它是一个单调递增的 8 字节数字，代表的是事务写入 redo log 的字节的总量。例如当前 redo log 的 LSN 为 1000，事务 T1 写入了 100 字节到 redo log，那么 LSN 就变成了 1100，若又有事务 T2 写入了 200 字节到 redo log，那么 LSN 就变成了 1300。可以看出，LSN 相当于游标，指示了 redo log 中的某个位置</strong></p>
+
+<p>&nbsp;</p>
+
+<h3 id="5-4-2-innodb中lsn类型"><strong>5.4.2 innodb中LSN类型</strong></h3>
+
+<ul>
+<li>Log sequence number：当前写入 redo log 的总量</li>
+<li>Log flushed up to：当前刷入磁盘的 redo log 的总量</li>
+<li>FIL_PAGE_LSN：存在于每个数据页的头部，表示该页最后刷新时 LSN 的大小，通过比较这个参数可以判断该页刷新的时间</li>
+<li>Last checkpoint at：上次脏页刷盘后，内存中仍存在的脏页中最小的 LSN。这个参数的意思是，页 LSN 小于该 LSN 的数据页都已经刷入了磁盘（但不代表大于该 LSN 的页都没有刷入，redo log 的幂等性确保了重复恢复的一致性），该参数会保存两份交替写入，避免了因介质失败而导致无法找到可用的 checkpoint。</li>
+</ul>
+
+<p><strong>当数据恢复时，只需要应用 checkpoint 之后的日志，且对于某一页，只需要应用页 LSN 之后的日志。这样加快了恢复的速度。而且 redo log 中小于 checkpoint 的部分可以写入新的数据，循环利用，节省空间</strong></p>
+
+<p>&nbsp;</p>
+
+<h2 id="5-5-binlog-和-redo-log-的一致性"><strong>5.5 binlog 和 redo log 的一致性</strong></h2>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191216210137.png" alt="" /></p>
+
+<p><strong>MySQL 引入二阶段提交（two phase commit or 2pc），MySQL 内部会自动将普通事务当做一个 XA 事务（内部分布式事物）来处理</strong></p>
+
+<ul>
+<li>自动为每个事务分配一个唯一的ID（XID）</li>
+<li>COMMIT 会被自动的分成 Prepare 和 Commit 两个阶段</li>
+<li>Binlog 会被当做事务协调者(Transaction Coordinator)，Binlog 的每条日志会被当做协调者日志</li>
+</ul>
+
+<p><strong>Binlog 在 2PC 中充当了事务的协调者（Transaction Coordinator）。由 Binlog 来通知 InnoDB 引擎来执行 prepare，commit 或者 rollback 的步骤。事务提交的整个过程如下：</strong>
+<img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191216210735.png" alt="" /></p>
+
+<ol>
+<li>准备阶段（Storage Engine（InnoDB） Transaction Prepare Phase）
+
+<ul>
+<li>此时 SQL 已经成功执行，并生成 xid 信息及 redo 和 undo 的内存日志。然后调用 prepare 方法完成第一阶段，papare 方法实际上什么也没做，将事务状态设为 TRX_PREPARED，并将 redo log 刷磁盘</li>
+</ul></li>
+<li>提交阶段（Storage Engine（InnoDB）Commit Phase）
+
+<ul>
+<li>记录协调者日志，即 Binlog 日志</li>
+<li>如果事务涉及的所有存储引擎的 prepare 都执行成功，则调用 TC_LOG_BINLOG::log_xid 方法将 SQL 语句写到 binlog（write() 将 binary log 内存日志数据写入文件系统缓存，fsync() 将 binary log 文件系统缓存日志数据永久写入磁盘）。此时，事务已经铁定要提交了。否则，调用 ha_rollback_trans 方法回滚事务，而 SQL 语句实际上也不会写到 binlog</li>
+<li>告诉引擎做 commit</li>
+</ul></li>
+<li>最后，调用引擎的 commit 完成事务的提交。会清除 undo 信息，刷 redo 日志，将事务设为 TRX_NOT_STARTED 状态</li>
+</ol>
+
+<p>&nbsp;</p>
+
+<h2 id="5-6-崩溃恢复判断规则"><strong>5.6 崩溃恢复判断规则：</strong></h2>
+
+<ul>
+<li>如果 redo log 里面的事务是完整的，也就是已经有了 commit 标识，则直接提交</li>
+<li>如果 redo log 里面的事务只有完整的 prepare，则判断对应的事务 binlog 是否存在并完整
+
+<ul>
+<li>如果是，则提交事务</li>
+<li>否则，回滚事务</li>
+</ul></li>
+</ul>
+
+<p><strong>通常我们说 MySQL 的“双 1”配置，指的就是 sync_binlog 和 innodb_flush_log_at_trx_commit 都设置成 1。也就是说，一个事务完整提交前，需要等待两次刷盘，一次是 redo log（prepare 阶段），一次是 binlog</strong></p>
+
+<p>&nbsp;</p>
+
+<h2 id="5-7-组提交-group-commit"><strong>5.7 组提交（group commit）</strong></h2>
+
+<h3 id="5-7-1-概念"><strong>5.7.1 概念</strong></h3>
+
+<ul>
+<li>redo log组提交
+
+<ul>
+<li>组提交思想是，将多个事务redo log的刷盘动作合并，减少磁盘顺序写</li>
+<li>在并发更新场景下，第一个事务写完 redo log buffer 以后，接下来这个 fsync 越晚调用，组员可能越多，节约 IOPS 的效果就越好</li>
+</ul></li>
+<li>binlog组提交
+
+<ul>
+<li>引入队列机制保证innodb commit顺序与binlog落盘顺序一致，并将事务分组，组内的binlog刷盘动作交给一个事务进行，实现组提交目的</li>
+</ul></li>
+</ul>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191217142241.png" alt="" /></p>
+
+<p>&nbsp;</p>
+
+<h3 id="5-7-2-组提交优化"><strong>5.7.2 组提交优化</strong></h3>
+
+<ul>
+<li>redo log 做 fsync 的时间拖到了步骤 1 之后</li>
+<li>这么一来，binlog 也可以组提交了，在执行图中第 4 步把 binlog fsync 到磁盘时，如果有多个事务的 binlog 已经写完了，也是一起持久化的，这样也可以减少 IOPS 的消耗</li>
+<li>不过通常情况下第3步执行得会很快，所以 binlog 的 write 和 fsync 间的间隔时间短，导致能集合到一起持久化的 binlog 比较少，因此 binlog 的组提交的效果通常不如 redo log 的效果那么好</li>
+</ul>
+
+<p><strong>提升binlog组提交效果（两个条件是或关系，满足其一即可）：</strong></p>
+
+<ul>
+<li>binlog_group_commit_sync_delay 参数，表示延迟多少微秒后才调用 fsync</li>
+<li>binlog_group_commit_sync_no_delay_count 参数，表示累积多少次以后才调用 fsync</li>
+</ul>
+
+<p><strong>WAL 机制是减少磁盘写，可是每次提交事务都要写 redo log 和 binlog，这磁盘读写次数也没变少？所以WAL机制得益</strong></p>
+
+<ul>
+<li>redo log 和 binlog 都是顺序写，磁盘的顺序写比随机写速度要快</li>
+<li>组提交机制，可以大幅度降低磁盘的 IOPS 消耗</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="5-8-mysql现在出现了性能瓶颈-而且瓶颈在io上-可以通过哪些方法来提升性能呢"><strong>5.8 MySQL现在出现了性能瓶颈，而且瓶颈在IO上，可以通过哪些方法来提升性能呢？</strong></h2>
+
+<ul>
+<li>设置 binlog_group_commit_sync_delay 和 binlog_group_commit_sync_no_delay_count 参数，减少 binlog 的写盘次数。这个方法是基于“额外的故意等待”来实现的，因此可能会增加语句的响应时间，但没有丢失数据的风险</li>
+<li>将 sync_binlog 设置为大于 1 的值（比较常见是 100~1000）。这样做的风险是，主机掉电时会丢 binlog 日志</li>
+<li>将 innodb_flush_log_at_trx_commit 设置为 2。这样做的风险是，主机掉电的时候会丢数据</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="5-9-为什么-binlog-cache-是每个线程自己维护的-而-redo-log-buffer-是全局共用的"><strong>5.9 为什么 binlog cache 是每个线程自己维护的，而 redo log buffer 是全局共用的？</strong></h2>
+
+<ul>
+<li>MySQL 这么设计的主要原因是，binlog 是不能“被打断的”。一个事务的 binlog 必须连续写，因此要整个事务完成后，再一起写到文件里</li>
+<li>而 redo log 并没有这个要求，中间有生成的日志可以写到 redo log buffer 中。redo log buffer 中的内容还能“搭便车”，其他事务提交的时候可以被一起写到磁盘中</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="5-10-mysql-怎么知道-binlog-是完整的"><strong>5.10 MySQL 怎么知道 binlog 是完整的</strong></h2>
+
+<p>一个事务的 binlog 是有完整格式的：</p>
+
+<ul>
+<li>statement 格式的 binlog，最后会有 COMMIT</li>
+<li>row 格式的 binlog，最后会有一个 XID event</li>
+<li>5.6.2版本引入了binlog-checksum参数，用来验证binlog内容的正确性</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="5-11-redo-log-和-binlog-是怎么关联起来的"><strong>5.11 redo log 和 binlog 是怎么关联起来的</strong></h2>
+
+<p><strong>它们有一个共同的数据字段，叫 XID。崩溃恢复的时候，会按顺序扫描 redo log：</strong></p>
+
+<ul>
+<li>如果碰到既有 prepare、又有 commit 的 redo log，就直接提交</li>
+<li>如果碰到只有 parepare、而没有 commit 的 redo log，就拿着 XID 去 binlog 找对应的事务</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="5-12-redo-log一般设置多大"><strong>5.12 redo log一般设置多大</strong></h2>
+
+<ul>
+<li>redo log 太小的话，会导致很快就被写满，然后不得不强行刷 redo log，这样 WAL 机制的能力就发挥不出来了</li>
+<li>如果是现在常见的几个 TB 的磁盘的话，就不要太小气了，直接将 redo log 设置为 4 个文件、每个文件 1GB 吧</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="5-13-正常运行中的实例-数据写入后的最终落盘-是从-redo-log-更新过来的还是从-buffer-pool-更新过来的呢"><strong>5.13 正常运行中的实例，数据写入后的最终落盘，是从 redo log 更新过来的还是从 buffer pool 更新过来的呢？</strong></h2>
+
+<ul>
+<li>这里涉及到了，“redo log 里面到底是什么”的问题。实际上，redo log 并没有记录数据页的完整数据，所以它并没有能力自己去更新磁盘数据页，也就不存在“数据最终落盘，是由 redo log 更新过去”的情况。</li>
+<li>如果是正常运行的实例的话，数据页被修改以后，跟磁盘的数据页不一致，称为脏页。最终数据落盘，就是把内存中的数据页写盘。这个过程，甚至与 redo log 毫无关系。</li>
+<li>在崩溃恢复场景中，InnoDB 如果判断到一个数据页可能在崩溃恢复的时候丢失了更新，就会将它读到内存，然后让 redo log 更新内存内容。更新完成后，内存页变成脏页，就回到了第一种情况的状态。</li>
+</ul>
+
+<p>要理解change buffer还得先理解buffer pool是啥，顾名思义，硬盘在读写速度上相比内存有着数量级差距，如果每次读写都要从磁盘加载相应数据页，DB的效率就上不来，因而为了化解这个困局，几乎所有的DB都会把缓存池当做标配（在内存中开辟的一整块空间，由引擎利用一些命中算法和淘汰算法负责维护和管理），change buffer则更进一步，把在内存中更新就能可以立即返回执行结果并且满足一致性约束（显式或隐式定义的约束条件）的记录也暂时放在缓存池中，这样大大减少了磁盘IO操作的几率</p>
+
+<p>&nbsp;</p>
+
+<h2 id="5-14-change-buffer"><strong>5.14 change buffer</strong></h2>
+
+<h3 id="5-14-1-相关"><strong>5.14.1 相关</strong></h3>
+
+<ul>
+<li>只限于用在普通索引的场景下，而不适用于唯一索引</li>
+<li>针对写多读少的业务来说，页面在写完以后马上被访问到的概率比较小，此时 change buffer 的使用效果最好；假设一个业务的更新模式是写入之后马上会做查询，那么即使满足了条件，将更新先记录在 change buffer，但之后由于马上要访问这个数据页，会立即触发 merge 过程。这样随机访问 IO 的次数不会减少，反而增加了 change buffer 的维护代价，起到了副作用</li>
+</ul>
+
+<ol>
+<li>changebuffer跟普通数据页一样也是存在磁盘里，区别在于changebuffer是在共享表空间ibdata1里</li>
+<li>redolog有两种，一种记录普通数据页的改动，一种记录changebuffer的改动</li>
+<li>只要内存里脏页（innodb buffer pool）里的数据发生了变化，就一定会记录2中前一种redolog，（对数据的修改记录在changebuffer里的时候，内存里是没有这个物理页的，不存在脏页）</li>
+<li>真正对磁盘数据页的修改是通过将内存里脏页的数据刷回磁盘来完成的，而不是根据redolog</li>
+</ol>
+
+<p>purge：将change buffer中的操作应用到原数据页上，得到最新结果的过程，成为purge；</p>
+
+<ul>
+<li>访问这个数据页会触发purge</li>
+<li>系统有后台线程定期purge</li>
+<li>在数据库正常关闭的过程中，也会执行purge</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h1 id="六-主从同步"><strong>六、主从同步</strong></h1>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191217143920.png" alt="" /></p>
+
+<ul>
+<li>在备库 B 上通过 change master 命令，设置主库 A 的 IP、端口、用户名、密码，以及要从哪个位置开始请求 binlog，这个位置包含文件名和日志偏移量</li>
+<li>在备库 B 上执行 start slave 命令，这时候备库会启动两个线程，就是图中的 io_thread 和 sql_thread。其中 io_thread 负责与主库建立连接</li>
+<li>主库 A 校验完用户名、密码后，开始按照备库 B 传过来的位置，从本地读取 binlog，发给 B</li>
+<li>备库 B 拿到 binlog 后，写到本地文件，称为中转日志（relay log）</li>
+<li>sql_thread 读取中转日志，解析出日志里的命令，并执行</li>
+</ul>
+
+<pre><code>CHANGE MASTER TO
+MASTER_HOST=$host_name（IP）
+MASTER_PORT=$port （端口）
+MASTER_USER=$user_name（用户名）
+MASTER_PASSWORD=$password （密码）
+MASTER_LOG_FILE=$master_log_name（master_log_name文件名）
+MASTER_LOG_POS=$master_log_pos （日志偏移量）
+</code></pre>
+
+<p>&nbsp;</p>
+
+<h1 id="七-主从延时问题解决"><strong>七、主从延时问题解决</strong></h1>
+
+<ul>
+<li>半同步复制(解决主库数据丢失问题)：强制将数据同步到从库，从库会有ack机制（主库在执行完客户端提交的事务后不是立刻返回给客户端，而是等待至少一个从库接收到并写到relay log中才返回给客户端。相对于异步复制，半同步复制提高了数据的安全性，同时它也造成了一定程度的延迟，这个延迟最少是一个TCP/IP往返的时间。所以，半同步复制最好在低延时的网络中使用）</li>
+<li>并行复制(解决主从同步延时问题)：从库开启多个线程，并行读取 relay log 中不同库的日志，然后并行重放不同库的日志（5.6版本基于库粒度的并行复制策略）</li>
+</ul>
+
+<p><strong>主从复制会遇到的问题：高并发下，插入之后立即查，也就是过期读，数据从库还未从主库同步</strong>
+<strong>解决方案：</strong></p>
+
+<ul>
+<li>读主库；</li>
+<li>分库降低并发量；</li>
+<li>打开并行复制降低延时；</li>
+<li>业务方重写代码；</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h1 id="八-主备切换-如何解决找同步点位问题"><strong>八、主备切换，如何解决找同步点位问题</strong></h1>
+
+<p><strong>GTID 的全称是 Global Transaction Identifier，也就是全局事务 ID，是一个事务在提交的时候生成的，是这个事务的唯一标识</strong></p>
+
+<pre><code>格式：
+GTID=server_uuid:gno
+GTID=source_id:transaction_id(官方文档，source_id = server_uuid，transaction_id不同于执行过程中分配的trx_id，所以改成gno，是在事务提交时才会分配)
+</code></pre>
+
+<ul>
+<li>server_uuid 是一个实例第一次启动时自动生成的，是一个全局唯一的值</li>
+<li>gno 是一个整数，初始值是 1，每次提交事务的时候分配给这个事务，并加 1
+原理：实例 A’（主）的 GTID 集合记为 set_a，实例 B（从） 的 GTID 集合记为 set_b，实例 A’算出 set_a 与 set_b 的差集，通过判断差集，选择点位</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h1 id="九-分库分表"><strong>九、分库分表</strong></h1>
+
+<ul>
+<li>解决问题：高并发、数据量大</li>
+<li>带来收益：并发支撑提升；磁盘使用降低；SQL 执行性能</li>
+</ul>
+
+<p><strong>分库分表中间件：</strong></p>
+
+<ul>
+<li>Sharding-jdbc（client 层方案-zebra）：客户端直连，不用部署，运维成本低，不需要代理层的二次转发请求，性能很高；客户端耦合，遇到组件升级得统一去处理</li>
+<li>Mycat、atlas（proxy 层方案）：对项目是友好、透明的；缺点在于需要部署，进行维护高可用</li>
+</ul>
+
+<p><strong>分库分表方案：</strong></p>
+
+<ul>
+<li>停机迁移方案</li>
+<li>双写迁移方案</li>
+<li>计划还需要几台数据库服务器，每台服务器上几个库，每个库多少个表；选好路由规则 如hash；选好数据库中间件；选择双写大方案就行迁移；发布上线后做好后续数据检查。</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h1 id="参考文章"><strong>参考文章</strong></h1>
+
+<ul>
+<li><a href="https://juejin.im/post/5d3423c35188252bd255de32">https://juejin.im/post/5d3423c35188252bd255de32</a></li>
+<li><a href="https://chenjiayang.me/2019/06/22/mysql-innodb-mvcc/#%E4%BB%80%E4%B9%88%E6%98%AF-mvcc">https://chenjiayang.me/2019/06/22/mysql-innodb-mvcc/#%E4%BB%80%E4%B9%88%E6%98%AF-mvcc</a></li>
+<li><a href="https://helloworlde.github.io/blog/blog/MySQL/MySQL-%E4%B8%AD%E5%85%B3%E4%BA%8Egap-lock-next-key-lock-%E7%9A%84%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98.html">https://helloworlde.github.io/blog/blog/MySQL/MySQL-%E4%B8%AD%E5%85%B3%E4%BA%8Egap-lock-next-key-lock-%E7%9A%84%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98.html</a></li>
+<li><a href="http://tech.maoyan.com/innoDB-index.html">http://tech.maoyan.com/innoDB-index.html</a></li>
+<li><a href="https://www.jianshu.com/p/7a2017e830a0">https://www.jianshu.com/p/7a2017e830a0</a></li>
+<li><a href="https://wiki.maoyan.com/pages/viewpage.action?pageId=85917333">https://wiki.maoyan.com/pages/viewpage.action?pageId=85917333</a></li>
+<li><a href="https://www.aneasystone.com/archives/2017/12/solving-dead-locks-three.html">https://www.aneasystone.com/archives/2017/12/solving-dead-locks-three.html</a></li>
+</ul>
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">lyoga</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2019-02-21</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags//"></a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2019/03-10-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">并发编程-AbstractQueuedSynchronizer解析</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/2018/12-03-jmm/">
+            <span class="next-text nav-default">JAVA内存模型（JMM）</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/imet" class="iconfont icon-github" title="github"></a>
+  <a href="http://LYoGA.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2018 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LYoGA</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.1.1"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

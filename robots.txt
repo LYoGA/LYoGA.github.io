@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: http://LYoGA.github.io/sitemap.xml

@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>分布式相关 - lyoga blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyoga" />
+  <meta name="description" content="
+" />
+<meta name="keywords" content="" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.42.1" />
+
+
+<link rel="canonical" href="http://LYoGA.github.io/post/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.1.1" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+
+
+<meta property="og:title" content="分布式相关" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://LYoGA.github.io/post/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/" />
+
+
+
+<meta property="article:published_time" content="2019-12-25T23:59:31&#43;08:00"/>
+
+<meta property="article:modified_time" content="2019-12-25T23:59:31&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="分布式相关">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-12-25T23:59:31&#43;08:00" />
+<meta itemprop="dateModified" content="2019-12-25T23:59:31&#43;08:00" />
+<meta itemprop="wordCount" content="11262">
+
+
+
+<meta itemprop="keywords" content="," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="分布式相关"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">lyoga blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">lyoga blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">分布式相关</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-12-25 </span>
+        <div class="post-category">
+            
+              <a href="/categories//">  </a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#一-分布式缓存对比"><strong>一、分布式缓存对比</strong></a>
+<ul>
+<li><a href="#1-1-缓存更新策略"><strong>1.1 缓存更新策略</strong></a></li>
+</ul></li>
+<li><a href="#二-分布式唯一id"><strong>二、分布式唯一ID</strong></a>
+<ul>
+<li><a href="#2-1-uuid"><strong>2.1 UUID</strong></a>
+<ul>
+<li><a href="#1-优点"><strong>1. 优点</strong></a></li>
+<li><a href="#2-缺点"><strong>2. 缺点</strong></a></li>
+</ul></li>
+<li><a href="#2-2-数据库"><strong>2.2 数据库</strong></a>
+<ul>
+<li><a href="#1-优点-1"><strong>1. 优点</strong></a></li>
+<li><a href="#2-缺点-1"><strong>2. 缺点</strong></a></li>
+</ul></li>
+<li><a href="#2-3-redis"><strong>2.3 Redis</strong></a>
+<ul>
+<li><a href="#1-优点-2"><strong>1. 优点</strong></a></li>
+<li><a href="#2-缺点-2"><strong>2. 缺点</strong></a></li>
+</ul></li>
+<li><a href="#2-4-zookeeper"><strong>2.4 Zookeeper</strong></a></li>
+<li><a href="#2-5-leaf-segment数据库方案"><strong>2.5 Leaf-segment数据库方案</strong></a>
+<ul>
+<li><a href="#1-优点-3"><strong>1. 优点</strong></a></li>
+<li><a href="#2-缺点-3"><strong>2. 缺点</strong></a></li>
+<li><a href="#2-双buffer优化"><strong>2. 双buffer优化</strong></a></li>
+</ul></li>
+<li><a href="#2-6-雪花算法-snowflake"><strong>2.6 雪花算法-Snowflake</strong></a>
+<ul>
+<li><a href="#1-优点-4"><strong>1. 优点</strong></a></li>
+<li><a href="#2-缺点-4"><strong>2. 缺点</strong></a></li>
+</ul></li>
+<li><a href="#2-7-leaf-snowflake方案"><strong>2.7 Leaf-snowflake方案</strong></a>
+<ul>
+<li><a href="#1-弱依赖zookeeper"><strong>1. 弱依赖ZooKeeper</strong></a></li>
+<li><a href="#2-防止时钟回拨"><strong>2. 防止时钟回拨</strong></a></li>
+</ul></li>
+<li><a href="#参考"><strong>参考</strong></a></li>
+</ul></li>
+<li><a href="#三-分布式锁"><strong>三、分布式锁</strong></a>
+<ul>
+<li><a href="#3-1-为何需要分布式锁"><strong>3.1 为何需要分布式锁</strong></a></li>
+<li><a href="#3-2-分布式锁的特点"><strong>3.2 分布式锁的特点</strong></a></li>
+<li><a href="#3-3-数据库"><strong>3.3 数据库</strong></a></li>
+<li><a href="#3-4-zookeeper"><strong>3.4 Zookeeper</strong></a>
+<ul>
+<li><a href="#1-zookeeper是怎么检测出某个客户端已经崩溃了呢"><strong>1. ZooKeeper是怎么检测出某个客户端已经崩溃了呢？</strong></a></li>
+<li><a href="#2-针对zookeeper羊群效应问题"><strong>2. 针对Zookeeper羊群效应问题</strong></a></li>
+</ul></li>
+<li><a href="#3-5-redis"><strong>3.5 Redis</strong></a></li>
+<li><a href="#3-6-redlock"><strong>3.6 RedLock</strong></a>
+<ul>
+<li><a href="#1-加锁"><strong>1. 加锁</strong></a></li>
+<li><a href="#2-解锁"><strong>2. 解锁</strong></a></li>
+<li><a href="#3-问题"><strong>3. 问题</strong></a></li>
+</ul></li>
+<li><a href="#比较"><strong>比较</strong></a></li>
+<li><a href="#参考-1"><strong>参考</strong></a></li>
+</ul></li>
+<li><a href="#四-分布式事务"><strong>四、分布式事务</strong></a>
+<ul>
+<li><a href="#4-1-cap"><strong>4.1 CAP</strong></a></li>
+<li><a href="#4-2-base"><strong>4.2 BASE</strong></a></li>
+<li><a href="#4-3-2pc"><strong>4.3 2PC</strong></a></li>
+<li><a href="#4-4-3pc"><strong>4.4 3PC</strong></a></li>
+<li><a href="#4-5-tcc"><strong>4.5 TCC</strong></a></li>
+<li><a href="#4-6-本地消息表"><strong>4.6 本地消息表</strong></a></li>
+<li><a href="#4-7-mq事务"><strong>4.7 MQ事务</strong></a></li>
+<li><a href="#4-8-saga事务"><strong>4.8 Saga事务</strong></a></li>
+</ul></li>
+<li><a href="#五-分布式一致性算法"><strong>五、分布式一致性算法</strong></a>
+<ul>
+<li><a href="#5-1-paxos"><strong>5.1 Paxos</strong></a>
+<ul>
+<li><a href="#1-在paxos算法中有三种角色"><strong>1. 在Paxos算法中有三种角色</strong></a></li>
+<li><a href="#2-paxos算法分为两个阶段"><strong>2. Paxos算法分为两个阶段</strong></a></li>
+<li><a href="#3-learner学习被选定的value"><strong>3. Learner学习被选定的value</strong></a></li>
+<li><a href="#4-如何保证paxos算法的活性"><strong>4. 如何保证Paxos算法的活性</strong></a></li>
+</ul></li>
+<li><a href="#5-2-zab"><strong>5.2 Zab</strong></a>
+<ul>
+<li><a href="#1-消息广播"><strong>1. 消息广播</strong></a></li>
+<li><a href="#2-细节问题"><strong>2. 细节问题</strong></a></li>
+<li><a href="#3-崩溃恢复"><strong>3. 崩溃恢复</strong></a></li>
+<li><a href="#4-选主需解决问题"><strong>4. 选主需解决问题</strong></a></li>
+<li><a href="#参考-2"><strong>参考</strong></a></li>
+</ul></li>
+<li><a href="#5-3-raft"><strong>5.3 Raft</strong></a>
+<ul>
+<li><a href="#1-选主"><strong>1. 选主</strong></a></li>
+<li><a href="#2-数据同步"><strong>2. 数据同步</strong></a></li>
+<li><a href="#3-脑裂问题"><strong>3. 脑裂问题</strong></a></li>
+<li><a href="#参考-3"><strong>参考</strong></a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p></p>
+
+<h1 id="一-分布式缓存对比"><strong>一、分布式缓存对比</strong></h1>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191228200710.png" alt="" />
+<img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191228200222.png" alt="" /></p>
+
+<p>&nbsp;</p>
+
+<h2 id="1-1-缓存更新策略"><strong>1.1 缓存更新策略</strong></h2>
+
+<p>先更新数据库，后删除缓存，建议设置缓存有效时间，或者异步消息队列，或者binlog删除缓存</p>
+
+<p>&nbsp;</p>
+
+<h1 id="二-分布式唯一id"><strong>二、分布式唯一ID</strong></h1>
+
+<h2 id="2-1-uuid"><strong>2.1 UUID</strong></h2>
+
+<p><strong>UUID(Universally Unique Identifier)的标准型式包含32个16进制数字，以连字号分为五段，形式为8-4-4-4-12的36个字符，示例：550e8400-e29b-41d4-a716-446655440000</strong></p>
+
+<h3 id="1-优点"><strong>1. 优点</strong></h3>
+
+<ul>
+<li>性能非常高：本地生成，没有网络消耗</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="2-缺点"><strong>2. 缺点</strong></h3>
+
+<ul>
+<li>不易于存储：UUID太长，16字节128位，通常以36长度的字符串表示，很多场景不适用。</li>
+<li>信息不安全：基于MAC地址生成UUID的算法可能会造成MAC地址泄露，这个漏洞曾被用于寻找梅丽莎病毒的制作者位置。</li>
+<li>ID作为主键时在特定的环境会存在一些问题，比如做DB主键的场景下，UUID就非常不适用：</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-2-数据库"><strong>2.2 数据库</strong></h2>
+
+<p><strong>以MySQL举例，利用给字段设置auto_increment_increment和auto_increment_offset来保证ID自增，每次业务使用下列SQL读写MySQL得到ID号</strong></p>
+
+<h3 id="1-优点-1"><strong>1. 优点</strong></h3>
+
+<ul>
+<li>非常简单，利用现有数据库系统的功能实现，成本小，有DBA专业维护</li>
+<li>ID号单调自增，可以实现一些对ID有特殊要求的业务</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="2-缺点-1"><strong>2. 缺点</strong></h3>
+
+<ul>
+<li>强依赖DB，当DB异常时整个系统不可用，属于致命问题。配置主从复制可以尽可能的增加可用性，但是数据一致性在特殊情况下难以保证。主从切换时的不一致可能会导致重复发号</li>
+<li>ID发号性能瓶颈限制在单台MySQL的读写性能</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-3-redis"><strong>2.3 Redis</strong></h2>
+
+<p><strong>主要依赖于Redis是单线程的，所以也可以用生成全局唯一的ID。可以用Redis的原子操作 INCR 和 INCRBY 来实现</strong></p>
+
+<h3 id="1-优点-2"><strong>1. 优点</strong></h3>
+
+<ul>
+<li>不依赖于数据库，灵活方便，且性能优于数据库</li>
+<li>数字ID天然排序，对分页或者需要排序的结果很有帮助</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="2-缺点-2"><strong>2. 缺点</strong></h3>
+
+<ul>
+<li>如果系统中没有Redis，还需要引入新的组件，增加系统复杂度。</li>
+<li>需要编码和配置的工作量比较大</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-4-zookeeper"><strong>2.4 Zookeeper</strong></h2>
+
+<ul>
+<li>Zookeeper主要通过其znode数据版本来生成序列号，可以生成32位和64位的数据版本号，客户端可以使用这个版本号来作为唯一的序列号</li>
+<li>很少会使用zookeeper来生成唯一ID。主要是由于需要依赖zookeeper，并且是多步调用API，如果在竞争较大的情况下，需要考虑使用分布式锁。因此，性能在高并发的分布式环境下，也不甚理想</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-5-leaf-segment数据库方案"><strong>2.5 Leaf-segment数据库方案</strong></h2>
+
+<p><strong>Leaf-segment方案，在使用数据库的方案上，做了如下改变：</strong></p>
+
+<ul>
+<li>原方案每次获取ID都得读写一次数据库，造成数据库压力大，改为利用proxy server批量获取，每次获取一个segment(step决定大小)号段的值，用完之后再去数据库获取新的号段，可以大大的减轻数据库的压力</li>
+<li>各个业务不同的发号需求用biz_tag字段来区分，每个biz-tag的ID获取相互隔离，互不影响</li>
+<li>如果以后有性能需求需要对数据库扩容，只需要对biz_tag分库分表就行</li>
+</ul>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191228210214.png" alt="" /></p>
+
+<p>&nbsp;</p>
+
+<ul>
+<li>biz_tag用来区分业务</li>
+<li>max_id表示该biz_tag目前所被分配的ID号段的最大值</li>
+<li>step表示每次分配的号段长度</li>
+<li>原来获取ID每次都需要写数据库，现在只需要把step设置得足够大，比如1000。那么只有当1000个号被消耗完了之后才会去重新读写一次数据库。读写数据库的频率从1减小到了1/step</li>
+</ul>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191228210410.png" alt="" /></p>
+
+<p>&nbsp;</p>
+
+<h3 id="1-优点-3"><strong>1. 优点</strong></h3>
+
+<ul>
+<li>Leaf服务可以很方便的线性扩展，性能完全能够支撑大多数业务场景</li>
+<li>ID号码是趋势递增的8byte的64位数字，满足上述数据库存储的主键要求</li>
+<li>容灾性高：Leaf服务内部有号段缓存，即使DB宕机，短时间内Leaf仍能正常对外提供服务</li>
+<li>可以自定义max_id的大小，非常方便业务从原有的ID方式上迁移过来</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="2-缺点-3"><strong>2. 缺点</strong></h3>
+
+<ul>
+<li>ID号码不够随机，能够泄露发号数量的信息，不太安全</li>
+<li>TP999数据波动大，当号段使用完之后还是会hang在更新数据库的I/O上，tg999数据会出现偶尔的尖刺</li>
+<li>DB宕机会造成整个系统不可用</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="2-双buffer优化"><strong>2. 双buffer优化</strong></h3>
+
+<p><strong>问题：Leaf 取号段的时机是在号段消耗完的时候进行的，也就意味着号段临界点的ID下发时间取决于下一次从DB取回号段的时间，并且在这期间进来的请求也会因为DB号段没有取回来，导致线程阻塞。如果请求DB的网络和DB的性能稳定，这种情况对系统的影响是不大的，但是假如取DB的时候网络发生抖动，或者DB发生慢查询就会导致整个系统的响应时间变慢。</strong></p>
+
+<p>&nbsp;</p>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191228210606.png" alt="" />
+<strong>采用双buffer的方式，Leaf服务内部有两个号段缓存区segment。当前号段已下发10%时，如果下一个号段未更新，则另启一个更新线程去更新下一个号段。当前号段全部下发完后，如果下个号段准备好了则切换到下个号段为当前segment接着下发，循环往复。</strong></p>
+
+<ul>
+<li>每个biz-tag都有消费速度监控，通常推荐segment长度设置为服务高峰期发号QPS的600倍（10分钟），这样即使DB宕机，Leaf仍能持续发号10-20分钟不受影响</li>
+<li>每次请求来临时都会判断下个号段的状态，从而更新此号段，所以偶尔的网络抖动不会影响下个号段的更新</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<p><strong>Leaf-segment方案可以生成趋势递增的ID，同时ID号是可计算的，不适用于订单ID生成场景，比如竞对在两天中午12点分别下单，通过订单id号相减就能大致计算出公司一天的订单量，这个是不能忍受的</strong></p>
+
+<h2 id="2-6-雪花算法-snowflake"><strong>2.6 雪花算法-Snowflake</strong></h2>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191228203712.png" alt="" /></p>
+
+<ul>
+<li>1bit：一般是符号位，不做处理</li>
+<li>41bit：用来记录时间戳，这里可以记录69年，如果设置好起始时间比如今年是2018年，那么可以用到2089年，到时候怎么办？要是这个系统能用69年，我相信这个系统早都重构了好多次了。</li>
+<li>10bit：10bit用来记录机器ID，总共可以记录1024台机器，一般用前5位代表数据中心，后面5位是某个数据中心的机器ID</li>
+<li>12bit：循环位，用来对同一个毫秒之内产生不同的ID，12位可以最多记录4095个，也就是在同一个机器同一毫秒最多记录4095个，多余的需要进行等待下毫秒</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="1-优点-4"><strong>1. 优点</strong></h3>
+
+<ul>
+<li>毫秒数在高位，自增序列在低位，整个ID都是趋势递增的</li>
+<li>不依赖数据库等第三方系统，以服务的方式部署，稳定性更高，生成ID的性能也是非常高的</li>
+<li>可以根据自身业务特性分配bit位，非常灵活</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="2-缺点-4"><strong>2. 缺点</strong></h3>
+
+<ul>
+<li>强依赖机器时钟，如果机器上时钟回拨，会导致发号重复或者服务会处于不可用状态</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="2-7-leaf-snowflake方案"><strong>2.7 Leaf-snowflake方案</strong></h2>
+
+<ul>
+<li>Leaf-snowflake方案完全沿用snowflake方案的bit位设计，即是“1+41+10+12”的方式组装ID号</li>
+<li>对于workerID的分配，当服务集群数量较小的情况下，完全可以手动配置;Leaf服务规模较大，动手配置成本太高。所以使用Zookeeper持久顺序节点的特性自动对snowflake节点配置wokerID</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<p><strong>Leaf-snowflake是按照下面几个步骤启动的：</strong></p>
+
+<ul>
+<li>启动Leaf-snowflake服务，连接Zookeeper，在leaf_forever父节点下检查自己是否已经注册过（是否有该顺序子节点）</li>
+<li>如果有注册过直接取回自己的workerID（zk顺序节点生成的int类型ID号），启动服务</li>
+<li>如果没有注册过，就在该父节点下面创建一个持久顺序节点，创建成功后取回顺序号当做自己的workerID号，启动服务</li>
+</ul>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191228211207.png" alt="" /></p>
+
+<p>&nbsp;</p>
+
+<h3 id="1-弱依赖zookeeper"><strong>1. 弱依赖ZooKeeper</strong></h3>
+
+<p><strong>除了每次会去ZK拿数据以外，也会在本机文件系统上缓存一个workerID文件。当ZooKeeper出现问题，恰好机器出现问题需要重启时，能保证服务能够正常启动。这样做到了对三方组件的弱依赖。一定程度上提高了SLA</strong></p>
+
+<p>&nbsp;</p>
+
+<h3 id="2-防止时钟回拨"><strong>2. 防止时钟回拨</strong></h3>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191228211416.png" alt="" />
+<strong>参见上图整个启动流程图，服务启动时首先检查自己是否写过ZooKeeper leaf_forever节点：</strong></p>
+
+<ul>
+<li>若写过，则用自身系统时间与leaf_forever/${self}节点记录时间做比较，若小于leaf_forever/${self}时间则认为机器时间发生了大步长回拨，服务启动失败并报警。</li>
+<li>若未写过，证明是新服务节点，直接创建持久节点leaf_forever/${self}并写入自身系统时间，接下来综合对比其余Leaf节点的系统时间来判断自身系统时间是否准确，具体做法是取leaf_temporary下的所有临时节点(所有运行中的Leaf-snowflake节点)的服务IP：Port，然后通过RPC请求得到所有节点的系统时间，计算sum(time)/nodeSize。</li>
+<li>若abs(系统时间-sum(time)/nodeSize) &lt; 阈值，认为当前系统时间准确，正常启动服务，同时写临时节点leaf_temporary/${self} 维持租约</li>
+<li>否则认为本机系统时间发生大步长偏移，启动失败并报警。</li>
+<li>每隔一段时间(3s)上报自身系统时间写入leaf_forever/${self}</li>
+</ul>
+
+<p><strong>由于强依赖时钟，对时间的要求比较敏感，在机器工作时NTP同步也会造成秒级别的回退，建议可以直接关闭NTP同步。要么在时钟回拨的时候直接不提供服务直接返回ERROR_CODE，等时钟追上即可。或者做一层重试，然后上报报警系统，更或者是发现有时钟回拨之后自动摘除本身节点并报警</strong></p>
+
+<p>&nbsp;</p>
+
+<h2 id="参考"><strong>参考</strong></h2>
+
+<ul>
+<li><a href="https://tech.meituan.com/2017/04/21/mt-leaf.html">https://tech.meituan.com/2017/04/21/mt-leaf.html</a></li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h1 id="三-分布式锁"><strong>三、分布式锁</strong></h1>
+
+<h2 id="3-1-为何需要分布式锁"><strong>3.1 为何需要分布式锁</strong></h2>
+
+<ul>
+<li>效率：使用分布式锁可以避免不同节点重复相同的工作，这些工作会浪费资源。比如用户付了钱之后有可能不同节点会发出多封短信</li>
+<li>正确性：加分布式锁同样可以避免破坏正确性的发生，如果两个节点在同一条数据上面操作，比如多个节点机器对同一个订单操作不同的流程有可能会导致该笔订单最后状态出现错误，造成损失</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="3-2-分布式锁的特点"><strong>3.2 分布式锁的特点</strong></h2>
+
+<ul>
+<li>互斥性：和我们本地锁一样互斥性是最基本，但是分布式锁需要保证在不同节点的不同线程的互斥</li>
+<li>可重入性：同一个节点上的同一个线程如果获取了锁之后那么也可以再次获取这个锁</li>
+<li>锁超时：和本地锁一样支持锁超时，防止死锁</li>
+<li>高效，高可用：加锁和解锁需要高效，同时也需要保证高可用防止分布式锁失效，可以增加降级</li>
+<li>支持阻塞和非阻塞：和ReentrantLock一样支持lock和trylock以及tryLock(long timeOut)</li>
+<li>支持公平锁和非公平锁(可选)：公平锁的意思是按照请求加锁的顺序获得锁，非公平锁就相反是无序的；这个一般来说实现的比较少</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="3-3-数据库"><strong>3.3 数据库</strong></h2>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191229154716.png" alt="" /></p>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191229155022.png" alt="" /></p>
+
+<ul>
+<li>lock：阻塞式获取，while循环lock方法</li>
+<li>trylock：非阻塞</li>
+<li>tryLock(time)：基于时间阻塞</li>
+<li>unlock：unlock的话如果这里的count为1那么可以删除，如果大于1那么需要减去1（基于事务）</li>
+</ul>
+
+<p><strong>数据表可以加个version字段，基于乐观锁CAS实现</strong></p>
+
+<p>&nbsp;</p>
+
+<p><strong>问题及解决方案：</strong>
+- 性能问题数据库单点(主从)
+- 解锁失败无失效时间(定时任务清理)
+- 插入失败即报错非阻塞(加个while循环)
+- 非重入（表中加机器及线程信息)</p>
+
+<p>&nbsp;</p>
+
+<h2 id="3-4-zookeeper"><strong>3.4 Zookeeper</strong></h2>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191229155305.png" alt="" />
+<strong>/lock是我们用于加锁的目录,/resource_name是我们锁定的资源，其下面的节点按照我们加锁的顺序排列</strong></p>
+
+<ul>
+<li>客户端尝试创建一个znode节点，比如/lock/resource_name；那么第一个客户端就创建成功了，相当于拿到了锁；而其它的客户端会创建失败（znode已存在），获取锁失败</li>
+<li>持有锁的客户端访问共享资源完成后，将znode删掉，这样其它客户端接下来就能来获取锁了</li>
+<li>znode应该被创建成ephemeral的。这是znode的一个特性，它保证如果创建znode的那个客户端崩溃了，那么相应的znode会被自动删除。这保证了锁一定会被释放</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="1-zookeeper是怎么检测出某个客户端已经崩溃了呢"><strong>1. ZooKeeper是怎么检测出某个客户端已经崩溃了呢？</strong></h3>
+
+<p>实际上，每个客户端都与ZooKeeper的某台服务器维护着一个Session，这个Session依赖定期的心跳(heartbeat)来维持。如果ZooKeeper长时间收不到客户端的心跳（这个时间称为Sesion的过期时间），那么它就认为Session过期了，通过这个Session所创建的所有的ephemeral类型的znode节点都会被自动删除</p>
+
+<p>&nbsp;</p>
+
+<h3 id="2-针对zookeeper羊群效应问题"><strong>2. 针对Zookeeper羊群效应问题</strong></h3>
+
+<ul>
+<li>问题：羊群效应就是指这样，大量的client都会获得相同的通知，而只有一小部分会对事件通知有响应。而分布式锁，我们这里只有一个client获得锁，但是所有的client都获得了通知。这样就会给Zookeeper的服务器增加了很大的压力</li>
+<li>解决：为了避免羊群效应，其实我们可以将通知的范围设置的更加精确，也就说只给那部分对事件通知有响应的client客户端发送通知。我们通过发现，只有排序在当前znode之前一个znode离开时，才有必要通知创建当前znode的client，而不必在任意一个znode或者删除时都通知client</li>
+</ul>
+
+<p><strong>Curator实现了可重入锁(InterProcessMutex)，也实现了不可重入锁(InterProcessSemaphoreMutex)，并在可重入锁中还实现了读写锁。</strong></p>
+
+<p>&nbsp;</p>
+
+<h2 id="3-5-redis"><strong>3.5 Redis</strong></h2>
+
+<pre><code>set resourceName value ex 5 nx
+</code></pre>
+
+<ul>
+<li>在Redis2.8之前我们需要使用Lua脚本达到我们的目的，但是redis2.8之后redis支持nx和ex操作是同一原子操作</li>
+<li>Redission也是Redis的客户端，相比于Jedis功能简单，Jedis简单使用阻塞的I/O和redis交互，Redission通过Netty支持非阻塞I/O</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="3-6-redlock"><strong>3.6 RedLock</strong></h2>
+
+<p><strong>我们想象一个这样的场景当机器A申请到一把锁之后，如果Redis主宕机了，这个时候从机并没有同步到这一把锁，那么机器B再次申请的时候就会再次申请到这把锁，为了解决这个问题Redis作者提出了RedLock红锁的算法,在Redission中也对RedLock进行了实现</strong></p>
+
+<p>&nbsp;</p>
+
+<h3 id="1-加锁"><strong>1. 加锁</strong></h3>
+
+<ul>
+<li>获取当前时间（毫秒数）</li>
+<li>按顺序依次向N个Redis节点执行获取锁的操作。这个获取操作跟前面基于单Redis节点的获取锁的过程相同，包含随机字符串my_random_value，也包含过期时间(比如PX 30000，即锁的有效时间)。为了保证在某个Redis节点不可用的时候算法能够继续运行，这个获取锁的操作还有一个超时时间(time out)，它要远小于锁的有效时间（几十毫秒量级）。客户端在向某个Redis节点获取锁失败以后，应该立即尝试下一个Redis节点。这里的失败，应该包含任何类型的失败，比如该Redis节点不可用，或者该Redis节点上的锁已经被其它客户端持有（注：Redlock原文中这里只提到了Redis节点不可用的情况，但也应该包含其它的失败情况）</li>
+<li>计算整个获取锁的过程总共消耗了多长时间，计算方法是用当前时间减去第1步记录的时间。如果客户端从大多数Redis节点（&gt;= N/2+1）成功获取到了锁，并且获取锁总共消耗的时间没有超过锁的有效时间(lock validity time)，那么这时客户端才认为最终获取锁成功；否则，认为最终获取锁失败</li>
+<li>如果最终获取锁成功了，那么这个锁的有效时间应该重新计算，它等于最初的锁的有效时间减去第3步计算出来的获取锁消耗的时间</li>
+<li>如果最终获取锁失败了（可能由于获取到锁的Redis节点个数少于N/2+1，或者整个获取锁的过程消耗的时间超过了锁的最初有效时间），那么客户端应该立即向所有Redis节点发起释放锁的操作（即前面介绍的Redis Lua脚本）</li>
+</ul>
+
+<p><strong>总结：顺序地在 所有实例上申请锁，使用相同的 key 和 random value，一半以上获取到锁 申请成功；申请失败释放锁；</strong></p>
+
+<p><strong>问题：其中一个redis重启（同步持久化或者启动后的Redis一段时间不可用待锁过期）</strong></p>
+
+<p>&nbsp;</p>
+
+<h3 id="2-解锁"><strong>2. 解锁</strong></h3>
+
+<p><strong>客户端向所有Redis节点发起释放锁的操作，不管这些节点当时在获取锁的时候成功与否，原因是可能已写入节点，response相应超时</strong></p>
+
+<p>&nbsp;</p>
+
+<h3 id="3-问题"><strong>3. 问题</strong></h3>
+
+<ul>
+<li>GC的STW</li>
+<li>时钟发生跳跃</li>
+<li>长时间网络IO</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="比较"><strong>比较</strong></h2>
+
+<ul>
+<li>从理解的难易程度角度（从低到高）
+
+<ul>
+<li>数据库 &gt; 缓存 &gt; Zookeeper</li>
+</ul></li>
+<li>从实现的复杂性角度（从低到高）
+
+<ul>
+<li>Zookeeper &gt;= 缓存 &gt; 数据库</li>
+</ul></li>
+<li>从性能角度（从高到低）
+
+<ul>
+<li>缓存 &gt; Zookeeper &gt;= 数据库</li>
+</ul></li>
+<li>从可靠性角度（从高到低）</li>
+<li>Zookeeper &gt; 缓存 &gt; 数据库</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="参考-1"><strong>参考</strong></h2>
+
+<ul>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzA4NTg1MjM0Mg==&amp;mid=2657261514&amp;idx=1&amp;sn=47b1a63f065347943341910dddbb785d&amp;chksm=84479e13b3301705ea29c86f457ad74010eba8a8a5c12a7f54bcf264a4a8c9d6adecbe32ad0b&amp;mpshare=1&amp;scene=23&amp;srcid=1004XqCveZ8C5IDjoB9ZXbWj#rd">https://mp.weixin.qq.com/s?__biz=MzA4NTg1MjM0Mg==&amp;mid=2657261514&amp;idx=1&amp;sn=47b1a63f065347943341910dddbb785d&amp;chksm=84479e13b3301705ea29c86f457ad74010eba8a8a5c12a7f54bcf264a4a8c9d6adecbe32ad0b&amp;mpshare=1&amp;scene=23&amp;srcid=1004XqCveZ8C5IDjoB9ZXbWj#rd</a></li>
+<li><a href="https://juejin.im/post/5bbb0d8df265da0abd3533a5">https://juejin.im/post/5bbb0d8df265da0abd3533a5</a></li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h1 id="四-分布式事务"><strong>四、分布式事务</strong></h1>
+
+<h2 id="4-1-cap"><strong>4.1 CAP</strong></h2>
+
+<ul>
+<li>C (一致性)：对某个指定的客户端来说，读操作能返回最新的写操作。对于数据分布在不同节点上的数据上来说，如果在某个节点更新了数据，那么在其他节点如果都能读取到这个最新的数据，那么就称为强一致，如果有某个节点没有读取到，那就是分布式不一致</li>
+<li>A (可用性)：非故障的节点在合理的时间内返回合理的响应(不是错误和超时的响应)。可用性的两个关键一个是合理的时间，一个是合理的响应。合理的时间指的是请求不能无限被阻塞，应该在合理的时间给出返回。合理的响应指的是系统应该明确返回结果并且结果是正确的，这里的正确指的是比如应该返回50，而不是返回40</li>
+<li>P (分区容错性)：当出现网络分区后，系统能够继续工作。打个比方，这里个集群有多台机器，有台机器网络出现了问题，但是这个集群仍然可以正常工作</li>
+</ul>
+
+<p><strong>分布式系统理论上不可能选择CA架构，只能选择CP或者AP架构</strong></p>
+
+<p>&nbsp;</p>
+
+<h2 id="4-2-base"><strong>4.2 BASE</strong></h2>
+
+<p><strong>BASE 是 Basically Available(基本可用)、Soft state(软状态)和 Eventually consistent (最终一致性)三个短语的缩写，是对CAP中AP的一个扩展</strong></p>
+
+<ul>
+<li>基本可用：分布式系统在出现故障时，允许损失部分可用功能，保证核心功能可用</li>
+<li>软状态：允许系统中存在中间状态，这个状态不影响系统可用性，这里指的是CAP中的不一致</li>
+<li>最终一致：最终一致是指经过一段时间后，所有节点数据都将会达到一致</li>
+</ul>
+
+<p><strong>BASE解决了CAP中理论没有网络延迟，在BASE中用软状态和最终一致，保证了延迟后的一致性。BASE 和 ACID 是相反的，它完全不同于ACID的强一致性模型，而是通过牺牲强一致性来获得可用性，并允许数据在一段时间内是不一致的，但最终达到一致状态。</strong></p>
+
+<p>&nbsp;</p>
+
+<h2 id="4-3-2pc"><strong>4.3 2PC</strong></h2>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20191229205739.png" alt="" /></p>
+
+<ul>
+<li>单点问题：事务管理器在整个流程中扮演的角色很关键，如果其宕机，比如在第一阶段已经完成，在第二阶段正准备提交的时候事务管理器宕机，资源管理器就会一直阻塞，导致数据库无法使用</li>
+<li>同步阻塞：在准备就绪之后，资源管理器中的资源一直处于阻塞，直到提交完成，释放资源</li>
+<li>数据不一致：两阶段提交协议虽然为分布式数据强一致性所设计，但仍然存在数据不一致性的可能，比如在第二阶段中，假设协调者发出了事务commit的通知，但是因为网络问题该通知仅被一部分参与者所收到并执行了commit操作，其余的参与者则因为没有收到通知一直处于阻塞状态，这时候就产生了数据的不一致性</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="4-4-3pc"><strong>4.4 3PC</strong></h2>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20200104151736.png" alt="" /></p>
+
+<p><strong>协调者、参与者都引入了超时机制；三阶段 CanCommit、PreCommit（其中一个超时或者执行失败，则TM发起中断）和doCommit</strong></p>
+
+<ul>
+<li>优点 ：引入超时机制，降低了协调者与参与者之间的阻塞范围<br /></li>
+<li>缺点：在参与者接收到preCommit之后，如果出现网络分区，那么该参与者节点会继续执行事务的提交，而其他节点会执行中断事务，最终会造成数据的不一致</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="4-5-tcc"><strong>4.5 TCC</strong></h2>
+
+<ul>
+<li>Try阶段： 完成所有业务检查（一致性），预留业务资源(准隔离性)</li>
+<li>Confirm阶段：确认执行业务操作，不做任何业务检查， 只使用Try阶段预留的业务资源。</li>
+<li>Cancel阶段：  取消Try阶段预留的业务资源。</li>
+</ul>
+
+<h2 id="4-6-本地消息表"><strong>4.6 本地消息表</strong></h2>
+
+<h2 id="4-7-mq事务"><strong>4.7 MQ事务</strong></h2>
+
+<p><strong>在RocketMQ中实现了分布式事务，实际上其实是对本地消息表的一个封装，将本地消息表移动到了MQ内部</strong></p>
+
+<p>&nbsp;</p>
+
+<h2 id="4-8-saga事务"><strong>4.8 Saga事务</strong></h2>
+
+<p><strong>其核心思想是将长事务拆分为多个本地短事务，由Saga事务协调器协调，如果正常结束那就正常完成，如果某个步骤失败，则根据相反顺序一次调用补偿操作。</strong></p>
+
+<p>&nbsp;</p>
+
+<h1 id="五-分布式一致性算法"><strong>五、分布式一致性算法</strong></h1>
+
+<h2 id="5-1-paxos"><strong>5.1 Paxos</strong></h2>
+
+<p><a href="https://www.cnblogs.com/linbingdong/p/6253479.html">https://www.cnblogs.com/linbingdong/p/6253479.html</a></p>
+
+<p>&nbsp;</p>
+
+<h3 id="1-在paxos算法中有三种角色"><strong>1. 在Paxos算法中有三种角色</strong></h3>
+
+<ul>
+<li>Proposer（提议者）：只要Proposer发的提案被Acceptor接受（刚开始先认为只需要一个Acceptor接受即可，在推导过程中会发现需要半数以上的Acceptor同意才行），Proposer就认为该提案里的value被选定了</li>
+<li>Acceptor（接收者）：只要Acceptor接受了某个提案，Acceptor就认为该提案里的value被选定了</li>
+<li>Learner（学习者）：Acceptor告诉Learner哪个value被选定，Learner就认为那个value被选定</li>
+</ul>
+
+<p><strong>一个进程可能同时充当多种角色。比如一个进程可能既是Proposer又是Acceptor又是Learner。</strong></p>
+
+<p>&nbsp;</p>
+
+<h3 id="2-paxos算法分为两个阶段"><strong>2. Paxos算法分为两个阶段</strong></h3>
+
+<ul>
+<li>阶段一：
+
+<ul>
+<li>(a) Proposer选择一个提案编号N，然后向半数以上的Acceptor发送编号为N的Prepare请求</li>
+<li>(b) 如果一个Acceptor收到一个编号为N的Prepare请求，且N大于该Acceptor已经响应过的所有Prepare请求的编号，那么它就会将它已经接受过的编号最大的提案（如果有的话）作为响应反馈给Proposer，同时该Acceptor承诺不再接受任何编号小于N的提案</li>
+</ul></li>
+<li>阶段二：
+
+<ul>
+<li>(a) 如果Proposer收到半数以上Acceptor对其发出的编号为N的Prepare请求的响应，那么它就会发送一个针对[N,V]提案的Accept请求给半数以上的Acceptor。注意：V就是收到的响应中编号最大的提案的value，如果响应中不包含任何提案，那么V就由Proposer自己决定</li>
+<li>(b) 如果Acceptor收到一个针对编号为N的提案的Accept请求，只要该Acceptor没有对编号大于N的Prepare请求做出过响应，它就接受该提案</li>
+</ul></li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="3-learner学习被选定的value"><strong>3. Learner学习被选定的value</strong></h3>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20200104170633.png" alt="" /></p>
+
+<p>&nbsp;</p>
+
+<h3 id="4-如何保证paxos算法的活性"><strong>4. 如何保证Paxos算法的活性</strong></h3>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20200104170705.png" alt="" /></p>
+
+<p>&nbsp;</p>
+
+<h2 id="5-2-zab"><strong>5.2 Zab</strong></h2>
+
+<p><strong>Zookeeper的核心是原子广播机制，这个机制保证了各个server之间的同步。实现这个机制的协议叫做Zab协议。Zab协议有两种模式，它们分别是恢复模式和广播模式。</strong></p>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20200105153913.png" alt="" /></p>
+
+<ul>
+<li>Leader：一个ZooKeeper集群同一时间只会有一个实际工作的Leader，它会发起并维护与各Follwer及Observer间的心跳。所有的写操作必须要通过Leader完成再由Leader将写操作广播给其它服务器</li>
+<li>Follower：一个ZooKeeper集群可能同时存在多个Follower，它会响应Leader的心跳。Follower可直接处理并返回客户端的读请求，同时会将写请求转发给Leader处理，并且负责在Leader处理写请求时对请求进行投票</li>
+<li>Observer：角色与Follower类似，但是无投票权</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="1-消息广播"><strong>1. 消息广播</strong></h3>
+
+<p><img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20200105154137.png" alt="" /></p>
+
+<ul>
+<li>Leader 接收到消息请求后，将消息赋予一个全局唯一的 64 位自增 id，叫做：zxid，通过 zxid 的大小比较即可实现因果有序这一特性</li>
+<li>Leader 通过先进先出队列（会给每个follower都创建一个队列，保证发送的顺序性）（通过 TCP 协议来实现，以此实现了全局有序这一特性）将带有 zxid 的消息作为一个提案（proposal）分发给所有 follower</li>
+<li>当 follower 接收到 proposal，先将 proposal 写到本地事务日志，写事务成功后再向 leader 回一个 ACK</li>
+<li>当 leader 接收到过半的 ACKs 后，leader 就向所有 follower 发送 COMMIT 命令，同意会在本地执行该消息</li>
+<li>当 follower 收到消息的 COMMIT 命令时，就会执行该消息</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="2-细节问题"><strong>2. 细节问题</strong></h3>
+
+<ul>
+<li>Leader 在收到客户端请求之后，会将这个请求封装成一个事务，并给这个事务分配一个全局递增的唯一 ID，称为事务ID（ZXID），ZAB 协议需要保证事务的顺序，因此必须将每一个事务按照 ZXID 进行先后排序然后处理。</li>
+<li>在 Leader 和 Follwer 之间还有一个消息队列，用来解耦他们之间的耦合，解除同步阻塞。</li>
+<li>zookeeper集群中为保证任何所有进程能够有序的顺序执行，只能是 Leader 服务器接受写请求，即使是 Follower 服务器接受到客户端的请求，也会转发到 Leader 服务器进行处理。</li>
+<li>实际上，这是一种简化版本的 2PC，不能解决单点问题。等会我们会讲述 ZAB 如何解决单点问题（即 Leader 崩溃问题）。</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="3-崩溃恢复"><strong>3. 崩溃恢复</strong></h3>
+
+<p><strong>ZAB协议会让ZK集群进入崩溃恢复模式的情况如下：</strong></p>
+
+<ul>
+<li>当服务框架在启动过程中</li>
+<li>当Leader服务器出现网络中断，崩溃退出与重启等异常情况</li>
+<li>当集群中已经不存在过半的服务器与Leader服务器保持正常通信</li>
+</ul>
+
+<p><strong>Leader选举算法：基于TCP的FastLeaderElection</strong></p>
+
+<ul>
+<li>先判断logicClock是否为同一轮选举，之后选票PK先比Zxid，相同再比myid，myid大优先作为leader服务</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="4-选主需解决问题"><strong>4. 选主需解决问题</strong></h3>
+
+<ul>
+<li>已经被leader提交的事务需要最终被所有的机器提交（已经发出commit了）</li>
+<li>保证丢弃那些只在leader上提出的事务（只在leader上提出了proposal，还没有收到回应，还没有进行提交）</li>
+</ul>
+
+<p><strong>已经被处理的消息不能丢（commit的）</strong></p>
+
+<ul>
+<li>选举拥有 proposal 最大值（即 zxid 最大）的节点作为新的 leader：由于所有提案被 COMMIT 之前必须有合法数量的 follower ACK，即必须有合法数量的服务器的事务日志上有该提案的 proposal，因此，只要有合法数量的节点正常工作，就必然有一个节点保存了所有被 COMMIT 消息的 proposal 状态</li>
+<li>新的 leader 将自己事务日志中 proposal 但未 COMMIT 的消息处理</li>
+<li>新的 leader 与 follower 建立先进先出的队列， 先将自身有而 follower 没有的 proposal 发送给 follower，再将这些 proposal 的 COMMIT 命令发送给 follower，以保证所有的 follower 都保存了所有的 proposal、所有的 follower 都处理了所有的消息</li>
+<li>通过以上策略，能保证已经被处理的消息不会丢</li>
+</ul>
+
+<p><strong>被丢弃的消息不能再次出现</strong></p>
+
+<ul>
+<li>Zab 通过巧妙的设计 zxid 来实现这一目的</li>
+<li>zxid 是64位，高 32 是纪元（epoch）编号，每经过一次 leader 选举产生一个新的 leader，新 leader 会将 epoch 号 +1。</li>
+<li>低 32 位是消息计数器，每接收到一条消息这个值 +1，新 leader 选举后这个值重置为 0</li>
+<li>这样设计的好处是旧的 leader 挂了后重启，它不会被选举为 leader，因为此时它的 zxid 肯定小于当前的新 leader；当旧的 leader 作为 follower 接入新的 leader 后，新的 leader 会让它将所有的拥有旧的 epoch 号的未被 COMMIT 的 proposal 清除</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="参考-2"><strong>参考</strong></h3>
+
+<ul>
+<li><a href="https://dbaplus.cn/news-141-1875-1.html">https://dbaplus.cn/news-141-1875-1.html</a></li>
+<li><a href="https://www.cnblogs.com/stateis0/p/9062133.html">https://www.cnblogs.com/stateis0/p/9062133.html</a></li>
+<li><a href="https://blog.haobin95.club/2019/01/03/%E4%B8%AD%E9%97%B4%E4%BB%B6/zookeeper%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E8%AF%A6%E8%A7%A3/">https://blog.haobin95.club/2019/01/03/%E4%B8%AD%E9%97%B4%E4%BB%B6/zookeeper%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E8%AF%A6%E8%A7%A3/</a></li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h2 id="5-3-raft"><strong>5.3 Raft</strong></h2>
+
+<p><strong>Raft 算法是一种简单易懂的共识算法。它依靠 状态机 和 主从同步 的方式，在各个节点之间实现数据的一致性。</strong></p>
+
+<p><strong>在一个由 Raft 协议组织的集群中有三类角色：</strong></p>
+
+<ul>
+<li>Leader（领袖）</li>
+<li>Follower（群众）</li>
+<li>Candidate（候选人）</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="1-选主"><strong>1. 选主</strong></h3>
+
+<ol>
+<li>在最初，还没有一个主节点的时候，所有节点的身份都是Follower。每一个节点都有自己的计时器，当计时达到了超时时间（Election Timeout），该节点会转变为Candidate</li>
+<li>成为Candidate的节点，会首先给自己投票，然后向集群中其他所有的节点发起请求，要求大家都给自己投票</li>
+<li>其他收到投票请求且还未投票的Follower节点会向发起者投票，发起者收到反馈通知后，票数增加</li>
+<li>当得票数超过了集群节点数量的一半，该节点晋升为Leader节点。Leader节点会立刻向其他节点发出通知，告诉大家自己才是老大。收到通知的节点全部变为Follower，并且各自的计时器清零</li>
+</ol>
+
+<p><strong>这里需要说明一点，每个节点的超时时间都是不一样的。比如A节点的超时时间是3秒，B节点的超时时间是5秒，C节点的超时时间是4秒。这样一来，A节点将会最先发起投票请求，而不是所有节点同时发起。</strong></p>
+
+<ul>
+<li>为什么这样设计呢？设想如果所有节点同时发起投票，必然会导致大家的票数差不多，形成僵局，谁也当不成老大。</li>
+</ul>
+
+<p><strong>那么，成为Leader的节点是否就坐稳了老大的位置呢？</strong></p>
+
+<ul>
+<li>并不是。Leader节点需要每隔一段时间向集群其他节点发送心跳通知，表明你们的老大还活着。</li>
+<li>一旦Leader节点挂掉，发不出通知，那么计时达到了超时时间的Follower节点会转变为Candidate节点，发起选主投票，周而复始&hellip;&hellip;</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="2-数据同步"><strong>2. 数据同步</strong></h3>
+
+<ul>
+<li>Raft 协议强依赖 Leader 节点的可用性来确保集群数据的一致性；数据的流向只能从 Leader 节点向 Follower 节点转移</li>
+<li>由客户端提交数据到Leader节点</li>
+<li>由Leader节点把数据复制到集群内所有的Follower节点。如果一次复制失败，会不断进行重试</li>
+<li>Follower节点们接收到复制的数据，会反馈给Leader节点</li>
+<li>如果Leader节点接收到超过半数的Follower反馈，表明复制成功。于是提交自己的数据，并通知客户端数据提交成功</li>
+<li>由Leader节点通知集群内所有的Follower节点提交数据，从而完成数据同步流程</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3 id="3-脑裂问题"><strong>3. 脑裂问题</strong></h3>
+
+<p>网络分区将原先的 Leader 节点和 Follower 节点分隔开，Follower 收不到 Leader 的心跳将发起选举产生新的 Leader。这时就产生了双 Leader，原先的 Leader 独自在一个区，向它提交数据不可能复制到多数节点所以永远提交不成功。向新的 Leader 提交数据可以提交成功，网络恢复后旧的 Leader 发现集群中有更新任期（Term）的新 Leader 则自动降级为 Follower 并从新 Leader 处同步数据达成集群数据一致</p>
+
+<p>&nbsp;</p>
+
+<h3 id="参考-3"><strong>参考</strong></h3>
+
+<ul>
+<li><a href="https://www.cnblogs.com/mindwind/p/5231986.html">https://www.cnblogs.com/mindwind/p/5231986.html</a></li>
+</ul>
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">lyoga</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2019-12-25</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags//"></a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2019/project-know/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Project Know</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/2019/redis-%E6%80%BB%E7%BB%93/">
+            <span class="next-text nav-default">Redis-总结</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/imet" class="iconfont icon-github" title="github"></a>
+  <a href="http://LYoGA.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2018 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LYoGA</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.1.1"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

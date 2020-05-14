@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on lyoga blog</title>
+    <link>http://LYoGA.github.io/tags/java/</link>
+    <description>Recent content in Java on lyoga blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 03 Sep 2018 19:58:47 +0800</lastBuildDate>
+    
+	<atom:link href="http://LYoGA.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Java NIO -- Channel</title>
+      <link>http://LYoGA.github.io/post/2018/09-03-java_nio_3/</link>
+      <pubDate>Mon, 03 Sep 2018 19:58:47 +0800</pubDate>
+      
+      <guid>http://LYoGA.github.io/post/2018/09-03-java_nio_3/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Java NIO -- Buffer</title>
+      <link>http://LYoGA.github.io/post/2018/08-27-java_nio_2/</link>
+      <pubDate>Wed, 15 Aug 2018 14:52:54 +0800</pubDate>
+      
+      <guid>http://LYoGA.github.io/post/2018/08-27-java_nio_2/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Java NIO -- Selector</title>
+      <link>http://LYoGA.github.io/post/2018/08-15-java_nio_1/</link>
+      <pubDate>Wed, 15 Aug 2018 14:52:54 +0800</pubDate>
+      
+      <guid>http://LYoGA.github.io/post/2018/08-15-java_nio_1/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

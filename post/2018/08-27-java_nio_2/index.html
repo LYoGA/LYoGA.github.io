@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Java NIO -- Buffer - lyoga blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyoga" />
+  <meta name="description" content="
+" />
+<meta name="keywords" content="Java NIO" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.42.1" />
+
+
+<link rel="canonical" href="http://LYoGA.github.io/post/2018/08-27-java_nio_2/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.1.1" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+
+
+<meta property="og:title" content="Java NIO -- Buffer" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://LYoGA.github.io/post/2018/08-27-java_nio_2/" />
+
+
+
+<meta property="article:published_time" content="2018-08-15T14:52:54&#43;08:00"/>
+
+<meta property="article:modified_time" content="2018-08-15T14:52:54&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Java NIO -- Buffer">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2018-08-15T14:52:54&#43;08:00" />
+<meta itemprop="dateModified" content="2018-08-15T14:52:54&#43;08:00" />
+<meta itemprop="wordCount" content="1922">
+
+
+
+<meta itemprop="keywords" content="Java,Java NIO," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java NIO -- Buffer"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">lyoga blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">lyoga blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Java NIO -- Buffer</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-08-15 </span>
+        <div class="post-category">
+            
+              <a href="/categories/java-nio/"> Java NIO </a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#前言"><strong>前言</strong></a></li>
+<li><a href="#一-概念"><strong>一、概念</strong></a></li>
+<li><a href="#二-相关方法"><strong>二、相关方法</strong></a></li>
+<li><a href="#三-相关实现类"><strong>三、相关实现类</strong></a></li>
+<li><a href="#参考"><strong>参考</strong></a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p></p>
+
+<h2 id="前言"><strong>前言</strong></h2>
+
+<p>Java NIO由以下几个核心部分组成：</p>
+
+<ol>
+<li>Buffer</li>
+<li>Channel</li>
+<li>Selector</li>
+</ol>
+
+<h2 id="一-概念"><strong>一、概念</strong></h2>
+
+<p>Java NIO中的Buffer用于和NIO通道进行交互。如你所知，数据是从通道读入缓冲区，从缓冲区写入到通道中的。
+缓冲区本质上是一块可以写入数据，然后可以从中读取数据的内存，内部使用字节数组存储数据，并维护几个特殊变量，实现数据的反复利。
+这块内存被包装成NIO Buffer对象，并提供了一组方法，用来方便的访问该块内存。</p>
+
+<pre><code class="language-Java">public abstract class Buffer {
+    // Invariants: mark &lt;= position &lt;= limit &lt;= capacity
+    private int mark = -1;
+    private int position = 0;
+    private int limit;
+    private int capacity;
+}
+</code></pre>
+
+<ol>
+<li>mark：初始值为-1，用于备份当前的position</li>
+<li>position：初始值为0，position表示当前可以写入或读取数据的位置，当写入或读取一个数据后，position向前移动到下一个位置.</li>
+<li>limit：写模式下，limit表示最多能往Buffer里写多少数据，等于capacity值；读模式下，limit表示最多可以读取多少数据</li>
+<li>capacity：缓存数组大小
+<img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20180828152802.png" alt="" /></li>
+</ol>
+
+<h2 id="二-相关方法"><strong>二、相关方法</strong></h2>
+
+<pre><code class="language-Java">// 把当前的position赋值给mark
+public final Buffer mark() {
+        mark = position;
+        return this;
+}
+
+// 把mark值还原给position
+public final Buffer reset() {
+    int m = mark;
+    if (m &lt; 0)
+        throw new InvalidMarkException();
+    position = m;
+    return this;
+}
+
+// 一旦读完Buffer中的数据，需要让Buffer准备好再次被写入，clear会恢复状态值，但不会擦除数据
+public final Buffer clear() {
+    position = 0;
+    limit = capacity;
+    mark = -1;
+    return this;
+}
+// compact()：compact()方法将所有未读的数据拷贝到Buffer起始处。然后将position设到最后一个未读元素正后面。limit属性依然像clear()方法一样，设置成capacity。现在Buffer准备好写数据了，但是不会覆盖未读的数据
+
+// Buffer有两种模式，写模式和读模式，flip后Buffer从写模式变成读模式
+public final Buffer flip() {
+    limit = position;
+    position = 0;
+    mark = -1;
+    return this;
+}
+
+// 重置position为0，从头读写数据
+public final Buffer rewind() {
+    position = 0;
+    mark = -1;
+    return this;
+}
+</code></pre>
+
+<p><strong>Buffer的分配</strong></p>
+
+<pre><code>ByteBuffer buf = ByteBuffer.allocate(24);
+</code></pre>
+
+<p><strong>向Buffer里面写数据</strong></p>
+
+<ul>
+<li>从Channel写到Buffer</li>
+<li>通过Buffer的put()方法写到Buffer里</li>
+</ul>
+
+<p>从Channel写到Buffer的例子</p>
+
+<pre><code>// read into buffer.
+// 对于Buffer来说，们要将来自Channel的数据填充到Buffer中，在系统层面上，这个操作我们称为读操作，因为数据是从外部（文件或网络等）读到内存中。
+int bytesRead = inChannel.read(buf);
+</code></pre>
+
+<p>通过put方法写Buffer的例子：</p>
+
+<pre><code>buf.put(127);
+// put方法有很多版本，允许你以不同的方式把数据写入到Buffer中。例如，写到一个指定的位置，或者把一个字节数组写入到Buffer；更多Buffer实现的细节参考JavaDoc。
+</code></pre>
+
+<p><strong>从Buffer中读取数据</strong></p>
+
+<ul>
+<li>从Buffer读取数据到Channel</li>
+<li>使用get()方法从Buffer中读取数据</li>
+</ul>
+
+<p>从Buffer读取数据到Channel的例子：</p>
+
+<pre><code>// read from buffer into channel.
+// 将写入的数据传输到Channel中，如通过FileChannel将数据写入到文件中，通过SocketChannel将数据写入网络发送到远程机器等。对应的，这种操作，我们称之为写操作。
+int bytesWritten = inChannel.write(buf);
+</code></pre>
+
+<p>使用get()方法从Buffer中读取数据的例子</p>
+
+<pre><code>byte aByte = buf.get();
+// get方法有很多版本，允许你以不同的方式从Buffer中读取数据。例如，从指定position读取，或者从Buffer中读取数据到字节数组；更多Buffer实现的细节参考JavaDoc。
+</code></pre>
+
+<p><strong>相关方法测试用例</strong></p>
+
+<pre><code>public static void main(String[] args) {
+    // 1.使用allocate()申请10个字节的缓冲区
+    ByteBuffer byteBuffer = ByteBuffer.allocate(10);
+    System.out.println(&quot;------------allocate------------------&quot;);
+    System.out.println(byteBuffer.position());
+    System.out.println(byteBuffer.limit());
+    System.out.println(byteBuffer.capacity());
+
+    // 2.使用put()存放5个字节到缓冲区
+    byteBuffer.put(&quot;abcdefghij&quot;.getBytes());
+    System.out.println(&quot;------------put------------------&quot;);
+    System.out.println(byteBuffer.position());
+    System.out.println(byteBuffer.limit());
+    System.out.println(byteBuffer.capacity());
+
+    // 3.切换到读取数据模式
+    byteBuffer.flip();
+    System.out.println(&quot;------------flip------------------&quot;);
+    System.out.println(byteBuffer.position());
+    System.out.println(byteBuffer.limit());
+    System.out.println(byteBuffer.capacity());
+
+    // 4.从缓冲区中读取数据
+    System.out.println(&quot;------------get------------------&quot;);
+    byte[] bytes = new byte[byteBuffer.limit()];
+    byteBuffer.get(bytes);
+    System.out.println(new String(bytes, 0, bytes.length));
+    System.out.println(byteBuffer.position());
+    System.out.println(byteBuffer.limit());
+    System.out.println(byteBuffer.capacity());
+
+    // 5.设置为可重复读取
+    System.out.println(&quot;------------rewind------------------&quot;);
+    byteBuffer.rewind();
+    System.out.println(byteBuffer.position());
+    System.out.println(byteBuffer.limit());
+    System.out.println(byteBuffer.capacity());
+    byte[] bytes2 = new byte[byteBuffer.limit()];
+    byteBuffer.get(bytes2);
+    System.out.println(new String(bytes2, 0, bytes2.length));
+    System.out.println(byteBuffer.position());
+    System.out.println(byteBuffer.limit());
+    System.out.println(byteBuffer.capacity());
+
+    // 6.clear清空缓存区，但是内容没有被清掉，还存在。只不过这些数据状态为被遗忘状态。
+    System.out.println(&quot;------------clear------------------&quot;);
+    byteBuffer.clear();
+    System.out.println(byteBuffer.position());
+    System.out.println(byteBuffer.limit());
+    System.out.println(byteBuffer.capacity());
+    byte[] bytes3 = new byte[10];
+    byteBuffer.get(bytes3);
+    System.out.println(new String(bytes3, 0, bytes3.length));
+
+    byteBuffer.clear();
+    byteBuffer.put(&quot;hijkl&quot;.getBytes());
+    byteBuffer.flip();
+    System.out.println(byteBuffer.position());
+    System.out.println(byteBuffer.limit());
+    System.out.println(byteBuffer.capacity());
+
+    byte[] bytes4 = new byte[byteBuffer.limit()];
+    byteBuffer.get(bytes4, 0, 2);
+    System.out.println(new String(bytes4, 0, bytes4.length));
+
+    System.out.println(byteBuffer.position());
+    System.out.println(byteBuffer.limit());
+    System.out.println(byteBuffer.capacity());
+
+    byteBuffer.mark();
+    System.out.println(&quot;------------mark------------------&quot;);
+
+    byteBuffer.get(bytes4, 0, 2);
+    System.out.println(new String(bytes4, 0, bytes4.length));
+
+    System.out.println(byteBuffer.position());
+    System.out.println(byteBuffer.limit());
+    System.out.println(byteBuffer.capacity());
+
+    byteBuffer.reset();
+    System.out.println(&quot;------------reset------------------&quot;);
+
+    System.out.println(byteBuffer.position());
+    System.out.println(byteBuffer.limit());
+    System.out.println(byteBuffer.capacity());
+}
+</code></pre>
+
+<h2 id="三-相关实现类"><strong>三、相关实现类</strong></h2>
+
+<p>目前Buffer的实现类有以下几种：</p>
+
+<ul>
+<li>ByteBuffer</li>
+<li>CharBuffer</li>
+<li>DoubleBuffer</li>
+<li>FloatBuffer</li>
+<li>IntBuffer</li>
+<li>LongBuffer</li>
+<li>ShortBuffer</li>
+<li>MappedByteBuffer
+<img src="https://lyoga-1257336739.cos.ap-beijing.myqcloud.com/20180828165951.png" alt="" /></li>
+</ul>
+
+<p><strong>ByteBuffer</strong></p>
+
+<p>ByteBuffer的实现类包括HeapByteBuffer和DirectByteBuffer两种</p>
+
+<p><strong>HeapByteBuffer</strong></p>
+
+<pre><code>public static ByteBuffer allocate(int capacity) {
+    if (capacity &lt; 0)
+        throw new IllegalArgumentException();
+    return new HeapByteBuffer(capacity, capacity);
+}
+// 在虚拟机堆上申请内存空间
+HeapByteBuffer(int cap, int lim) {  
+    super(-1, 0, lim, cap, new byte[cap], 0);
+}
+</code></pre>
+
+<p><strong>DirectByteBuffer</strong></p>
+
+<pre><code>public static ByteBuffer allocateDirect(int capacity) {
+    return new DirectByteBuffer(capacity);
+}
+
+DirectByteBuffer(int cap) {
+    super(-1, 0, cap, cap);
+    boolean pa = VM.isDirectMemoryPageAligned();
+    int ps = Bits.pageSize();
+    long size = Math.max(1L, (long)cap + (pa ? ps : 0));
+    Bits.reserveMemory(size, cap);
+
+    long base = 0;
+    try {
+        base = unsafe.allocateMemory(size);
+    } catch (OutOfMemoryError x) {
+        Bits.unreserveMemory(size, cap);
+        throw x;
+    }
+    unsafe.setMemory(base, size, (byte) 0);
+    if (pa &amp;&amp; (base % ps != 0)) {
+        // Round up to page boundary
+        address = base + ps - (base &amp; (ps - 1));
+    } else {
+        address = base;
+    }
+    cleaner = Cleaner.create(this, new Deallocator(base, size, cap));
+    att = null;
+}
+</code></pre>
+
+<p>DirectByteBuffer通过unsafe.allocateMemory申请堆外内存，并在ByteBuffer的address变量中维护指向该内存的地址。
+unsafe.setMemory(base, size, (byte) 0)方法把新申请的内存数据清零</p>
+
+<h2 id="参考"><strong>参考</strong></h2>
+
+<ul>
+<li><a href="https://www.jianshu.com/p/052035037297">https://www.jianshu.com/p/052035037297</a></li>
+<li><a href="http://ifeve.com/buffers/">http://ifeve.com/buffers/</a></li>
+</ul>
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">lyoga</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-08-15</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/java/">Java</a>
+          
+          <a href="/tags/java-nio/">Java NIO</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2018/09-03-java_nio_3/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Java NIO -- Channel</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/2018/08-15-java_nio_1/">
+            <span class="next-text nav-default">Java NIO -- Selector</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/imet" class="iconfont icon-github" title="github"></a>
+  <a href="http://LYoGA.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2018 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LYoGA</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.1.1"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>zuul 1.x 源码阅读之 ZuulServlet 及 Filer 加载 - lyoga blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="lyoga" />
+  <meta name="description" content="zuul 是什么，为什么需要 zuul，zuul 实现原理？ " />
+<meta name="keywords" content="zuul" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.42.1" />
+
+
+<link rel="canonical" href="http://LYoGA.github.io/post/2018/07-03_zuul_1.x_source/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.1.1" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+
+
+<meta property="og:title" content="zuul 1.x 源码阅读之 ZuulServlet 及 Filer 加载" />
+<meta property="og:description" content="zuul 是什么，为什么需要 zuul，zuul 实现原理？
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://LYoGA.github.io/post/2018/07-03_zuul_1.x_source/" />
+
+
+
+<meta property="article:published_time" content="2018-07-03T07:44:42&#43;08:00"/>
+
+<meta property="article:modified_time" content="2018-07-03T07:44:42&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="zuul 1.x 源码阅读之 ZuulServlet 及 Filer 加载">
+<meta itemprop="description" content="zuul 是什么，为什么需要 zuul，zuul 实现原理？
+">
+
+
+<meta itemprop="datePublished" content="2018-07-03T07:44:42&#43;08:00" />
+<meta itemprop="dateModified" content="2018-07-03T07:44:42&#43;08:00" />
+<meta itemprop="wordCount" content="2184">
+
+
+
+<meta itemprop="keywords" content="zuul,api gateway," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="zuul 1.x 源码阅读之 ZuulServlet 及 Filer 加载"/>
+<meta name="twitter:description" content="zuul 是什么，为什么需要 zuul，zuul 实现原理？
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">lyoga blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">lyoga blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">zuul 1.x 源码阅读之 ZuulServlet 及 Filer 加载</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-07-03 </span>
+        <div class="post-category">
+            
+              <a href="/categories/spring-cloud/"> spring cloud </a>
+            
+              <a href="/categories/java%E6%A1%86%E6%9E%B6%E6%BA%90%E7%A0%81/"> java框架源码 </a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#一-zuul-overview">一、zuul overview</a>
+<ul>
+<li><a href="#1-1-什么是-zuul">1.1 什么是 Zuul?</a></li>
+<li><a href="#1-2-zuul-as-edge-service">1.2 zuul as edge service</a></li>
+<li><a href="#1-3-zuul-的工作原理">1.3 zuul 的工作原理</a></li>
+</ul></li>
+<li><a href="#二-zuul-core-zuul-simple-webapp-源码解读之-zuulservlet">二、zuul-core + zuul-simple-webapp 源码解读之 ZuulServlet</a>
+<ul>
+<li><a href="#2-1-web-xml-声明">2.1 web.xml 声明</a></li>
+<li><a href="#2-2-zuulservlet">2.2 ZuulServlet</a>
+<ul>
+<li><a href="#a-zuulservlet-是继承-httpservlet-的">a.) <code>ZuulServlet</code> 是继承 <code>HttpServlet</code> 的</a></li>
+<li><a href="#b-init-方法中创建-zuulrunner-对象">b.) <code>init</code> 方法中创建 <code>ZuulRunner</code> 对象。</a></li>
+<li><a href="#c-service-方法干了以下几件事情">c.) <code>service</code> 方法干了以下几件事情</a></li>
+</ul></li>
+<li><a href="#2-3-zuulrunner">2.3 ZuulRunner</a></li>
+<li><a href="#2-4-filterprocessor">2.4 FilterProcessor</a></li>
+<li><a href="#2-5-zuulfilter-runfilter">2.5 ZuulFilter runFilter()</a></li>
+<li><a href="#2-6-filter-总结">2.6 filter 总结</a></li>
+</ul></li>
+<li><a href="#三-zuul-core-源码分析之-filter-加载">三、zuul-core 源码分析之 Filter 加载</a>
+<ul>
+<li><a href="#3-1-filterloader-加载-filter">3.1 FilterLoader 加载 filter</a></li>
+<li><a href="#3-2-filterfilemanager-管理加载">3.2 FilterFileManager 管理加载</a></li>
+<li><a href="#3-3-总结-filterfile-动态加载的流程">3.3 总结 FilterFile 动态加载的流程</a></li>
+</ul></li>
+<li><a href="#参考">参考</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p>zuul 是什么，为什么需要 zuul，zuul 实现原理？
+</p>
+
+<h2 id="一-zuul-overview">一、zuul overview</h2>
+
+<h3 id="1-1-什么是-zuul">1.1 什么是 Zuul?</h3>
+
+<p>zuul 作为云服务的边界服务(Edge Service)，可以用来做统一授权、压力测试、金丝雀测试(Canary Testing)、动态路由、减负载以及和 netflix 其他套件一起协作</p>
+
+<h3 id="1-2-zuul-as-edge-service">1.2 zuul as edge service</h3>
+
+<p>直接用官方用图:</p>
+
+<p><img src="http://pb56ttwyu.bkt.clouddn.com/blog/img/20180709220834_zuul_in_cloud_architecture.png" alt="Zuul in Netflix’s Cloud Architecture" /></p>
+
+<p>如上图，zuul 处于内部服务的入口，起到边界服务（Edge Service）的作用</p>
+
+<h3 id="1-3-zuul-的工作原理">1.3 zuul 的工作原理</h3>
+
+<p>先不解释看官方图:</p>
+
+<p><img src="http://pb56ttwyu.bkt.clouddn.com/blog/img/20180709221022_zuul_core_architecture.png" alt="Zuul Core Architecture" /></p>
+
+<p>分析一下 zuul 的思路:</p>
+
+<ol>
+<li><strong>ZuulServlet</strong>: zuul 的核心其实就是 ZuulServlet, 在 NIO 之前， java web 服务都是以 Servlet 作为入口提供服务的。</li>
+<li><strong>ZuulFilter Runner</strong>: 通过 Runner 来串起来不同类型的 filter， 一个 http request 经过 &ldquo;pre&rdquo;, &ldquo;route&rdquo;, &ldquo;post&rdquo; 这三种类型的 filter。有点 servlet filter 的味道</li>
+<li><strong>Filter</strong>: 可以在 Filter 里执行业务需要的逻辑。Filter 支持 java 类型的 filter 和 groovy 类型的 filter</li>
+<li><strong>Filter Loader</strong>: 如果要做到动态添加或者移除 filter 的话，groovy 脚本动态编译是个不错的选择。通过监听指定目录，然后生成 filter 类，装载到 zuul runner</li>
+<li><strong>Request Context</strong>: filter 如何获取 http request/response 呢。猜对了，ThreadLocal， 通过把 HttpRequest 和 HttpResposne Wrapper 起来，放到 threadlocal 变量里。</li>
+</ol>
+
+<h2 id="二-zuul-core-zuul-simple-webapp-源码解读之-zuulservlet">二、zuul-core + zuul-simple-webapp 源码解读之 ZuulServlet</h2>
+
+<p>先跑起工程再说，跑起 zuul-simple-webapp 工程，参考<a href="https://github.com/Netflix/zuul/wiki/zuul-simple-webapp">官方wiki</a></p>
+
+<h3 id="2-1-web-xml-声明">2.1 web.xml 声明</h3>
+
+<p>web.xml 声明完成了以下几件事情：</p>
+
+<ul>
+<li><p><strong>StartServer(ServletContextListener)</strong>: 是 web 容器的监听器，在容器 context 初始化时做了以下几件事情：</p>
+
+<ol>
+<li>mock monitor</li>
+<li>初始化 FilterFileManager: 去系统变量 <code>zuul.filter.root</code> 目录下定时检查是否有新的脚本</li>
+<li>初始化 JavaFilter</li>
+</ol></li>
+
+<li><p><strong>ZuulServlet</strong>: 是 Servlet 时代处理 http 请求的主要主体。我们源码会分析</p></li>
+
+<li><p><strong>ContextLifecycleFilter</strong>: 主要是及时清理 threadLocal 相关的变量： ZuulServlet 为了使 ZuulFilter 能获取Request相关的 Context, 把 requestContext 放到 threadlocal 中。</p></li>
+</ul>
+
+<pre><code class="language-xml">&lt;listener&gt;
+    &lt;listener-class&gt;com.netflix.zuul.StartServer&lt;/listener-class&gt;
+&lt;/listener&gt;
+
+&lt;servlet&gt;
+    &lt;servlet-name&gt;Zuul&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;com.netflix.zuul.http.ZuulServlet&lt;/servlet-class&gt;
+&lt;/servlet&gt;
+
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;Zuul&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+
+&lt;filter&gt;
+    &lt;filter-name&gt;ContextLifecycleFilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;com.netflix.zuul.context.ContextLifecycleFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;ContextLifecycleFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre>
+
+<h3 id="2-2-zuulservlet">2.2 ZuulServlet</h3>
+
+<h4 id="a-zuulservlet-是继承-httpservlet-的">a.) <code>ZuulServlet</code> 是继承 <code>HttpServlet</code> 的</h4>
+
+<p>通过实现 Servlet 的 <code>init</code> 和 <code>servic</code> 来分别完成初始化和处理 http 逻辑。</p>
+
+<h4 id="b-init-方法中创建-zuulrunner-对象">b.) <code>init</code> 方法中创建 <code>ZuulRunner</code> 对象。</h4>
+
+<ol>
+<li>查看 Config param 里是否包含 <code>buffer-requests</code></li>
+<li>ZuulServlet 的实际执行都是在 ZuulRunner 去处理的</li>
+</ol>
+
+<h4 id="c-service-方法干了以下几件事情">c.) <code>service</code> 方法干了以下几件事情</h4>
+
+<ul>
+<li>通过 ZuulRunner 初始化 request</li>
+</ul>
+
+<p>.ZuulRunner.java</p>
+
+<pre><code class="language-java">public void init(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
+  // 主要就是把 request 和 resposne 放到 requestContext 的 ThreadLocal 变量里
+  RequestContext ctx = RequestContext.getCurrentContext();
+  if (bufferRequests) {
+      ctx.setRequest(new HttpServletRequestWrapper(servletRequest));
+  } else {
+      ctx.setRequest(servletRequest);
+  }
+
+  ctx.setResponse(new HttpServletResponseWrapper(servletResponse));
+}
+</code></pre>
+
+<ul>
+<li>RequestContext 是以 ConcurrentHashMap 来存储 http 请求中 header，body 等各种参数的</li>
+<li>同时通过 RequestContext.getCurrentContext() 来获取 threadlocal 中的 context</li>
+</ul>
+
+<p>.RequestContext.java</p>
+
+<pre><code class="language-java">public class RequestContext extends ConcurrentHashMap&lt;String, Object&gt; {
+
+    protected static Class&lt;? extends RequestContext&gt; contextClass = RequestContext.class;
+
+    private static RequestContext testContext = null;
+
+    protected static final ThreadLocal&lt;? extends RequestContext&gt; threadLocal = new ThreadLocal&lt;RequestContext&gt;() {
+        @Override
+        protected RequestContext initialValue() {
+            try {
+                return contextClass.newInstance();
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
+        }
+    };
+
+    // threadlocal 相关的设置
+    public static RequestContext getCurrentContext() {
+      if (testContext != null) return testContext;
+      RequestContext context = threadLocal.get();
+      return context;
+    }
+}
+</code></pre>
+
+<ul>
+<li>然后 ZuulServlet 在 <code>service()</code> 方法中完成 <code>preRoute()</code>, <code>route()</code>, <code>postRoute()</code> 还有 <code>error()</code> 的处理，当然在 finnaly，要 clean threadlocal requestContext</li>
+</ul>
+
+<h3 id="2-3-zuulrunner">2.3 ZuulRunner</h3>
+
+<p>我们再来看 ZuulServlet 的劳工 Runner，所有的具体执行逻辑都交给 Runner 来执行</p>
+
+<p>.ZuulServlet.java service() 方法调用相关</p>
+
+<pre><code class="language-java">// 将 request, response 放到 requestContext hreadlocal
+void init(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
+    zuulRunner.init(servletRequest, servletResponse);
+}
+
+// preRoute, route, postRoute, error, init 都是有 zuulRunner 来执行的。但是在 service 中进行了编排和异常处理
+void preRoute() throws ZuulException {
+    zuulRunner.preRoute();
+}
+
+... route(), postRoute(), error()
+</code></pre>
+
+<p>再来看 ZuulRunner 中的 preRoute, route, postRoute 这三个方法都是有 FilterProcessor 来做</p>
+
+<p>.ZuulRunner.java</p>
+
+<pre><code class="language-java">// zuulRunner 通过 FilterProcessor 来执行相应类型的 filter
+public void preRoute() throws ZuulException {
+    FilterProcessor.getInstance().preRoute();
+}
+</code></pre>
+
+<h3 id="2-4-filterprocessor">2.4 FilterProcessor</h3>
+
+<ul>
+<li>preRoute(), postRoute, route() 都是由 runFilters 来执行的</li>
+<li>在 runFilters 是通过 FilterLoader 来获取 filter 列表的</li>
+</ul>
+
+<p>.FilterProcessor.java</p>
+
+<pre><code class="language-java">public void preRoute() throws ZuulException {
+    try {
+        runFilters(&quot;pre&quot;);
+    } catch (ZuulException e) {
+        throw e;
+    } catch (Throwable e) {
+        throw new ZuulException(e, 500, &quot;UNCAUGHT_EXCEPTION_IN_PRE_FILTER_&quot; + e.getClass().getName());
+    }
+}
+
+public Object runFilters(String sType) throws Throwable {
+  if (RequestContext.getCurrentContext().debugRouting()) {
+      Debug.addRoutingDebug(&quot;Invoking {&quot; + sType + &quot;} type filters&quot;);
+  }
+  boolean bResult = false;
+  // 通过 FilterLoader 来获取 filters
+  List&lt;ZuulFilter&gt; list = FilterLoader.getInstance().getFiltersByType(sType);
+  if (list != null) {
+      for (int i = 0; i &lt; list.size(); i++) {
+          ZuulFilter zuulFilter = list.get(i);
+          // 执行并返回结果
+          Object result = processZuulFilter(zuulFilter);
+          if (result != null &amp;&amp; result instanceof Boolean) {
+              bResult |= ((Boolean) result);
+          }
+      }
+  }
+  return bResult;
+}
+</code></pre>
+
+<ul>
+<li>然后挨个执行 processZuulFilter 方法，来获取 result</li>
+</ul>
+
+<p>.FilterProcessor.java processZuulFilter()</p>
+
+<pre><code class="language-java"> // 主要内容就是 runFilter
+ ZuulFilterResult result = filter.runFilter();
+ ExecutionStatus s = result.getStatus();
+ execTime = System.currentTimeMillis() - ltime;
+</code></pre>
+
+<h3 id="2-5-zuulfilter-runfilter">2.5 ZuulFilter runFilter()</h3>
+
+<p>主要执行 某个 Filter 的 run() 方法，然后将结果放到 ZuulFilterResult 中</p>
+
+<p>.ZuulFilter.java</p>
+
+<pre><code class="language-java">public ZuulFilterResult runFilter() {
+  ZuulFilterResult zr = new ZuulFilterResult();
+  if (!isFilterDisabled()) {
+      if (shouldFilter()) {
+          Tracer t = TracerFactory.instance().startMicroTracer(&quot;ZUUL::&quot; + this.getClass().getSimpleName());
+          try {
+              Object res = run();
+              zr = new ZuulFilterResult(res, ExecutionStatus.SUCCESS);
+          } catch (Throwable e) {
+              t.setName(&quot;ZUUL::&quot; + this.getClass().getSimpleName() + &quot; failed&quot;);
+              zr = new ZuulFilterResult(ExecutionStatus.FAILED);
+              zr.setException(e);
+          } finally {
+              t.stopAndLog();
+          }
+      } else {
+          zr = new ZuulFilterResult(ExecutionStatus.SKIPPED);
+      }
+  }
+  return zr;
+}
+</code></pre>
+
+<h3 id="2-6-filter-总结">2.6 filter 总结</h3>
+
+<p>至此，我们看到一个 filter 是如何被执行的了。</p>
+
+<pre><code class="language-java">ZuulServlet.service()
+  -&gt; ZuulRunner.xxRoute()
+    -&gt; FilterProcessor.runFilters(byType)
+      -&gt; xxZuulFilter.runFilter
+        -&gt;  xxZuulFilter.run()**
+</code></pre>
+
+<p>而其中的 request, resposne 变量传递是通过 RequestContext threadLocal</p>
+
+<h2 id="三-zuul-core-源码分析之-filter-加载">三、zuul-core 源码分析之 Filter 加载</h2>
+
+<h3 id="3-1-filterloader-加载-filter">3.1 FilterLoader 加载 filter</h3>
+
+<p>再看 FilterProcessor 是从 FilterLoader 获取 fitler list 的。</p>
+
+<p>.FilterLoader.java 的 hashFiltersByType &amp; filterRegistry</p>
+
+<pre><code class="language-java">public class FilterLoader {
+    final static FilterLoader INSTANCE = new FilterLoader();
+
+    // 通过 4 个 ConcurrentHashMap 来维护 filter 信息
+    // 维护 xxGrovvyZuulFilter.groovy filter 文件的最近修改时间; key 为 filter 文件名（绝对路径）, value 为文件最后修改时间
+    private final ConcurrentHashMap&lt;String, Long&gt; filterClassLastModified = new ConcurrentHashMap&lt;String, Long&gt;();
+    // 目测实际上没有进行相关处理操作 （目测代码很少的路径会走到这）; key 为 filter 文件名, value 为 sourceCode
+    private final ConcurrentHashMap&lt;String, String&gt; filterClassCode = new ConcurrentHashMap&lt;String, String&gt;();
+    // 主要是用来检测 xxGrovvyZuulFilter 这样的 filter name 是否已经被注册 （目测代码很少的路径会走到这）; key 为 filter 文件名, value 也为文件名
+    private final ConcurrentHashMap&lt;String, String&gt; filterCheck = new ConcurrentHashMap&lt;String, String&gt;();
+    // *** 这个是最主要的，根据 filter 类型: &quot;pre&quot;, &quot;post&quot;, &quot;route&quot; 等来返回对于的 filter list ***
+    private final ConcurrentHashMap&lt;String, List&lt;ZuulFilter&gt;&gt; hashFiltersByType = new ConcurrentHashMap&lt;String, List&lt;ZuulFilter&gt;&gt;();
+    // 而真正的 filterList 的引用都是存在 filterRegistry 里面。
+    // 可以看到 filterRegistry 存储 private final ConcurrentHashMap&lt;String, ZuulFilter&gt; filters
+    private FilterRegistry filterRegistry = FilterRegistry.instance();
+
+    static DynamicCodeCompiler COMPILER;
+
+    static FilterFactory FILTER_FACTORY = new DefaultFilterFactory();
+}
+</code></pre>
+
+<h3 id="3-2-filterfilemanager-管理加载">3.2 FilterFileManager 管理加载</h3>
+
+<p>FilterFileManager 获取指定目录文件，FilterLoader.DynamicCodeCompiler 编译文件</p>
+
+<ul>
+<li>我们找到了 filterList 的存储，再看什么时候放进来的</li>
+</ul>
+
+<p>.FilterFileManager.java</p>
+
+<pre><code class="language-java">// 由线程定时去处理文件
+void startPoller() {
+    poller = new Thread(&quot;GroovyFilterFileManagerPoller&quot;) {
+        public void run() {
+            while (bRunning) {
+                try {
+                    sleep(pollingIntervalSeconds * 1000);
+                    manageFiles();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+    poller.setDaemon(true);
+    poller.start();
+}
+
+// 先获取文件，然后在处理 groovy 文件
+void manageFiles() throws Exception, IllegalAccessException, InstantiationException {
+    List&lt;File&gt; aFiles = getFiles();
+    processGroovyFiles(aFiles);
+}
+
+// 交给 FilterLoader 来去编译并注册 动态 Filter 文件
+void processGroovyFiles(List&lt;File&gt; aFiles) throws Exception, InstantiationException, IllegalAccessException {
+
+    for (File file : aFiles) {
+        FilterLoader.getInstance().putFilter(file);
+    }
+}
+</code></pre>
+
+<ul>
+<li>FilterLoader putFilter 的过程</li>
+</ul>
+
+<p>.FilterLoader.java putFilter()</p>
+
+<pre><code class="language-java">public boolean putFilter(File file) throws Exception {
+    // 1. 获取绝对路径
+    String sName = file.getAbsolutePath() + file.getName();
+    // 2. 如果文件修改了，就从 filterRegistry map 里面删除掉
+    if (filterClassLastModified.get(sName) != null &amp;&amp; (file.lastModified() != filterClassLastModified.get(sName))) {
+        LOG.debug(&quot;reloading filter &quot; + sName);
+        filterRegistry.remove(sName);
+    }
+
+    // 3. 当再从 FilterRegistry 获取的时候，为空的话，就进行重新编译
+    ZuulFilter filter = filterRegistry.get(sName);
+    if (filter == null) {
+        Class clazz = COMPILER.compile(file);
+        if (!Modifier.isAbstract(clazz.getModifiers())) {
+            filter = (ZuulFilter) FILTER_FACTORY.newInstance(clazz);
+            List&lt;ZuulFilter&gt; list = hashFiltersByType.get(filter.filterType());
+            if (list != null) {
+                hashFiltersByType.remove(filter.filterType()); //rebuild this list
+            }
+            filterRegistry.put(file.getAbsolutePath() + file.getName(), filter);
+            filterClassLastModified.put(sName, file.lastModified());
+            return true;
+        }
+    }
+
+    return false;
+}
+</code></pre>
+
+<ul>
+<li>StartServer 初始化的时候，初始化 groovyFilterManager</li>
+</ul>
+
+<p>那什么时候初始化 FilterFileManager 的呢。我们可以看到在 web.xml 里面指定了 StartServer 作为 listner，然后在 listner 初始化中初始化 FilterFileManager</p>
+
+<p>.StartServer.java</p>
+
+<pre><code class="language-java">private void initGroovyFilterManager() {
+    FilterLoader.getInstance().setCompiler(new GroovyCompiler());
+
+    String scriptRoot = System.getProperty(&quot;zuul.filter.root&quot;, &quot;&quot;);
+    if (scriptRoot.length() &gt; 0) scriptRoot = scriptRoot + File.separator;
+    try {
+        FilterFileManager.setFilenameFilter(new GroovyFileFilter());
+        FilterFileManager.init(5, scriptRoot + &quot;pre&quot;, scriptRoot + &quot;route&quot;, scriptRoot + &quot;post&quot;);
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }
+}
+</code></pre>
+
+<h3 id="3-3-总结-filterfile-动态加载的流程">3.3 总结 FilterFile 动态加载的流程</h3>
+
+<pre><code class="language-java">StartServer.initGroovyFilterManager()  // context 初始化
+  -&gt; FilterFileManager.init()          // 定时获取 filter 初始化
+    -&gt; FilterLoader.putFilter()        // 动态编译并加载 filter 文件到 FilterRegistry 的 ConcurrentHashMap 里
+      -&gt; FilterProcessor.runFilters(byType)  // 从 FilterLoader 获取 filter list
+</code></pre>
+
+<p>至此将 filter 工作流程串起来了。</p>
+
+<h2 id="参考">参考</h2>
+
+<ol>
+<li>zuul 官宣: <a href="https://medium.com/netflix-techblog/announcing-zuul-edge-service-in-the-cloud-ab3af5be08ee">Announcing Zuul: Edge Service in the Cloud</a></li>
+<li>zuul 2 官宣: <a href="https://medium.com/netflix-techblog/zuul-2-the-netflix-journey-to-asynchronous-non-blocking-systems-45947377fb5c">Zuul 2 : The Netflix Journey to Asynchronous, Non-Blocking Systems</a></li>
+<li>zuul github wiki: <a href="https://github.com/Netflix/zuul/wiki/How-it-Works">How Zuul Works</a></li>
+<li><a href="https://github.com/Netflix/zuul/wiki/zuul-simple-webapp">zuul simple webapp</a></li>
+</ol>
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">lyoga</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-07-03</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/zuul/">zuul</a>
+          
+          <a href="/tags/api-gateway/">api gateway</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2018/08-15-java_nio_1/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Java NIO -- Selector</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/2018/06-24-hello-hugo/">
+            <span class="next-text nav-default">Hello Hugo</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/imet" class="iconfont icon-github" title="github"></a>
+  <a href="http://LYoGA.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2018 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">LYoGA</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.1.1"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
